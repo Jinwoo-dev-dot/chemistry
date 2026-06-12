@@ -3,963 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚀 SECTOR-7 탈출 프로토콜</title>
+<title>화학 방탈출 🧪</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700&family=Share+Tech+Mono&display=swap');
-
-:root {
-  --bg: #060a0f;
-  --panel: #0d1117;
-  --border: #1a2a1a;
-  --green: #00ff88;
-  --green-dim: #00cc6688;
-  --green-dark: #003322;
-  --amber: #ffaa00;
-  --red: #ff3344;
-  --text: #c8ffd4;
-  --muted: #3a5a3a;
-  --font-display: 'Black Han Sans', sans-serif;
-  --font-body: 'Noto Sans KR', sans-serif;
-  --font-mono: 'Share Tech Mono', monospace;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* scanline effect */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px);
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* SCREENS */
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: flex; flex-direction: column; }
-
-/* ═══════════════════════════════
-   LOGIN SCREEN
-═══════════════════════════════ */
-#screen-login {
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.login-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, #002a1044 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 100% 100%, #001a0833 0%, transparent 60%);
-}
-
-.login-box {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  border: 1px solid var(--green-dim);
-  border-radius: 4px;
-  background: var(--panel);
-  overflow: hidden;
-}
-
-.login-header {
-  background: var(--green-dark);
-  border-bottom: 1px solid var(--green-dim);
-  padding: 28px 32px 24px;
-  text-align: center;
-}
-
-.login-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--green);
-  border: 1px solid var(--green-dim);
-  padding: 3px 10px;
-  border-radius: 2px;
-  letter-spacing: 3px;
-  margin-bottom: 14px;
-  animation: blink-border 2s infinite;
-}
-
-@keyframes blink-border {
-  0%,100% { border-color: var(--green-dim); }
-  50% { border-color: var(--green); }
-}
-
-.login-title {
-  font-family: var(--font-display);
-  font-size: 32px;
-  color: var(--green);
-  text-shadow: 0 0 20px var(--green-dim);
-  line-height: 1.1;
-  margin-bottom: 6px;
-}
-
-.login-sub {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 1px;
-}
-
-.login-body { padding: 28px 32px; }
-
-.field-group { margin-bottom: 20px; }
-
-.field-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.field-input {
-  width: 100%;
-  background: #0a1208;
-  border: 1px solid #1e3a1e;
-  border-radius: 3px;
-  padding: 12px 16px;
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 15px;
-  outline: none;
-  transition: all 0.2s;
-  caret-color: var(--green);
-}
-
-.field-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 12px #00ff8822;
-}
-
-.field-input::placeholder { color: #1e3a1e; }
-
-.field-hint {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 6px;
-}
-
-.btn-enter {
-  width: 100%;
-  background: var(--green-dark);
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: 18px;
-  padding: 14px;
-  border-radius: 3px;
-  cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-enter::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--green);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.btn-enter:hover { box-shadow: 0 0 24px #00ff8844; }
-.btn-enter:hover::after { opacity: 0.06; }
-.btn-enter:active { transform: scale(0.99); }
-
-.login-status {
-  margin-top: 16px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--amber);
-  text-align: center;
-  min-height: 18px;
-}
-
-/* ═══════════════════════════════
-   LOBBY SCREEN
-═══════════════════════════════ */
-#screen-lobby {
-  padding: 0;
-}
-
-.top-bar {
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.top-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.signal-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green);
-  animation: pulse-dot 1.5s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse-dot {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.top-title {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--green);
-  letter-spacing: 1px;
-}
-
-.top-meta {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.timer-display {
-  font-family: var(--font-mono);
-  font-size: 22px;
-  color: var(--amber);
-  letter-spacing: 3px;
-  min-width: 60px;
-  text-align: center;
-}
-
-.timer-display.critical { color: var(--red); animation: blink-text 0.4s infinite; }
-
-@keyframes blink-text {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
-
-/* LOBBY LAYOUT */
-.lobby-layout {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  grid-template-rows: auto 1fr;
-  gap: 0;
-  flex: 1;
-  min-height: 0;
-}
-
-/* STORY PANEL */
-.story-panel {
-  grid-column: 1;
-  grid-row: 1;
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  padding: 20px 24px;
-}
-
-.stage-track {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.stage-pip {
-  width: 28px; height: 4px;
-  border-radius: 2px;
-  background: var(--border);
-  transition: background 0.4s;
-}
-
-.stage-pip.done { background: var(--green); }
-.stage-pip.active { background: var(--amber); animation: shimmer 1s infinite; }
-
-@keyframes shimmer {
-  0%,100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.stage-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-left: 8px;
-  letter-spacing: 1px;
-}
-
-.story-box {
-  background: #080f0a;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--green-dim);
-  border-radius: 3px;
-  padding: 16px 18px;
-  font-size: 14px;
-  line-height: 1.9;
-  color: #a0c8a8;
-  margin-bottom: 16px;
-  font-weight: 300;
-}
-
-.story-box strong { color: var(--green); font-weight: 700; }
-.story-box em { color: var(--amber); font-style: normal; }
-
-/* CLUE CARD */
-.clue-section { }
-
-.clue-header {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.clue-card {
-  background: #030d06;
-  border: 1px solid #0a2a14;
-  border-radius: 3px;
-  padding: 16px 18px;
-  position: relative;
-  overflow: hidden;
-}
-
-.clue-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 2px;
-  background: linear-gradient(90deg, var(--green-dim), transparent);
-}
-
-.clue-id {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--green);
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  opacity: 0.6;
-}
-
-.clue-text {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--text);
-}
-
-.clue-text .highlight {
-  color: var(--green);
-  font-weight: 700;
-  font-family: var(--font-mono);
-  background: #001a0a;
-  padding: 1px 6px;
-  border-radius: 2px;
-}
-
-.clue-text .warn {
-  color: var(--amber);
-  font-weight: 700;
-}
-
-/* ANSWER SECTION */
-.answer-panel {
-  grid-column: 1;
-  grid-row: 2;
-  border-right: 1px solid var(--border);
-  padding: 16px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.answer-title {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.answer-row {
-  display: flex;
-  gap: 10px;
-}
-
-.answer-input {
-  flex: 1;
-  background: #0a1208;
-  border: 1px solid #1e3a1e;
-  border-radius: 3px;
-  padding: 11px 16px;
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 16px;
-  outline: none;
-  transition: all 0.2s;
-  caret-color: var(--green);
-}
-
-.answer-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 12px #00ff8822;
-}
-
-.btn-submit {
-  background: var(--green-dark);
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  padding: 11px 22px;
-  border-radius: 3px;
-  cursor: pointer;
-  letter-spacing: 1px;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.btn-submit:hover { box-shadow: 0 0 16px #00ff8833; }
-
-.answer-feedback {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  min-height: 18px;
-  padding: 0 4px;
-}
-
-.answer-feedback.correct { color: var(--green); }
-.answer-feedback.wrong { color: var(--red); }
-
-/* SIDE PANEL */
-.side-panel {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid var(--border);
-  height: calc(100vh - 53px);
-  overflow: hidden;
-}
-
-/* TEAM MEMBERS */
-.members-section {
-  border-bottom: 1px solid var(--border);
-  padding: 14px 16px;
-  flex-shrink: 0;
-}
-
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.member-list { display: flex; flex-direction: column; gap: 6px; }
-
-.member-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 3px;
-  background: #080f0a;
-  border: 1px solid transparent;
-  transition: border-color 0.2s;
-}
-
-.member-row.me { border-color: #1e3a1e; }
-
-.member-avatar {
-  width: 28px; height: 28px;
-  border-radius: 3px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  flex-shrink: 0;
-  color: var(--bg);
-}
-
-.member-info { flex: 1; min-width: 0; }
-
-.member-name {
-  font-size: 13px;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.member-status {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.member-clue-badge {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 2px;
-  letter-spacing: 1px;
-  flex-shrink: 0;
-}
-
-/* CHAT */
-.chat-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 0;
-}
-
-.chat-header {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 12px 16px 8px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  scroll-behavior: smooth;
-}
-
-.chat-messages::-webkit-scrollbar { width: 3px; }
-.chat-messages::-webkit-scrollbar-track { background: transparent; }
-.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-.chat-msg {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  animation: msg-in 0.2s ease;
-}
-
-@keyframes msg-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.chat-msg.system .msg-text {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-style: italic;
-  text-align: center;
-  padding: 2px 0;
-}
-
-.msg-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.msg-author {
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.msg-time {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.msg-text {
-  font-size: 13px;
-  line-height: 1.6;
-  color: #a0c8a8;
-  padding-left: 2px;
-  word-break: break-word;
-}
-
-.chat-input-area {
-  padding: 10px 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.chat-input {
-  flex: 1;
-  background: #080f0a;
-  border: 1px solid #1a2a1a;
-  border-radius: 3px;
-  padding: 8px 12px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 13px;
-  outline: none;
-  transition: border-color 0.2s;
-  resize: none;
-  height: 36px;
-}
-
-.chat-input:focus { border-color: var(--green-dim); }
-.chat-input::placeholder { color: var(--muted); }
-
-.btn-chat {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 8px 12px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.btn-chat:hover { border-color: var(--green-dim); color: var(--green); }
-
-/* STAGE CLEAR OVERLAY */
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.overlay.show { display: flex; }
-
-.overlay-box {
-  background: var(--panel);
-  border: 1px solid var(--green-dim);
-  border-radius: 4px;
-  padding: 40px 36px;
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.overlay-box::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--green), transparent);
-  animation: scan-line 2s infinite;
-}
-
-@keyframes scan-line {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
-}
-
-.overlay-icon { font-size: 52px; margin-bottom: 16px; display: block; }
-
-.overlay-title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  color: var(--green);
-  text-shadow: 0 0 20px var(--green-dim);
-  margin-bottom: 8px;
-}
-
-.overlay-sub {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-.overlay-fact {
-  background: #080f0a;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--green-dim);
-  border-radius: 3px;
-  padding: 14px 16px;
-  font-size: 13px;
-  line-height: 1.8;
-  color: #8aaa90;
-  text-align: left;
-  margin-bottom: 24px;
-}
-
-.overlay-fact strong { color: var(--green); }
-
-.btn-next {
-  background: var(--green-dark);
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: 18px;
-  padding: 13px 40px;
-  border-radius: 3px;
-  cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.2s;
-}
-
-.btn-next:hover { box-shadow: 0 0 24px #00ff8844; }
-
-/* FINAL SCREEN */
-#screen-final {
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-  position: relative;
-}
-
-.final-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 50%, #001a0a44, transparent);
-  pointer-events: none;
-}
-
-.final-content { position: relative; max-width: 520px; width: 100%; }
-
-.final-icon { font-size: 64px; display: block; margin-bottom: 16px; }
-
-.final-title {
-  font-family: var(--font-display);
-  font-size: 38px;
-  color: var(--green);
-  text-shadow: 0 0 30px var(--green-dim);
-  margin-bottom: 6px;
-}
-
-.final-sub {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  margin-bottom: 32px;
-}
-
-.final-score-box {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 24px;
-  margin-bottom: 20px;
-}
-
-.final-stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 15px;
-}
-
-.final-stat:last-child { border-bottom: none; }
-
-.stat-label { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
-.stat-val { color: var(--green); font-family: var(--font-mono); font-size: 18px; }
-
-.btn-restart {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  padding: 11px 28px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 1px;
-}
-
-.btn-restart:hover { border-color: var(--green-dim); color: var(--green); }
-
-/* MOBILE */
-@media (max-width: 640px) {
-  .lobby-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nanum Gothic', sans-serif;
+    background: #0a0a1a;
+    color: #e0e0ff;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
-  .story-panel { grid-column: 1; grid-row: 1; border-right: none; }
-  .answer-panel { grid-column: 1; grid-row: 2; border-right: none; }
-  .side-panel {
-    grid-column: 1; grid-row: 3;
-    height: 400px;
-    border-left: none;
-    border-top: 1px solid var(--border);
+
+  body::before {
+    content: '';
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at 20% 50%, #1a0a2e 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #0a1a2e 0%, transparent 60%),
+                #0a0a1a;
   }
-}
 
-/* FLICKER ANIM */
-@keyframes flicker {
-  0%,96%,100% { opacity: 1; }
-  97% { opacity: 0.6; }
-  98% { opacity: 1; }
-  99% { opacity: 0.4; }
-}
+  .container {
+    position: relative; z-index: 1;
+    max-width: 880px; margin: 0 auto;
+    padding: 20px;
+  }
 
-.login-title { animation: flicker 6s infinite; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ═══ START SCREEN ═══ */
+  .start-screen { text-align: center; padding: 40px 20px; }
+
+  .lab-icon {
+    font-size: 80px; display: block; margin-bottom: 16px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .game-title {
+    font-family: 'Jua', sans-serif; font-size: 42px; color: #7fdfff;
+    text-shadow: 0 0 20px rgba(127, 223, 255, 0.4);
+    margin-bottom: 8px; line-height: 1.2;
+  }
+
+  .game-subtitle { font-size: 15px; color: #8888aa; margin-bottom: 32px; }
+
+  .login-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(127,223,255,0.2);
+    border-radius: 16px;
+    padding: 28px 24px;
+    max-width: 400px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .login-card label { font-size: 13px; color: #8888aa; text-align: left; }
+
+  .login-card input {
+    width: 100%; padding: 12px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; color: #fff; font-size: 15px;
+    font-family: inherit; outline: none;
+  }
+  .login-card input:focus { border-color: #7fdfff; }
+
+  .btn-primary {
+    padding: 14px; border: none; border-radius: 10px;
+    background: linear-gradient(135deg, #4fb8ff, #7f6cff);
+    color: #fff; font-size: 16px; font-weight: 800;
+    font-family: 'Jua', sans-serif; cursor: pointer;
+    transition: transform .15s, opacity .15s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); opacity: 0.95; }
+  .btn-primary:active { transform: scale(0.98); }
+
+  .login-status { font-size: 13px; color: #ff8888; min-height: 18px; }
+
+  .role-note {
+    font-size: 12.5px; color: #66cc99; line-height: 1.6;
+    background: rgba(102,204,153,0.08); border: 1px solid rgba(102,204,153,0.2);
+    border-radius: 10px; padding: 10px 12px; text-align: left;
+  }
+
+  /* ═══ LOBBY / GAME SCREEN ═══ */
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+  }
+
+  .stage-label { font-family: 'Jua', sans-serif; font-size: 20px; color: #7fdfff; }
+
+  .timer {
+    font-family: 'Jua', sans-serif; font-size: 22px;
+    background: rgba(255,255,255,0.06); border-radius: 10px;
+    padding: 6px 16px; letter-spacing: 1px;
+  }
+  .timer.low { color: #ff6677; animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: 0.4; } }
+
+  .story-box {
+    background: rgba(127,223,255,0.06);
+    border: 1px solid rgba(127,223,255,0.18);
+    border-radius: 14px; padding: 18px; margin-bottom: 16px;
+    font-size: 14.5px; line-height: 1.8;
+  }
+
+  .role-badge {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
+    background: rgba(127,223,255,0.15); color: #7fdfff;
+    border: 1px solid rgba(127,223,255,0.3);
+  }
+
+  .game-layout {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+  }
+  @media (max-width: 720px) {
+    .game-layout { grid-template-columns: 1fr; }
+  }
+
+  .main-panel { display: flex; flex-direction: column; gap: 14px; }
+
+  .clue-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 18px;
+  }
+
+  .clue-id {
+    font-family: 'Jua', sans-serif; font-size: 13px; color: #ffaa44;
+    letter-spacing: 1px; margin-bottom: 8px;
+  }
+
+  .clue-text { font-size: 15px; line-height: 1.8; }
+  .highlight {
+    background: rgba(127,223,255,0.18); color: #aef0ff;
+    padding: 1px 5px; border-radius: 4px;
+  }
+  .warn {
+    background: rgba(255,170,68,0.18); color: #ffcf99;
+    padding: 1px 5px; border-radius: 4px;
+  }
+
+  .answer-panel {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 18px;
+  }
+  .answer-title { font-family: 'Jua', sans-serif; font-size: 15px; color: #aef0ff; margin-bottom: 10px; }
+  .answer-row { display: flex; gap: 8px; }
+  .answer-input {
+    flex: 1; padding: 12px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; color: #fff; font-size: 15px;
+    font-family: inherit; outline: none;
+  }
+  .answer-input:focus { border-color: #7fdfff; }
+  .btn-submit {
+    padding: 0 22px; border: none; border-radius: 10px;
+    background: #4fb8ff; color: #06121f; font-weight: 800;
+    font-family: 'Jua', sans-serif; cursor: pointer; font-size: 15px;
+  }
+  .btn-submit:hover { background: #6fc8ff; }
+
+  .answer-feedback { margin-top: 10px; font-size: 14px; min-height: 20px; }
+  .answer-feedback.wrong { color: #ff8888; }
+  .answer-feedback.right { color: #88ffaa; }
+
+  /* ═══ ORDERING UI ═══ */
+  .order-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .order-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 14px; line-height: 1.6; cursor: grab;
+    display: flex; align-items: center; gap: 10px;
+    transition: transform .12s, background .12s;
+  }
+  .order-card.dragging { opacity: 0.4; }
+  .order-card:active { cursor: grabbing; }
+  .order-handle { font-size: 16px; color: #8888aa; flex-shrink: 0; }
+  .order-num {
+    font-family: 'Jua', sans-serif; font-size: 13px; color: #aef0ff;
+    background: rgba(127,223,255,0.15); border-radius: 6px;
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ═══ SIDE PANEL ═══ */
+  .side-panel { display: flex; flex-direction: column; gap: 14px; }
+  .members-section, .chat-section {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 14px;
+  }
+  .section-label {
+    font-size: 12px; color: #8888aa; margin-bottom: 10px;
+    letter-spacing: 0.5px; font-weight: 700;
+  }
+  .member-list { display: flex; flex-direction: column; gap: 8px; }
+  .member-chip {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; padding: 6px 10px; border-radius: 8px;
+    background: rgba(255,255,255,0.03);
+  }
+  .member-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .member-role { font-size: 11px; color: #8888aa; margin-left: auto; }
+
+  .chat-section { display: flex; flex-direction: column; }
+  .chat-header { font-size: 12px; color: #8888aa; margin-bottom: 8px; font-weight: 700; }
+  .chat-messages {
+    height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 10px; padding-right: 4px;
+  }
+  .chat-msg { font-size: 13px; line-height: 1.5; }
+  .chat-msg.system { color: #ffaa44; font-style: italic; }
+  .msg-meta { display: flex; justify-content: space-between; font-size: 11px; color: #8888aa; }
+  .msg-text { word-break: break-word; }
+  .chat-input-area { display: flex; gap: 6px; }
+  .chat-input {
+    flex: 1; padding: 10px 12px; font-size: 13px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; color: #fff; font-family: inherit; outline: none;
+  }
+  .chat-input:focus { border-color: #7fdfff; }
+  .btn-chat {
+    padding: 0 14px; border: none; border-radius: 8px;
+    background: rgba(127,223,255,0.2); color: #aef0ff;
+    font-weight: 700; cursor: pointer; font-size: 13px;
+  }
+
+  /* ═══ OVERLAY ═══ */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(5,5,15,0.92);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .overlay.active { display: flex; }
+  .overlay-box {
+    background: rgba(20,20,40,0.95);
+    border: 1px solid rgba(127,223,255,0.3);
+    border-radius: 18px; padding: 32px 28px;
+    max-width: 480px; text-align: center;
+  }
+  .overlay-icon { font-size: 56px; display: block; margin-bottom: 12px; }
+  .overlay-title { font-family: 'Jua', sans-serif; font-size: 24px; color: #aef0ff; margin-bottom: 8px; }
+  .overlay-sub { font-size: 14px; color: #c0c0e0; margin-bottom: 16px; line-height: 1.6; }
+  .overlay-fact {
+    background: rgba(255,255,255,0.05); border-radius: 10px;
+    padding: 14px; font-size: 13.5px; line-height: 1.8;
+    color: #d0d0f0; margin-bottom: 20px; text-align: left;
+  }
+  .overlay-twist {
+    background: rgba(255,170,68,0.1); border: 1px solid rgba(255,170,68,0.25);
+    border-radius: 10px; padding: 12px; font-size: 13.5px;
+    line-height: 1.8; color: #ffd9a8; margin-bottom: 16px; text-align: left;
+  }
+  .btn-next {
+    padding: 12px 28px; border: none; border-radius: 10px;
+    background: linear-gradient(135deg, #4fb8ff, #7f6cff);
+    color: #fff; font-weight: 800; font-family: 'Jua', sans-serif;
+    cursor: pointer; font-size: 15px;
+  }
+
+  /* ═══ FINAL SCREEN ═══ */
+  .final-content { text-align: center; padding: 40px 20px; }
+  .final-icon { font-size: 72px; display: block; margin-bottom: 12px; }
+  .final-title { font-family: 'Jua', sans-serif; font-size: 36px; color: #aef0ff; margin-bottom: 6px; }
+  .final-sub { font-size: 14px; color: #8888aa; margin-bottom: 24px; }
+  .final-score-box {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    max-width: 420px; margin: 0 auto 24px;
+  }
+  .final-stat {
+    background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .stat-label { font-size: 12px; color: #8888aa; }
+  .stat-val { font-family: 'Jua', sans-serif; font-size: 20px; color: #aef0ff; }
+  .btn-restart {
+    padding: 12px 28px; border: none; border-radius: 10px;
+    background: rgba(255,255,255,0.08); color: #fff;
+    font-weight: 700; cursor: pointer; font-size: 14px;
+  }
 </style>
 </head>
 <body>
+<div class="container">
 
-<!-- ═══════════════ LOGIN ═══════════════ -->
-<div class="screen active" id="screen-login">
-  <div class="login-bg"></div>
-  <div class="login-box">
-    <div class="login-header">
-      <div class="login-badge">SECTOR-7 // CLASSIFIED</div>
-      <div class="login-title">탈출 프로토콜</div>
-      <div class="login-sub">ESCAPE PROTOCOL v2.7 — 생존자 인증 시스템</div>
-    </div>
-    <div class="login-body">
-      <div class="field-group">
-        <label class="field-label">팀 코드 (TEAM CODE)</label>
-        <input class="field-input" id="input-team" placeholder="예) ALPHA" maxlength="12" autocomplete="off" spellcheck="false">
-        <div class="field-hint">같은 팀 코드를 입력한 사람들이 한 팀이 돼요</div>
+  <!-- ═══════════════ START / LOGIN ═══════════════ -->
+  <div class="screen active" id="screen-start">
+    <div class="start-screen">
+      <span class="lab-icon">🧪</span>
+      <div class="game-title">SECTOR-7 탈출</div>
+      <div class="game-subtitle">화학 협동 방탈출 · 2인 1팀</div>
+      <div class="login-card">
+        <div>
+          <label>팀 코드 (같은 팀끼리 동일하게 입력)</label>
+          <input id="input-team" placeholder="예: GOLD" maxlength="12" autocomplete="off">
+        </div>
+        <div>
+          <label>닉네임</label>
+          <input id="input-nick" placeholder="닉네임 입력" maxlength="10" autocomplete="off">
+        </div>
+        <button class="btn-primary" onclick="login()">접속하기 🚀</button>
+        <div class="login-status" id="login-status"></div>
+        <div class="role-note">
+          💡 한 팀은 정원 2명입니다. 먼저 접속한 사람이 <b>"승무원 A"</b>, 두 번째 사람이 <b>"승무원 B"</b>가 됩니다.
+          각자 화면에 <b>서로 다른 단서</b>가 보이니, 꼭 옆 사람과 이야기하면서 풀어야 해요!
+        </div>
       </div>
-      <div class="field-group">
-        <label class="field-label">닉네임 (CALLSIGN)</label>
-        <input class="field-input" id="input-nick" placeholder="예) 김철수" maxlength="8" autocomplete="off">
-        <div class="field-hint">팀원들이 볼 내 이름이에요</div>
-      </div>
-      <button class="btn-enter" onclick="login()">▶ 시스템 접속</button>
-      <div class="login-status" id="login-status"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ GAME LOBBY ═══════════════ -->
-<div class="screen" id="screen-lobby">
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <div class="signal-dot"></div>
-      <div class="top-title">SECTOR-7 탈출 프로토콜</div>
-      <div class="top-meta" id="top-meta">팀: — · 승무원: —</div>
-    </div>
-    <div class="top-right">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">남은시간</div>
-      <div class="timer-display" id="timer-display">--:--</div>
     </div>
   </div>
 
-  <div class="lobby-layout">
-    <!-- STORY + CLUE -->
-    <div class="story-panel">
-      <div class="stage-track" id="stage-track"></div>
-      <div class="story-box" id="story-box">스토리 로딩 중...</div>
-      <div class="clue-section">
-        <div class="clue-header">🔐 나의 단서 조각 (팀원들과 공유하세요!)</div>
-        <div class="clue-card" id="clue-card">
-          <div class="clue-id" id="clue-id">CLUE-???</div>
+  <!-- ═══════════════ GAME SCREEN ═══════════════ -->
+  <div class="screen" id="screen-game">
+    <div class="top-bar">
+      <div class="stage-label" id="stage-label">구역 1: 기압 경보</div>
+      <div class="timer" id="timer">05:00</div>
+    </div>
+
+    <div class="story-box" id="story-box"></div>
+
+    <div class="game-layout">
+      <div class="main-panel">
+        <div class="clue-card">
+          <span class="role-badge" id="role-badge">승무원 A</span>
+          <div class="clue-id" id="clue-id">CLUE-A</div>
           <div class="clue-text" id="clue-text">단서를 불러오는 중...</div>
         </div>
+        <div class="answer-panel" id="order-panel" style="display:none;">
+          <div class="answer-title">🧩 실험 순서 배열 (드래그해서 순서를 바꾸세요)</div>
+          <div class="order-list" id="order-list"></div>
+          <button class="btn-submit" style="width:100%; padding:12px;" onclick="submitOrder()">이 순서로 제출</button>
+          <div class="answer-feedback" id="order-feedback"></div>
+        </div>
+        <div class="answer-panel" id="answer-panel-normal">
+          <div class="answer-title">🔓 정답 입력</div>
+          <div class="answer-row">
+            <input class="answer-input" id="answer-input" placeholder="팀원과 토의 후 입력..." autocomplete="off" spellcheck="false">
+            <button class="btn-submit" onclick="submitAnswer()">제출</button>
+          </div>
+          <div class="answer-feedback" id="answer-feedback"></div>
+        </div>
       </div>
-    </div>
 
-    <!-- ANSWER -->
-    <div class="answer-panel">
-      <div class="answer-title">🔓 정답 입력</div>
-      <div class="answer-row">
-        <input class="answer-input" id="answer-input" placeholder="팀원들과 토의 후 입력..." autocomplete="off" spellcheck="false">
-        <button class="btn-submit" onclick="submitAnswer()">제출</button>
-      </div>
-      <div class="answer-feedback" id="answer-feedback"></div>
-    </div>
-
-    <!-- SIDE: MEMBERS + CHAT -->
-    <div class="side-panel">
-      <div class="members-section">
-        <div class="section-label">접속 중인 팀원</div>
-        <div class="member-list" id="member-list"></div>
-      </div>
-      <div class="chat-section">
-        <div class="chat-header">팀 채팅 — 단서를 공유하고 토의하세요</div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-area">
-          <input class="chat-input" id="chat-input" placeholder="단서 공유하기..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
-          <button class="btn-chat" onclick="sendChat()">전송</button>
+      <div class="side-panel">
+        <div class="members-section">
+          <div class="section-label">접속 중인 승무원</div>
+          <div class="member-list" id="member-list"></div>
+        </div>
+        <div class="chat-section">
+          <div class="chat-header">팀 채팅 — 단서를 공유하고 토의하세요</div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chat-input" placeholder="단서 공유하기...">
+            <button class="btn-chat" onclick="sendChat()">전송</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- STAGE CLEAR OVERLAY -->
-<div class="overlay" id="overlay-clear">
-  <div class="overlay-box">
-    <span class="overlay-icon" id="ol-icon">✅</span>
-    <div class="overlay-title" id="ol-title">구역 돌파!</div>
-    <div class="overlay-sub" id="ol-sub"></div>
-    <div class="overlay-fact" id="ol-fact"></div>
-    <button class="btn-next" id="btn-next" onclick="nextStage()">다음 구역 진입 ▶</button>
+  <!-- ═══════════════ STAGE CLEAR OVERLAY ═══════════════ -->
+  <div class="overlay" id="overlay-clear">
+    <div class="overlay-box">
+      <span class="overlay-icon" id="ol-icon">✅</span>
+      <div class="overlay-title" id="ol-title">구역 돌파!</div>
+      <div class="overlay-sub" id="ol-sub"></div>
+      <div class="overlay-twist" id="ol-twist" style="display:none;"></div>
+      <div class="overlay-fact" id="ol-fact"></div>
+      <button class="btn-next" id="btn-next" onclick="nextStage()">다음 구역 진입 ▶</button>
+    </div>
   </div>
-</div>
 
-<!-- ═══════════════ FINAL ═══════════════ -->
-<div class="screen" id="screen-final">
-  <div class="final-bg"></div>
-  <div class="final-content">
-    <span class="final-icon">🚀</span>
-    <div class="final-title">탈출 성공!</div>
-    <div class="final-sub" id="final-team-name">팀 — · MISSION COMPLETE</div>
-    <div class="final-score-box" id="final-score-box"></div>
-    <button class="btn-restart" onclick="location.reload()">↩ 다시 시작</button>
+  <!-- ═══════════════ FINAL ═══════════════ -->
+  <div class="screen" id="screen-final">
+    <div class="final-content">
+      <span class="final-icon">🚀</span>
+      <div class="final-title">탈출 성공!</div>
+      <div class="final-sub" id="final-team-name">팀 — · MISSION COMPLETE</div>
+      <div class="final-score-box" id="final-score-box"></div>
+      <button class="btn-restart" onclick="location.reload()">↩ 다시 시작</button>
+    </div>
   </div>
+
 </div>
 
 <!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection, addDoc, query, orderBy, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyDcpgWGMD6Pp80Y74iyIvXy-qyFJP2t_Ss",
   authDomain: "chemistry-7e780.firebaseapp.com",
@@ -968,12 +412,20 @@ const firebaseConfig = {
   messagingSenderId: "266020417916",
   appId: "1:266020417916:web:929c78b780309a0ea634f9"
 };
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let db = null;
+let firebaseReady = false;
+try {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  firebaseReady = true;
+} catch (e) {
+  console.error('Firebase init failed:', e);
+}
 
 // ═══ GAME DATA ═══
-const AVATAR_COLORS = ['#00cc66','#ffaa00','#ff6688','#66aaff','#cc88ff','#ff8844'];
+// 각 스테이지마다 정확히 2개의 역할(A, B)에게 서로 다른 조건/단서를 줍니다.
+const ROLE_NAMES = ['승무원 A', '승무원 B'];
+const MEMBER_COLORS = ['#7fdfff', '#ffaa44'];
 
 const STAGES = [
   {
@@ -981,80 +433,134 @@ const STAGES = [
     title: '구역 1: 기압 경보',
     timeLimit: 300,
     story: `<strong>[ 긴급 방송 ]</strong> 우주정거장 SECTOR-7에 원인불명의 기압 누출이 발생했습니다.<br><br>
-생존자들은 중앙 제어실로 모이세요. 제어실 잠금장치는 <em>4자리 숫자 코드</em>로 되어 있습니다.<br><br>
-각 승무원의 개인 단말기에 코드 조각이 분산되어 있습니다. <strong>협력해야만 탈출할 수 있습니다.</strong>`,
-    answers: ['2847', '2 8 4 7'],
-    fact: `🧪 <strong>기압(대기압)</strong>은 공기 분자들이 사방으로 움직이며 부딪히는 힘이에요. 우주에서는 기압이 0이라 산소가 없으면 즉시 의식을 잃게 돼요. 지구 해수면 기압은 1기압 = 101,325 Pa!`,
+중앙 제어실의 잠금장치는 <em>4자리 숫자 코드</em>입니다. 코드는 <b>두 원소의 원자번호</b>를 각각 2자리로 이어 붙인 것입니다 (한 자리 수는 앞에 0을 붙입니다).<br><br>
+A와 B의 단말기에 각각 다른 원소 정보가 떠 있습니다. <strong>서로 불러주고 조합해야만 코드가 완성됩니다.</strong>`,
+    answers: ['0608', '06 08', '6 8'],
+    fact: `🧪 <strong>원자번호</strong>는 원소가 가진 양성자 수예요. 탄소(C)는 6번, 산소(O)는 8번! 그래서 코드는 "06" + "08" = <b>0608</b>이 됩니다. 우주에서 산소 농도가 떨어지면 순식간에 의식을 잃을 수 있어서, 실제 우주정거장에서도 산소·이산화탄소 농도를 24시간 감시해요.`,
     clearTitle: '제어실 잠금 해제!',
     clearSub: '기압 안정화 완료. 다음 구역으로 이동하세요.',
     clearIcon: '🔓',
-    // 팀원 수에 따라 단서 조각 배분
-    clues: [
-      { id: 'CLUE-A', text: '비상 매뉴얼 47페이지: <span class="highlight">"첫 번째 숫자는 산소(O)의 원자번호와 같다"</span>' },
-      { id: 'CLUE-B', text: '엔지니어 노트: <span class="highlight">"두 번째 숫자는 탄소(C)의 원자번호와 같다"</span>' },
-      { id: 'CLUE-C', text: '의료 보고서: <span class="highlight">"세 번째 숫자는 질소(N)의 원자번호와 같다"</span>' },
-      { id: 'CLUE-D', text: '파일럿 로그: <span class="highlight">"네 번째 숫자는 리튬(Li)의 원자번호와 같다"</span>' },
-      { id: 'CLUE-E', text: '보안 일지: <span class="highlight">"힌트: 주기율표 원자번호 O=8, C=6, N=7, Li=3"</span> — 그래도 혼자론 못 풀어!' },
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>화면에 떠 있는 메시지: <span class="highlight">"생명체 호흡에 필수인 이 원소의 원자번호를 두 자리로 입력하라 → ??"</span><br><br>
+      힌트: 이 원소는 우리가 숨 쉴 때 들이마시는 기체의 핵심 성분입니다. 원소 기호는 <b>O</b>.<br>
+      <span class="warn">※ 이 정보만으로는 코드를 완성할 수 없습니다. B에게 물어보세요!</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>화면에 떠 있는 메시지: <span class="highlight">"다이아몬드와 연필심을 이루는 이 원소의 원자번호를 두 자리로 입력하라 → ??"</span><br><br>
+      힌트: 원소 기호는 <b>C</b>. 생명체를 이루는 기본 골격이 되는 원소이기도 합니다.<br>
+      <span class="warn">※ 코드 순서: "A가 알아낸 숫자" + "B가 알아낸 숫자" 순으로 4자리를 만드세요. A에게 물어보세요!</span>`
     ]
   },
   {
     id: 'stage2',
     title: '구역 2: 독성 가스 경보',
     timeLimit: 300,
-    story: `환기 시스템이 고장났습니다. 독성 가스 <em>CO₂ 농도가 급상승</em> 중이에요.<br><br>
-산소 공급 장치를 재가동하려면 장치의 <strong>비밀 단어 코드</strong>를 입력해야 합니다.<br><br>
-단서들을 조합하면 <em>하나의 단어</em>가 완성됩니다. 빨리 협력하세요!`,
+    story: `환기 시스템이 고장났습니다. 산소 공급 장치를 재가동하려면 <strong>두 글자 화학 용어</strong>를 입력해야 합니다.<br><br>
+A와 B가 각각 절반의 정의를 갖고 있습니다. <em>두 정의를 합치면 한 단어</em>가 완성됩니다.`,
     answers: ['중화', '중화반응', 'neutralization'],
-    fact: `🧪 <strong>중화반응</strong>이란 산(acid)과 염기(base)가 만나 서로의 성질을 打消하는 반응이에요. H⁺ + OH⁻ → H₂O. 우리 위의 제산제가 바로 이 원리를 씁니다!`,
+    fact: `🧪 <strong>중화반응</strong>은 산(H⁺)과 염기(OH⁻)가 만나 물(H₂O)과 염을 만드는 반응이에요. 위산이 너무 많이 분비되면 속이 쓰린데, 제산제(염기성 물질)를 먹으면 위산을 중화시켜서 편안해지는 게 바로 이 원리예요.`,
     clearTitle: '산소 공급 복구!',
-    clearSub: 'CO₂ 농도 정상화. 다음 구역으로 이동하세요.',
+    clearSub: '가스 농도 정상화. 다음 구역으로 이동하세요.',
     clearIcon: '💨',
-    clues: [
-      { id: 'CLUE-A', text: '화학 교과서 발췌: <span class="highlight">산과 염기가 만나면 서로의 성질이 사라진다.</span> 이 현상의 첫 글자는 "중"이야.' },
-      { id: 'CLUE-B', text: '실험 노트: <span class="highlight">염산(HCl) + 수산화나트륨(NaOH) → 소금 + 물</span> 이 반응의 마지막 글자는 "화"야.' },
-      { id: 'CLUE-C', text: '선배 승무원 메모: <span class="highlight">"위산 과다? 제산제를 먹어. 같은 원리야."</span> 정답은 두 글자 단어야.' },
-      { id: 'CLUE-D', text: '의료 기록: <span class="highlight">벌에 쏘였을 때 암모니아수를 바르는 것, 신 음식을 먹은 후 소다로 입을 헹구는 것.</span> 모두 같은 반응 원리야.' },
-      { id: 'CLUE-E', text: '시스템 힌트: <span class="warn">⚠️ 이 힌트는 쓰기 아깝다! 정말?</span> 산 + 염기 = <span class="highlight">?화 반응</span>. 앞 글자만 채워봐.' },
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>화학 노트 앞부분: <span class="highlight">"산(acid)과 염기(base)가 만나면 서로의 성질이 사라지는 반응이 있다. 이 현상의 <b>첫 글자</b>는 '중'으로 시작한다."</span><br><br>
+      예시: 염산(HCl) + 수산화나트륨(NaOH) → 소금 + 물<br>
+      <span class="warn">※ 두 글자 단어의 앞글자만 알아냈습니다. 뒷글자는 B에게!</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>화학 노트 뒷부분: <span class="highlight">"위산 과다일 때 제산제를 먹으면 증상이 사라지는 것도 같은 원리다. 이 단어의 <b>두 번째 글자</b>는 '화'이다."</span><br><br>
+      <span class="warn">※ A의 글자 + B의 글자를 순서대로 합치면 정답이 됩니다.</span>`
     ]
   },
   {
     id: 'stage3',
-    title: '구역 3: 연료 탱크 잠금',
-    timeLimit: 360,
-    story: `추진 연료 탱크가 <em>비상 잠금</em>에 걸렸습니다. 탱크를 열려면<br><br>
-각 팀원이 받은 <strong>암호문 조각</strong>을 해독한 뒤 합쳐야 합니다.<br><br>
-조각 하나하나는 의미없어 보이지만, <strong>순서대로 붙이면 문장이 완성됩니다.</strong> 채팅으로 공유하세요!`,
-    answers: ['물은생명이다', '물은 생명이다', '물은생명'],
-    fact: `💧 <strong>물(H₂O)</strong>은 수소 2개와 산소 1개의 공유결합! 고체(얼음)가 액체보다 가벼운 유일한 물질이라 강이 얼어도 물고기가 살 수 있어요. 지구 표면의 71%가 물!`,
-    clearTitle: '연료 탱크 개방!',
-    clearSub: '추진 시스템 정상화. 마지막 구역으로 이동!',
-    clearIcon: '⚡',
-    clues: [
-      { id: 'CLUE-A', text: '암호 조각 #1: <span class="highlight">첫 번째 단어 → H₂O의 한국어 이름 (한 글자)</span>' },
-      { id: 'CLUE-B', text: '암호 조각 #2: <span class="highlight">두 번째 단어 → "~은/는" (조사)</span>' },
-      { id: 'CLUE-C', text: '암호 조각 #3: <span class="highlight">세 번째 단어 → 생물이 살아있는 상태, "생___"</span>' },
-      { id: 'CLUE-D', text: '암호 조각 #4: <span class="highlight">네 번째 단어 → "이다" (서술어)</span>' },
-      { id: 'CLUE-E', text: '전체 힌트: 조각을 순서대로 붙이면 <span class="warn">4개의 단어로 된 짧은 문장</span>이 완성돼. 공백 없이 붙여서 입력!' },
+    title: '구역 3: 보급 창고 — 이거 먹어도 돼?',
+    timeLimit: 240,
+    story: `잠긴 보급 창고 안에 정체불명의 시약통 4개가 놓여 있습니다. 라벨이 일부 지워져 있어요.<br><br>
+A와 B가 각각 2개씩 다른 시약 정보를 보고 있습니다. <strong>"먹을 수 있는 것" 개수</strong>를 맞춰야 창고가 열립니다.`,
+    answers: ['2', '2개', '두개', '두 개'],
+    fact: `🧪 정답은 <b>2개</b>입니다!<br>
+    ① 구연산(C₆H₈O₇) — 레몬·식초에도 들어있는 식용 가능한 산이에요. 새콤한 사탕 만들 때도 씀.<br>
+    ② 수산화나트륨(NaOH) — 비누·세제 원료지만 강한 부식성이 있어 절대 먹으면 안 돼요!<br>
+    ③ 베이킹소다(NaHCO₃) — 빵 부풀릴 때 쓰는 식용 가능한 물질이에요.<br>
+    ④ 메탄올(CH₃OH) — 에탄올(술)과 비슷해 보이지만 마시면 실명·사망 위험이 있는 독성 물질이에요. 절대 구분 없이 마시면 안 됩니다!`,
+    clearTitle: '창고 개방!',
+    clearSub: '시약 분류 완료. 다음 구역으로 이동하세요.',
+    clearIcon: '🧴',
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>
+      시약 ① 라벨: <span class="highlight">"C₆H₈O₇ — 레몬, 오렌지 등 신맛 나는 과일에 풍부하게 들어있는 성분"</span><br><br>
+      시약 ② 라벨: <span class="highlight">"NaOH — 비누 만들 때 쓰는 강염기. 만지면 미끌거리고 피부에 닿으면 화상 위험"</span><br><br>
+      <span class="warn">※ B가 가진 시약 ③, ④ 정보도 들어서 "먹을 수 있는 시약 개수"를 합산하세요.</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>
+      시약 ③ 라벨: <span class="highlight">"NaHCO₃ — 빵, 쿠키를 부풀릴 때 쓰는 흰 가루. 위산 중화제로도 먹음"</span><br><br>
+      시약 ④ 라벨: <span class="highlight">"CH₃OH — 알코올의 한 종류. 냄새와 외형이 술과 비슷하지만 절대 마시면 안 됨 (실명·사망 위험)"</span><br><br>
+      <span class="warn">※ A가 가진 시약 ①, ② 정보도 들어서 "먹을 수 있는 시약 개수"를 합산하세요.</span>`
     ]
   },
   {
     id: 'stage4',
-    title: '구역 4: 최종 탈출 코드',
-    timeLimit: 420,
-    story: `탈출 포드에 도달했습니다! 마지막으로 <em>6자리 탈출 코드</em>를 입력해야 해요.<br><br>
-코드는 <strong>불꽃 반응 색깔</strong>과 관련이 있습니다. 각자의 단서를 합쳐 순서를 맞추세요.<br><br>
-<strong>🚀 이것만 풀면 탈출 성공입니다!</strong>`,
-    answers: ['나구리칼', '나트륨구리리튬칼륨', 'NaCuLiK'],
-    fact: `🔥 <strong>불꽃 반응</strong>: 나트륨(Na)=노란색, 구리(Cu)=초록색, 리튬(Li)=빨간색, 칼륨(K)=보라색! 불꽃놀이 색이 다른 이유가 바로 이거예요. 금속 이온이 에너지를 받아 특정 파장의 빛을 내는 원리!`,
-    clearTitle: '🚀 탈출 성공!',
+    title: '구역 4: 점검 로봇의 아재개그 관문',
+    timeLimit: 180,
+    story: `복도를 막고 선 낡은 점검 로봇이 삑삑거립니다.<br><br>
+"흐흐... 내 아재개그 두 개를 맞혀야 비켜주지. A, B 각자 문제 하나씩 받아라. <b>두 답을 이어 붙이면 한 단어(네 글자)</b>가 된다."`,
+    answers: ['평행우주', '평행 우주'],
+    fact: `😄 정답은 <b>"평행우주"</b>! A의 답은 "평행"(서로 만나지 않는 두 직선의 관계), B의 답은 "우주"(우유가 흘러서 만들어진 별?!) — 둘을 합치면 "평행우주". 로봇이 만족스럽게 "크크크... 좋은 드립이었어" 하며 비켜줍니다.`,
+    clearTitle: '로봇, 만족하며 비켜주다',
+    clearSub: '복도가 열렸습니다. 다음 구역으로 이동하세요.',
+    clearIcon: '🤖',
+    twist: `🔁 <b>반전</b>: 알고 보니 이 로봇은 SECTOR-7의 청소 로봇이었고, 복도를 막은 이유는 그냥 "아무도 내 개그를 안 들어줘서 심심했다"는 것이었습니다. 승무원들은 어이없어하지만... 일단 통과!`,
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>
+      로봇의 문제 ①: <span class="highlight">"서로 마주 보고 있지만 영원히 만날 수 없는 두 직선을 뭐라고 할까? (두 글자)"</span><br><br>
+      <span class="warn">※ 너의 답(두 글자) 뒤에 B의 답(두 글자)을 이어 붙이면 네 글자 단어가 완성돼. B와 답을 공유해봐!</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>
+      로봇의 문제 ②: <span class="highlight">"우유가 쏟아져서 만들어진 별이 있는 곳은 어디일까? '우유'+'주(state)'... 가 아니라, 그냥 '우주(universe)'! (두 글자)"</span><br><br>
+      <span class="warn">※ A의 답(두 글자) 뒤에 너의 답(두 글자)을 이어 붙이면 네 글자 단어가 완성돼. A와 답을 공유해봐!</span>`
+    ]
+  },
+  {
+    id: 'stage5',
+    title: '구역 5: 실험 설계실',
+    timeLimit: 360,
+    isOrdering: true,
+    story: `이곳은 실험 설계 시뮬레이터입니다. 함장이 다급하게 외칩니다 — "미지의 가루 X가 산성인지 염기성인지 30초 안에 알아내야 엔진을 끄지 않아도 돼! 실험 순서를 올바르게 배열하라!"<br><br>
+A는 "실험 카드 4장"을 들고 있고, B는 "순서 배치 규칙 메모"를 들고 있습니다. <strong>아래 카드를 올바른 실험 순서대로 드래그하여 배열</strong>한 뒤 제출하세요.`,
+    orderingItems: [
+      { id: 'card1', text: '① 적양배추 즙(천연 지시약)을 작은 비커에 담는다' },
+      { id: 'card2', text: '② 가루 X를 아주 소량만 비커에 넣는다' },
+      { id: 'card3', text: '③ 색깔 변화를 관찰한다 (빨강~분홍=산성, 초록~노랑=염기성)' },
+      { id: 'card4', text: '④ 관찰 결과를 기록하고 함장에게 보고한다' }
+    ],
+    correctOrder: ['card1', 'card2', 'card3', 'card4'],
+    answers: ['지시약', 'ph지시약', '리트머스'],
+    fact: `🧪 올바른 순서는 <b>"지시약 준비 → 미지 물질 소량 투입 → 색 변화 관찰 → 기록"</b>이에요! 순서가 중요한 이유: 만약 가루를 먼저 넣고 나중에 지시약을 부으면 반응이 섞여서 색 변화를 놓치기 쉽고, 양을 많이 넣으면 반응이 너무 강해 위험할 수 있어요. 적양배추 즙의 색소(안토시아닌)는 pH에 따라 빨강(산성)↔보라(중성)↔초록·노랑(염기성)으로 변해요.`,
+    clearTitle: '엔진 재가동!',
+    clearSub: '실험 설계 검증 완료. 마지막 구역으로 이동하세요.',
+    clearIcon: '⚗️',
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>
+      실험 카드함에 4장의 카드가 들어있습니다 (오른쪽 패널에서 순서를 맞춰보세요).<br><br>
+      <span class="warn">※ 카드 자체에는 순서 번호가 안 보입니다. B가 가진 "순서 배치 규칙"을 듣고 함께 배열하세요!</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>
+      순서 배치 규칙 메모: <span class="highlight">"① 측정 도구(지시약) 준비가 항상 먼저다. ② 그 다음 미지 물질은 '소량만' 넣어야 안전하다. ③ 변화를 관찰하는 건 물질을 넣은 다음이다. ④ 보고서 작성은 항상 마지막이다."</span><br><br>
+      <span class="warn">※ A가 가진 4장의 카드를 이 규칙에 맞게 순서대로 배열하도록 알려주세요!</span>`
+    ]
+  },
+  {
+    id: 'stage6',
+    title: '구역 6: 최종 탈출 — 불꽃 반응',
+    timeLimit: 300,
+    story: `드디어 마지막 구역! 탈출 포드의 점화 코드는 <em>불꽃 반응 색깔</em>로 구성된 <strong>두 글자 단어</strong>입니다.<br><br>
+A와 B가 각각 다른 금속의 불꽃색 정보를 가지고 있습니다. <span class="warn">반전 주의: 둘 다 같은 색을 보고 있을 수도 있어요!</span>`,
+    answers: ['노랑', '노란색', '노랑색', 'yellow'],
+    fact: `🧪 <strong>불꽃 반응</strong>은 금속 원소를 태우면 특유의 색깔 빛을 내는 현상이에요. 나트륨(Na)은 노란색, 구리(Cu)는 청록색, 리튬(Li)은 빨간색, 칼륨(K)은 보라색! 불꽃놀이의 화려한 색깔도 다 이 원리로 만들어져요. 이번 단계의 반전은 — A와 B가 본 시약통 라벨이 사실 <b>같은 물질(나트륨 화합물)</b>이었다는 것! 서로 다른 이름으로 불렸을 뿐, 둘 다 정답은 "노랑"이었어요.`,
+    clearTitle: '탈출 성공!',
     clearSub: '모든 승무원이 탈출 포드에 탑승했습니다. SECTOR-7을 떠납니다.',
     clearIcon: '🚀',
-    clues: [
-      { id: 'CLUE-A', text: '불꽃 관측 보고서 A: <span class="highlight">첫 번째 금속은 노란 불꽃 → 나트륨(Na)</span>. 코드 첫 두 글자는 "나트"' },
-      { id: 'CLUE-B', text: '불꽃 관측 보고서 B: <span class="highlight">두 번째 금속은 초록 불꽃 → 구리(Cu)</span>. 코드 세 번째와 네 번째 글자는 "륨구"' },
-      { id: 'CLUE-C', text: '불꽃 관측 보고서 C: <span class="highlight">세 번째 금속은 빨간 불꽃 → 리튬(Li)</span>. 코드 다섯 번째와 여섯 번째 글자는 "리리"' },
-      { id: 'CLUE-D', text: '불꽃 관측 보고서 D: <span class="highlight">네 번째 금속은 보라 불꽃 → 칼륨(K)</span>. 코드 마지막 두 글자는 "튬칼"' },
-      { id: 'CLUE-E', text: '탈출 매뉴얼: <span class="warn">금속 이름 4개를 순서대로 붙여서</span> "나트륨구리리튬칼륨" → 앞 두 글자씩 따면? <span class="highlight">나구리칼</span>' },
+    roleClues: [
+      `📟 <b>당신의 단말기 (A)</b><br>
+      시약통 라벨: <span class="highlight">"NaCl (염화나트륨, 식염) — 이 물질을 불꽃에 넣으면 특유의 색이 나타난다."</span><br><br>
+      <span class="warn">※ 나트륨(Na)의 불꽃색을 떠올려 보세요. B와 답을 맞춰보면 재밌는 사실을 발견할 거예요!</span>`,
+      `📟 <b>당신의 단말기 (B)</b><br>
+      시약통 라벨: <span class="highlight">"NaHCO₃ (베이킹소다, 탄산수소나트륨) — 이 물질을 불꽃에 넣으면 특유의 색이 나타난다."</span><br><br>
+      <span class="warn">※ 이것도 나트륨(Na) 화합물입니다. A와 답을 비교해보세요 — 같은 답이 나올 수도 있어요!</span>`
     ]
   }
 ];
@@ -1062,18 +568,17 @@ const STAGES = [
 // ═══ STATE ═══
 let myTeam = '';
 let myNick = '';
-let myColor = '';
-let myClueIndex = 0;
+let myRole = 0; // 0 = A, 1 = B
 let currentStageIdx = 0;
 let timerInterval = null;
-let gameStartTime = null;
-let totalElapsed = 0;
-let chatUnsub = null;
-let teamUnsub = null;
+let timeLeft = 0;
 let seenMsgIds = new Set();
+let offlineMode = false;
+let teamUnsub = null;
+let chatUnsub = null;
 
 // ═══ LOGIN ═══
-window.login = async function() {
+async function login() {
   const team = document.getElementById('input-team').value.trim().toUpperCase();
   const nick = document.getElementById('input-nick').value.trim();
   const status = document.getElementById('login-status');
@@ -1085,228 +590,300 @@ window.login = async function() {
 
   status.textContent = '접속 중...';
 
+  if (typeof firebase === 'undefined' || !firebaseReady || !db) {
+    status.textContent = '⚠ Firebase 라이브러리를 불러오지 못했습니다. 오프라인 모드로 시작합니다.';
+    startOfflineMode(team, nick);
+    return;
+  }
+
   try {
     myTeam = team;
     myNick = nick;
 
-    const teamRef = doc(db, 'teams', team);
-    const snap = await getDoc(teamRef);
+    const teamRef = db.collection('teams').doc(team);
+    const snap = await teamRef.get();
 
-    let memberIndex = 0;
-
-    if (!snap.exists()) {
-      // 새 팀 생성
-      await setDoc(teamRef, {
+    if (!snap.exists) {
+      await teamRef.set({
         stage: 0,
         stageStartTime: Date.now(),
-        totalElapsed: 0,
-        members: { [nick]: { color: AVATAR_COLORS[0], joinedAt: Date.now() } },
-        solved: false
+        members: { [nick]: { role: 0, joinedAt: Date.now() } },
+        solved: false,
+        totalElapsed: 0
       });
-      memberIndex = 0;
+      myRole = 0;
     } else {
       const data = snap.data();
       const members = data.members || {};
-      if (members[nick]) {
-        memberIndex = Object.keys(members).indexOf(nick);
+      if (members[nick] !== undefined) {
+        myRole = members[nick].role;
       } else {
-        memberIndex = Object.keys(members).length;
-        const updateObj = {};
-        updateObj[`members.${nick}`] = { color: AVATAR_COLORS[memberIndex % AVATAR_COLORS.length], joinedAt: Date.now() };
-        await updateDoc(teamRef, updateObj);
+        const takenRoles = Object.values(members).map(m => m.role);
+        if (takenRoles.length >= 2) {
+          status.textContent = '⚠ 이 팀은 이미 2명(A, B)이 모두 접속했습니다. 다른 팀 코드를 사용하세요.';
+          return;
+        }
+        myRole = takenRoles.includes(0) ? 1 : 0;
+        await teamRef.update({
+          [`members.${nick}`]: { role: myRole, joinedAt: Date.now() }
+        });
       }
     }
 
-    myColor = AVATAR_COLORS[memberIndex % AVATAR_COLORS.length];
-    myClueIndex = memberIndex % STAGES[0].clues.length;
-
-    showScreen('screen-lobby');
+    showScreen('screen-game');
     initGame();
     status.textContent = '';
   } catch (e) {
-    status.textContent = '❌ 접속 실패: ' + e.message;
+    console.error('Login error:', e);
+    let detail = e.message || String(e);
+    let extra = '';
+    if (e.code === 'permission-denied' || /permission/i.test(detail)) {
+      extra = ' (Firestore 보안 규칙이 막혀있을 수 있어요. Firebase 콘솔 → Firestore Database → 규칙에서 read/write를 허용해주세요.)';
+    } else if (e.code === 'unavailable' || /network|fetch|offline/i.test(detail)) {
+      extra = ' (네트워크 연결을 확인해주세요. 오프라인 모드로 1인 플레이를 시작합니다.)';
+      status.textContent = '⚠ 접속 실패: ' + detail + extra;
+      startOfflineMode(team, nick);
+      return;
+    }
+    status.textContent = '❌ 접속 실패: ' + detail + extra;
   }
-};
+}
+
+// ═══ OFFLINE FALLBACK (no Firebase connection) ═══
+function startOfflineMode(team, nick) {
+  myTeam = team;
+  myNick = nick;
+  myRole = 0;
+  currentStageIdx = 0;
+  offlineMode = true;
+  showScreen('screen-game');
+  document.getElementById('member-list').innerHTML =
+    `<div class="member-chip"><span class="member-dot" style="background:#7fdfff"></span>${escapeHtml(nick)}<span class="member-role">승무원 A (오프라인)</span></div>`;
+  document.getElementById('chat-messages').innerHTML =
+    `<div class="chat-msg system"><div class="msg-text">⚠ Firebase에 연결할 수 없어 오프라인 모드로 시작합니다. 1인 테스트 플레이로 모든 단서를 확인할 수 있어요. (채팅·실시간 동기화는 비활성화됩니다.)</div></div>`;
+  loadStage();
+}
 
 // ═══ INIT GAME ═══
 function initGame() {
-  const teamRef = doc(db, 'teams', myTeam);
+  const teamRef = db.collection('teams').doc(myTeam);
 
-  teamUnsub = onSnapshot(teamRef, (snap) => {
-    if (!snap.exists()) return;
+  teamUnsub = teamRef.onSnapshot((snap) => {
+    if (!snap.exists) return;
     const data = snap.data();
 
-    // sync stage
     if (data.stage !== undefined && data.stage !== currentStageIdx) {
       currentStageIdx = data.stage;
-      renderStage();
+      if (currentStageIdx >= STAGES.length) {
+        showFinal(data);
+        return;
+      }
+      loadStage();
     }
 
-    // update members
     renderMembers(data.members || {});
+  });
 
-    // check if solved
-    if (data.solved && currentStageIdx >= STAGES.length - 1) {
+  chatUnsub = teamRef.collection('chat').orderBy('ts', 'asc')
+    .onSnapshot((snap) => {
+      snap.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          const msg = change.doc.data();
+          const id = change.doc.id;
+          if (!seenMsgIds.has(id)) {
+            seenMsgIds.add(id);
+            renderChatMsg(msg);
+          }
+        }
+      });
+    });
+
+  teamRef.get().then((snap) => {
+    const data = snap.data();
+    currentStageIdx = data.stage || 0;
+    if (currentStageIdx >= STAGES.length) {
       showFinal(data);
+    } else {
+      loadStage();
     }
-
-    document.getElementById('top-meta').textContent = `팀: ${myTeam} · 승무원: ${Object.keys(data.members||{}).length}명`;
+    renderMembers(data.members || {});
   });
-
-  // get current stage from DB
-  getDoc(doc(db, 'teams', myTeam)).then(snap => {
-    if (snap.exists()) {
-      currentStageIdx = snap.data().stage || 0;
-      gameStartTime = snap.data().stageStartTime || Date.now();
-      totalElapsed = snap.data().totalElapsed || 0;
-    }
-    renderStage();
-    startTimer();
-  });
-
-  listenChat();
 }
 
-// ═══ RENDER STAGE ═══
-function renderStage() {
+// ═══ LOAD STAGE ═══
+function loadStage() {
   const stage = STAGES[currentStageIdx];
-  if (!stage) return;
-
-  // stage track
-  const track = document.getElementById('stage-track');
-  track.innerHTML = '';
-  STAGES.forEach((s, i) => {
-    const pip = document.createElement('div');
-    pip.className = 'stage-pip' + (i < currentStageIdx ? ' done' : i === currentStageIdx ? ' active' : '');
-    track.appendChild(pip);
-  });
-  const lbl = document.createElement('div');
-  lbl.className = 'stage-label';
-  lbl.textContent = stage.title;
-  track.appendChild(lbl);
-
-  // story
+  document.getElementById('stage-label').textContent = stage.title;
   document.getElementById('story-box').innerHTML = stage.story;
-
-  // my clue
-  const memberSnap = doc(db, 'teams', myTeam);
-  getDoc(memberSnap).then(snap => {
-    const members = snap.data()?.members || {};
-    const myIndex = Object.keys(members).indexOf(myNick);
-    myClueIndex = myIndex >= 0 ? myIndex % stage.clues.length : 0;
-    const clue = stage.clues[myClueIndex];
-    document.getElementById('clue-id').textContent = clue.id + ' — ' + myNick + '의 단서';
-    document.getElementById('clue-text').innerHTML = clue.text;
-  });
-
-  // reset answer
+  document.getElementById('role-badge').textContent = ROLE_NAMES[myRole];
+  document.getElementById('role-badge').style.background = `rgba(${myRole===0?'127,223,255':'255,170,68'},0.15)`;
+  document.getElementById('role-badge').style.color = MEMBER_COLORS[myRole];
+  document.getElementById('clue-id').textContent = `단말기 — ${ROLE_NAMES[myRole]}`;
+  document.getElementById('clue-text').innerHTML = stage.roleClues[myRole];
   document.getElementById('answer-input').value = '';
   document.getElementById('answer-feedback').textContent = '';
   document.getElementById('answer-feedback').className = 'answer-feedback';
 
-  // restart timer
-  startTimer();
+  if (stage.isOrdering) {
+    document.getElementById('order-panel').style.display = 'block';
+    document.getElementById('answer-panel-normal').style.display = 'none';
+    renderOrderList(stage);
+  } else {
+    document.getElementById('order-panel').style.display = 'none';
+    document.getElementById('answer-panel-normal').style.display = 'block';
+  }
+
+  startTimer(stage.timeLimit);
+}
+
+// ═══ ORDERING ═══
+let currentOrder = [];
+function renderOrderList(stage) {
+  currentOrder = stage.orderingItems.map(it => it.id);
+  shuffleArray(currentOrder);
+  drawOrderList(stage);
+  document.getElementById('order-feedback').textContent = '';
+  document.getElementById('order-feedback').className = 'answer-feedback';
+}
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+function drawOrderList(stage) {
+  const list = document.getElementById('order-list');
+  list.innerHTML = '';
+  currentOrder.forEach((id, idx) => {
+    const item = stage.orderingItems.find(it => it.id === id);
+    const div = document.createElement('div');
+    div.className = 'order-card';
+    div.draggable = true;
+    div.dataset.id = id;
+    div.innerHTML = `<span class="order-num">${idx+1}</span><span class="order-handle">⠿</span><span>${item.text}</span>`;
+    div.addEventListener('dragstart', () => div.classList.add('dragging'));
+    div.addEventListener('dragend', () => { div.classList.remove('dragging'); syncOrderFromDOM(stage); });
+    div.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const dragging = list.querySelector('.dragging');
+      if (!dragging || dragging === div) return;
+      const rect = div.getBoundingClientRect();
+      const after = (e.clientY - rect.top) > rect.height / 2;
+      list.insertBefore(dragging, after ? div.nextSibling : div);
+    });
+    list.appendChild(div);
+  });
+}
+function syncOrderFromDOM(stage) {
+  const cards = document.querySelectorAll('#order-list .order-card');
+  currentOrder = Array.from(cards).map(c => c.dataset.id);
+  cards.forEach((c, idx) => { c.querySelector('.order-num').textContent = idx + 1; });
+}
+async function submitOrder() {
+  const stage = STAGES[currentStageIdx];
+  const feedback = document.getElementById('order-feedback');
+  const correct = JSON.stringify(currentOrder) === JSON.stringify(stage.correctOrder);
+
+  if (correct) {
+    feedback.textContent = '✅ 순서가 정확합니다!';
+    feedback.className = 'answer-feedback right';
+    showClearOverlay(stage);
+    if (offlineMode) {
+      currentStageIdx++;
+      return;
+    }
+    await systemChat(`🎉 ${myNick}님 팀이 실험 순서를 정확히 배열했습니다!`);
+    const teamRef = db.collection('teams').doc(myTeam);
+    await teamRef.update({ stage: currentStageIdx + 1, stageStartTime: Date.now() });
+  } else {
+    feedback.textContent = '❌ 순서가 맞지 않습니다. B의 규칙 메모를 다시 들어보세요!';
+    feedback.className = 'answer-feedback wrong';
+    if (!offlineMode) {
+      await systemChat(`❌ ${myNick}님 팀이 순서를 제출했지만 틀렸습니다. 다시 시도하세요.`);
+    }
+  }
 }
 
 // ═══ TIMER ═══
-function startTimer() {
+function startTimer(seconds) {
   clearInterval(timerInterval);
-  const stage = STAGES[currentStageIdx];
-  if (!stage) return;
-
-  getDoc(doc(db, 'teams', myTeam)).then(snap => {
-    const startTime = snap.data()?.stageStartTime || Date.now();
-    const limit = stage.timeLimit;
-
-    timerInterval = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const remaining = Math.max(0, limit - elapsed);
-      const m = Math.floor(remaining / 60);
-      const s = remaining % 60;
-      const el = document.getElementById('timer-display');
-      el.textContent = `${m}:${s.toString().padStart(2, '0')}`;
-      el.className = 'timer-display' + (remaining <= 30 ? ' critical' : '');
-      if (remaining === 0) {
-        clearInterval(timerInterval);
-        // auto skip with system message
-        systemChat('⏰ 시간 초과! 다음 구역으로 강제 이동합니다...');
-        setTimeout(() => advanceStage(), 2000);
-      }
-    }, 500);
-  });
+  timeLeft = seconds;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft < 0) timeLeft = 0;
+    updateTimerDisplay();
+    if (timeLeft <= 0) clearInterval(timerInterval);
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  const el = document.getElementById('timer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('low', timeLeft <= 30);
 }
 
 // ═══ SUBMIT ANSWER ═══
-window.submitAnswer = function() {
-  const input = document.getElementById('answer-input').value.trim().toLowerCase().replace(/\s/g, '');
+async function submitAnswer() {
+  const input = document.getElementById('answer-input');
+  const feedback = document.getElementById('answer-feedback');
+  const raw = input.value.trim();
+  const normalized = raw.toLowerCase().replace(/\s+/g, '');
   const stage = STAGES[currentStageIdx];
-  const fb = document.getElementById('answer-feedback');
 
-  if (!input) return;
-
-  const correct = stage.answers.some(a => a.toLowerCase().replace(/\s/g, '') === input);
+  const correct = stage.answers.some(a => a.toLowerCase().replace(/\s+/g, '') === normalized);
 
   if (correct) {
-    fb.className = 'answer-feedback correct';
-    fb.textContent = '✅ 정답! 잠금 해제 중...';
-    systemChat(`🔓 ${myNick}이(가) 정답을 맞혔습니다! 구역 돌파!`);
-    clearInterval(timerInterval);
+    feedback.textContent = '✅ 정답입니다!';
+    feedback.className = 'answer-feedback right';
+    showClearOverlay(stage);
 
-    setTimeout(() => showClearOverlay(), 800);
+    if (offlineMode) {
+      currentStageIdx++;
+      return;
+    }
+    await systemChat(`🎉 ${myNick}님이 정답을 맞췄습니다! "${raw}"`);
+    const teamRef = db.collection('teams').doc(myTeam);
+    await teamRef.update({ stage: currentStageIdx + 1, stageStartTime: Date.now() });
   } else {
-    fb.className = 'answer-feedback wrong';
-    fb.textContent = '❌ 틀렸습니다. 팀원들과 다시 상의해보세요.';
-    document.getElementById('answer-input').value = '';
-    setTimeout(() => {
-      fb.textContent = '';
-      fb.className = 'answer-feedback';
-    }, 3000);
+    feedback.textContent = '❌ 다시 시도해보세요. 팀원과 상의했나요?';
+    feedback.className = 'answer-feedback wrong';
+    if (!offlineMode) {
+      await systemChat(`❌ ${myNick}님이 "${raw}"를 입력했지만 오답이었습니다.`);
+    }
   }
-};
+}
 
 // ═══ CLEAR OVERLAY ═══
-function showClearOverlay() {
-  const stage = STAGES[currentStageIdx];
+function showClearOverlay(stage) {
   document.getElementById('ol-icon').textContent = stage.clearIcon;
   document.getElementById('ol-title').textContent = stage.clearTitle;
   document.getElementById('ol-sub').textContent = stage.clearSub;
   document.getElementById('ol-fact').innerHTML = stage.fact;
 
-  const isLast = currentStageIdx >= STAGES.length - 1;
-  const btn = document.getElementById('btn-next');
-  btn.textContent = isLast ? '🚀 탈출 완료!' : '다음 구역 진입 ▶';
+  const twistEl = document.getElementById('ol-twist');
+  if (stage.twist) {
+    twistEl.style.display = 'block';
+    twistEl.innerHTML = stage.twist;
+  } else {
+    twistEl.style.display = 'none';
+  }
 
-  document.getElementById('overlay-clear').classList.add('show');
+  const btn = document.getElementById('btn-next');
+  btn.textContent = (currentStageIdx + 1 >= STAGES.length) ? '탈출 완료 ▶' : '다음 구역 진입 ▶';
+
+  document.getElementById('overlay-clear').classList.add('active');
 }
 
-window.nextStage = async function() {
-  document.getElementById('overlay-clear').classList.remove('show');
-  await advanceStage();
-};
-
-async function advanceStage() {
-  const teamRef = doc(db, 'teams', myTeam);
-  const snap = await getDoc(teamRef);
-  const data = snap.data() || {};
-  const stageElapsed = Math.floor((Date.now() - (data.stageStartTime || Date.now())) / 1000);
-  const newTotal = (data.totalElapsed || 0) + stageElapsed;
-  const nextStage = currentStageIdx + 1;
-
-  if (nextStage >= STAGES.length) {
-    await updateDoc(teamRef, {
-      solved: true,
-      totalElapsed: newTotal,
-      solvedAt: Date.now()
-    });
-  } else {
-    await updateDoc(teamRef, {
-      stage: nextStage,
-      stageStartTime: Date.now(),
-      totalElapsed: newTotal
-    });
-    currentStageIdx = nextStage;
-    renderStage();
-    systemChat(`📡 구역 ${nextStage + 1} 진입. 새 단서를 확인하세요!`);
+function nextStage() {
+  document.getElementById('overlay-clear').classList.remove('active');
+  if (offlineMode) {
+    if (currentStageIdx >= STAGES.length) {
+      showFinal({ members: { [myNick]: { role: 0 } } });
+    } else {
+      loadStage();
+    }
   }
 }
 
@@ -1314,102 +891,66 @@ async function advanceStage() {
 function renderMembers(members) {
   const list = document.getElementById('member-list');
   list.innerHTML = '';
-  Object.entries(members).forEach(([name, info], i) => {
-    const isMe = name === myNick;
-    const color = info.color || AVATAR_COLORS[i % AVATAR_COLORS.length];
-    const initials = name.slice(0, 2);
+  Object.entries(members).forEach(([nick, info]) => {
     const div = document.createElement('div');
-    div.className = 'member-row' + (isMe ? ' me' : '');
-    div.innerHTML = `
-      <div class="member-avatar" style="background:${color}">${initials}</div>
-      <div class="member-info">
-        <div class="member-name" style="color:${color}">${name}${isMe ? ' (나)' : ''}</div>
-        <div class="member-status">접속 중</div>
-      </div>
-    `;
+    div.className = 'member-chip';
+    const color = MEMBER_COLORS[info.role] || '#7fdfff';
+    div.innerHTML = `<span class="member-dot" style="background:${color}"></span>${nick}<span class="member-role">${ROLE_NAMES[info.role]}</span>`;
     list.appendChild(div);
   });
 }
 
 // ═══ CHAT ═══
-function listenChat() {
-  if (chatUnsub) chatUnsub();
-  const chatRef = collection(db, 'teams', myTeam, 'chat');
-  const q = query(chatRef, orderBy('ts'));
-  chatUnsub = onSnapshot(q, (snap) => {
-    snap.docChanges().forEach(change => {
-      if (change.type === 'added') {
-        const msg = change.doc.data();
-        const id = change.doc.id;
-        if (!seenMsgIds.has(id)) {
-          seenMsgIds.add(id);
-          appendChatMsg(msg);
-        }
-      }
-    });
-  });
-}
-
-function appendChatMsg(msg) {
+function renderChatMsg(msg) {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
+  div.className = 'chat-msg' + (msg.system ? ' system' : '');
 
   if (msg.system) {
-    div.className = 'chat-msg system';
-    div.innerHTML = `<div class="msg-text">${msg.text}</div>`;
+    div.innerHTML = `<div class="msg-text">${escapeHtml(msg.text)}</div>`;
   } else {
-    div.className = 'chat-msg';
-    const ts = msg.ts?.toDate ? msg.ts.toDate() : new Date();
-    const time = ts.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+    const color = MEMBER_COLORS[msg.role] || '#7fdfff';
     div.innerHTML = `
       <div class="msg-meta">
-        <span class="msg-author" style="color:${msg.color||'var(--green)'}">${msg.author}</span>
-        <span class="msg-time">${time}</span>
+        <span style="color:${color}; font-weight:700;">${escapeHtml(msg.author)} (${ROLE_NAMES[msg.role] || ''})</span>
       </div>
       <div class="msg-text">${escapeHtml(msg.text)}</div>`;
   }
-
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
 
-window.sendChat = async function() {
+async function sendChat() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
-
-  await addDoc(collection(db, 'teams', myTeam, 'chat'), {
-    author: myNick,
-    color: myColor,
-    text: text,
-    system: false,
-    ts: serverTimestamp()
-  });
-};
-
-async function systemChat(text) {
-  await addDoc(collection(db, 'teams', myTeam, 'chat'), {
-    text: text,
-    system: true,
-    ts: serverTimestamp()
+  if (offlineMode) {
+    renderChatMsg({ author: myNick, role: myRole, text: text, system: false });
+    return;
+  }
+  await db.collection('teams').doc(myTeam).collection('chat').add({
+    author: myNick, role: myRole, text: text, system: false, ts: firebase.firestore.FieldValue.serverTimestamp()
   });
 }
 
-// ═══ FINAL SCREEN ═══
+async function systemChat(text) {
+  await db.collection('teams').doc(myTeam).collection('chat').add({
+    text: text, system: true, ts: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}
+
+// ═══ FINAL ═══
 function showFinal(data) {
   clearInterval(timerInterval);
   showScreen('screen-final');
   document.getElementById('final-team-name').textContent = `팀 ${myTeam} · MISSION COMPLETE`;
-  const total = data.totalElapsed || 0;
-  const m = Math.floor(total / 60);
-  const s = total % 60;
   const memberCount = Object.keys(data.members || {}).length;
   document.getElementById('final-score-box').innerHTML = `
     <div class="final-stat"><span class="stat-label">팀 코드</span><span class="stat-val">${myTeam}</span></div>
     <div class="final-stat"><span class="stat-label">승무원 수</span><span class="stat-val">${memberCount}명</span></div>
-    <div class="final-stat"><span class="stat-label">총 소요 시간</span><span class="stat-val">${m}분 ${s}초</span></div>
-    <div class="final-stat"><span class="stat-label">클리어 스테이지</span><span class="stat-val">${STAGES.length} / ${STAGES.length}</span></div>
+    <div class="final-stat"><span class="stat-label">클리어 구역</span><span class="stat-val">${STAGES.length} / ${STAGES.length}</span></div>
+    <div class="final-stat"><span class="stat-label">결과</span><span class="stat-val">🎉 완료!</span></div>
   `;
 }
 
@@ -1418,18 +959,13 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
 function escapeHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// enter key for login
-document.getElementById('input-nick').addEventListener('keydown', e => {
-  if (e.key === 'Enter') window.login();
-});
-document.getElementById('answer-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') window.submitAnswer();
-});
+document.getElementById('input-nick').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+document.getElementById('answer-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitAnswer(); });
+document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 </script>
 </body>
 </html>
