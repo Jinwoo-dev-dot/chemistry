@@ -3,969 +3,1771 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>화학 방탈출 🧪</title>
+<title>438호의 마지막 밤 — 과학수사 미스터리</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --bg:#0a0a0f; --c1:#13131c; --c2:#1c1c28; --c3:#262635;
+  --brd:#2e2e42; --brd2:#3e3e58;
+  --accent:#9b6bff; --accent2:#c4a3ff;
+  --blood:#8b1e2e; --blood2:#c23a4e;
+  --uv:#3ecfb8; --gold:#d4af6a;
+  --tx:#e8e6f0; --tx2:#8a87a8; --tx3:#4a4768;
+  --green:#3ecf8e; --red:#ff5468; --yellow:#f0c64e;
+  --font:'Noto Sans KR',sans-serif;
+  --serif:'Noto Serif KR',serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);overflow-x:hidden;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit;}
+input,textarea{font-family:inherit;}
 
-  body {
-    font-family: 'Nanum Gothic', sans-serif;
-    background: #0a0a1a;
-    color: #e0e0ff;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity:.5;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.45) 100%);}
 
-  body::before {
-    content: '';
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0;
-    background: radial-gradient(ellipse at 20% 50%, #1a0a2e 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, #0a1a2e 0%, transparent 60%),
-                #0a0a1a;
-  }
+.scr{display:none;min-height:100vh;}
+.scr.on{display:flex;}
 
-  .container {
-    position: relative; z-index: 1;
-    max-width: 880px; margin: 0 auto;
-    padding: 20px;
-  }
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes strikeLine{from{width:0}to{width:100%}}
+.fadeUp{animation:fadeUp .5s ease-out both;}
+.fadeIn{animation:fadeIn .6s ease-out both;}
 
-  .screen { display: none; }
-  .screen.active { display: block; }
+/* ══ INTRO ══ */
+#sIntro{flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;
+  background:radial-gradient(ellipse at 50% 20%,#1a0d2e 0%,var(--bg) 65%);}
+.case-tape{position:absolute;top:0;left:0;width:100%;height:36px;background:repeating-linear-gradient(45deg,#d4af6a,#d4af6a 18px,#13131c 18px,#13131c 36px);opacity:.85;}
+.case-tape.bottom{top:auto;bottom:0;}
+.intro-badge{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;color:var(--blood2);text-transform:uppercase;margin-bottom:18px;border:1px solid var(--blood);padding:4px 14px;border-radius:30px;}
+.intro-title{font-family:var(--serif);font-size:2.6rem;font-weight:900;letter-spacing:-.01em;margin-bottom:10px;color:#f0eefa;text-shadow:0 0 30px #9b6bff44;}
+.intro-sub{font-size:.95rem;color:var(--tx2);max-width:540px;line-height:1.8;margin-bottom:30px;}
+.case-file{background:var(--c1);border:1px solid var(--brd);border-radius:4px;padding:26px 30px;max-width:560px;text-align:left;margin-bottom:28px;position:relative;}
+.case-file::before{content:'CASE FILE';position:absolute;top:-11px;left:24px;background:var(--bg);padding:0 10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--blood2);}
+.cf-row{display:flex;gap:10px;margin-bottom:8px;font-size:.86rem;}
+.cf-label{color:var(--tx3);font-family:var(--mono);min-width:84px;flex-shrink:0;}
+.cf-val{color:var(--tx);}
+.btn-start{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:8px;padding:15px 42px;font-size:1rem;font-weight:700;letter-spacing:.02em;transition:transform .15s,opacity .2s;box-shadow:0 8px 28px #9b6bff33;}
+.btn-start:hover{opacity:.9;}
+.btn-start:active{transform:scale(.97);}
 
-  /* ═══ START SCREEN ═══ */
-  .start-screen { text-align: center; padding: 40px 20px; }
+/* ══ SUSPECTS ══ */
+#sSuspects{flex-direction:column;align-items:center;padding:36px 24px;background:var(--bg);}
+.susp-head{text-align:center;margin-bottom:26px;}
+.susp-head h2{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:8px;}
+.susp-head p{color:var(--tx2);font-size:.85rem;max-width:520px;line-height:1.7;}
+.susp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:880px;width:100%;margin-bottom:30px;}
+.susp-card{background:var(--c1);border:1px solid var(--brd);border-radius:13px;padding:19px 21px;transition:all .25s;position:relative;overflow:hidden;}
+.susp-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.susp-card.eliminated{opacity:.4;}
+.susp-card.eliminated::after{content:'용의선상 제외';position:absolute;top:10px;right:10px;background:var(--green);color:#000;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px;}
+.susp-top{display:flex;align-items:center;gap:13px;margin-bottom:11px;}
+.susp-av{width:52px;height:52px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:2px solid var(--brd2);}
+.susp-name{font-weight:700;font-size:1.04rem;}
+.susp-role{font-size:.78rem;color:var(--tx2);}
+.susp-detail-lbl{font-family:var(--mono);font-size:.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;margin-top:9px;}
+.susp-detail-txt{font-size:.81rem;color:var(--tx2);line-height:1.6;}
 
-  .lab-icon {
-    font-size: 80px; display: block; margin-bottom: 16px;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-  }
+/* ══ HUD ══ */
+#sGame{flex-direction:column;}
+.hud{background:var(--c1);border-bottom:1px solid var(--brd);padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.hud-l{display:flex;align-items:center;gap:12px;}
+.hud-title{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--accent2);}
+.hud-stage{background:var(--c2);border:1px solid var(--brd);border-radius:20px;padding:4px 13px;font-size:.78rem;color:var(--tx2);}
+.timer{font-family:var(--mono);font-size:1.25rem;font-weight:600;color:var(--green);background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:5px 15px;letter-spacing:.04em;}
+.timer.warn{color:var(--yellow);animation:pulse .8s ease-in-out infinite;}
+.timer.danger{color:var(--red);animation:pulse .4s ease-in-out infinite;}
+.btn-clueboard{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:6px 14px;font-size:.8rem;color:var(--tx2);transition:all .2s;}
+.btn-clueboard:hover{border-color:var(--accent);color:var(--accent2);}
+.btn-susplist{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:6px 14px;font-size:.8rem;color:var(--tx2);transition:all .2s;}
+.btn-susplist:hover{border-color:var(--gold);color:var(--gold);}
 
-  .game-title {
-    font-family: 'Jua', sans-serif; font-size: 42px; color: #7fdfff;
-    text-shadow: 0 0 20px rgba(127, 223, 255, 0.4);
-    margin-bottom: 8px; line-height: 1.2;
-  }
+.game-body{flex:1;padding:24px;max-width:960px;margin:0 auto;width:100%;}
+.stage-meta{font-family:var(--mono);font-size:.74rem;color:var(--tx3);margin-bottom:6px;}
+.stage-loc{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--accent2);margin-bottom:14px;}
+.stage-card{background:var(--c1);border:1px solid var(--brd);border-radius:14px;padding:24px;margin-bottom:18px;}
+.stage-icon{font-size:1.8rem;margin-bottom:10px;}
+.stage-title{font-family:var(--serif);font-size:1.3rem;font-weight:700;margin-bottom:12px;}
+.stage-intro{font-size:.9rem;color:var(--tx2);line-height:1.8;white-space:pre-line;margin-bottom:16px;}
 
-  .game-subtitle { font-size: 15px; color: #8888aa; margin-bottom: 32px; }
+/* tool */
+.tool-box{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:16px;}
+.tool-head{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+.tool-icon{font-size:1.4rem;}
+.tool-name{font-weight:700;font-size:.92rem;}
+.tool-desc{font-size:.82rem;color:var(--tx2);line-height:1.6;margin-bottom:14px;}
+.scene-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#08080d;border-radius:9px;overflow:hidden;border:1px solid var(--brd);cursor:crosshair;user-select:none;}
+.scene-img{position:absolute;inset:0;width:100%;height:100%;}
+.scan-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:.76rem;color:var(--tx2);background:#00000099;padding:5px 12px;border-radius:20px;pointer-events:none;transition:opacity .3s;z-index:5;}
+.reveal-text{background:#0d0d14;border:1px solid var(--accent);border-radius:9px;padding:13px 16px;font-size:.85rem;line-height:1.7;color:var(--tx);margin-top:12px;display:none;white-space:pre-line;}
+.reveal-text.show{display:block;animation:fadeUp .4s ease-out;}
+.reveal-label{font-family:var(--mono);font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
 
-  .login-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(127,223,255,0.2);
-    border-radius: 16px;
-    padding: 28px 24px;
-    max-width: 400px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 14px;
-  }
+.clue-pop{background:linear-gradient(135deg,#1c1430,#13101f);border:1px solid var(--accent);border-radius:11px;padding:15px 18px;margin-top:14px;display:none;}
+.clue-pop.show{display:block;animation:fadeUp .4s ease-out;}
+.clue-pop-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
+.clue-pop-title{font-weight:700;font-size:.9rem;margin-bottom:5px;}
+.clue-pop-txt{font-size:.83rem;color:var(--tx2);line-height:1.6;}
 
-  .login-card label { font-size: 13px; color: #8888aa; text-align: left; }
+.btn-continue{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:9px;padding:11px 26px;font-size:.9rem;font-weight:700;margin-top:16px;transition:opacity .2s;}
+.btn-continue:hover{opacity:.88;}
+.btn-continue:disabled{opacity:.3;cursor:not-allowed;}
 
-  .login-card input {
-    width: 100%; padding: 12px 14px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px; color: #fff; font-size: 15px;
-    font-family: inherit; outline: none;
-  }
-  .login-card input:focus { border-color: #7fdfff; }
+.deduction-box{background:#0d0d14;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;padding:13px 17px;margin-top:14px;font-size:.83rem;color:var(--tx2);line-height:1.7;display:none;}
+.deduction-box.show{display:block;animation:fadeUp .4s ease-out;}
+.deduction-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
 
-  .btn-primary {
-    padding: 14px; border: none; border-radius: 10px;
-    background: linear-gradient(135deg, #4fb8ff, #7f6cff);
-    color: #fff; font-size: 16px; font-weight: 800;
-    font-family: 'Jua', sans-serif; cursor: pointer;
-    transition: transform .15s, opacity .15s;
-  }
-  .btn-primary:hover { transform: translateY(-1px); opacity: 0.95; }
-  .btn-primary:active { transform: scale(0.98); }
+/* extra panel (logmatch/sizematch/recordcheck) */
+.extra-box{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:17px;margin-bottom:16px;display:none;}
+.extra-box.show{display:block;animation:fadeUp .4s ease-out;}
+.extra-title{font-weight:700;font-size:.9rem;margin-bottom:6px;}
+.extra-desc{font-size:.82rem;color:var(--tx2);margin-bottom:12px;line-height:1.6;}
+.extra-log-row{background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:8px 13px;font-size:.81rem;font-family:var(--mono);margin-bottom:6px;color:var(--tx2);}
+.extra-verdict{background:#9b6bff11;border:1px solid #9b6bff44;border-radius:8px;padding:11px 14px;font-size:.83rem;color:var(--accent2);line-height:1.6;margin-top:10px;display:none;}
+.extra-verdict.show{display:block;animation:fadeUp .4s ease-out;}
+.btn-extra-check{background:var(--c3);border:1px solid var(--brd2);border-radius:8px;padding:8px 16px;font-size:.83rem;color:var(--tx);margin-top:6px;transition:all .2s;}
+.btn-extra-check:hover{border-color:var(--accent);}
+.size-opt-row{display:flex;align-items:center;justify-content:space-between;background:var(--c2);border:1.5px solid var(--brd);border-radius:8px;padding:10px 14px;margin-bottom:7px;transition:all .2s;cursor:pointer;}
+.size-opt-row:hover{border-color:var(--accent);}
+.size-opt-row.match{border-color:var(--green);background:#3ecf8e15;}
+.size-opt-row.nomatch{border-color:var(--red);opacity:.55;}
 
-  .login-status { font-size: 13px; color: #ff8888; min-height: 18px; }
+/* interrogation */
+.interro-tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;}
+.interro-tab{background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:8px 13px;font-size:.82rem;color:var(--tx2);transition:all .2s;display:flex;align-items:center;gap:6px;}
+.interro-tab.active{border-color:var(--accent);color:var(--accent2);background:#9b6bff15;}
+.interro-tab.done{border-color:var(--green);color:var(--green);}
+.interro-tab .it-av{font-size:1.05rem;}
+.interro-room{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:18px;}
+.ir-suspect{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--brd);}
+.ir-av{width:46px;height:46px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.ir-name{font-weight:700;font-size:.95rem;}
+.ir-role{font-size:.78rem;color:var(--tx2);}
+.ir-q-list{display:flex;flex-direction:column;gap:8px;}
+.ir-q-btn{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:10px 14px;font-size:.83rem;text-align:left;color:var(--tx);transition:all .2s;width:100%;}
+.ir-q-btn:hover:not(:disabled){border-color:var(--accent);}
+.ir-q-btn:disabled{opacity:.4;cursor:default;}
+.ir-answer{background:#15101f;border:1px solid var(--brd2);border-radius:9px;padding:11px 14px;margin-top:7px;font-size:.83rem;color:var(--tx2);line-height:1.6;display:none;}
+.ir-answer.show{display:block;animation:fadeUp .3s ease-out;}
+.ir-flag{display:inline-flex;align-items:center;gap:5px;background:#ff546815;border:1px solid #ff546844;color:var(--red);border-radius:20px;padding:2px 9px;font-size:.7rem;margin-top:6px;}
 
-  .role-note {
-    font-size: 12.5px; color: #66cc99; line-height: 1.6;
-    background: rgba(102,204,153,0.08); border: 1px solid rgba(102,204,153,0.2);
-    border-radius: 10px; padding: 10px 12px; text-align: left;
-  }
+/* shooting minigame */
+.shoot-range{position:relative;width:100%;aspect-ratio:16/9;background:radial-gradient(ellipse at 50% 30%,#1a1a28,#08080d 75%);border-radius:9px;overflow:hidden;border:1px solid var(--brd);}
+.shoot-target{position:absolute;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle,#ff5468 0%,#ff5468 22%,#1c1c28 24%,#1c1c28 38%,#ff5468 40%,#ff5468 58%,#1c1c28 60%,#1c1c28 74%,#ff5468 76%);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;animation:popIn .2s ease-out;box-shadow:0 0 18px #ff546866;border:2px solid #fff3;}
+.shoot-target.hit{animation:none;opacity:0;transform:scale(1.5);transition:all .25s;}
+.shoot-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.85rem;color:var(--tx);background:#00000077;padding:6px 12px;border-radius:8px;z-index:5;}
+.shoot-result{text-align:center;padding:20px;}
+.btn-shoot-start{background:linear-gradient(135deg,var(--red),#ff8096);color:#15101f;border-radius:9px;padding:12px 28px;font-weight:700;font-size:.92rem;}
 
-  /* ═══ LOBBY / GAME SCREEN ═══ */
-  .top-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
-  }
+/* timeline puzzle */
+.tl-pool{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.tl-piece{background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:11px 14px;font-size:.83rem;cursor:grab;transition:all .2s;}
+.tl-piece:hover{border-color:var(--accent);}
+.tl-piece.placed{opacity:.3;cursor:default;}
+.tl-piece.selected{border-color:var(--gold);background:#d4af6a15;}
+.tl-slots{display:flex;flex-direction:column;gap:7px;}
+.tl-slot{background:#0d0d14;border:1.5px dashed var(--brd2);border-radius:9px;padding:11px 14px;font-size:.83rem;min-height:20px;color:var(--tx3);transition:all .2s;cursor:pointer;}
+.tl-slot.filled{border-style:solid;border-color:var(--accent);color:var(--tx);background:#9b6bff11;}
+.tl-slot.correct{border-color:var(--green);background:#3ecf8e11;}
 
-  .stage-label { font-family: 'Jua', sans-serif; font-size: 20px; color: #7fdfff; }
+/* clueboard / suspect modal */
+.modal-bg{position:fixed;inset:0;background:#000000c0;z-index:800;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.show{display:flex;}
+.modal-card{background:var(--c1);border:1px solid var(--brd);border-radius:14px;padding:24px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;}
+.modal-card h3{font-family:var(--serif);font-size:1.2rem;margin-bottom:16px;}
+.clue-list-item{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:12px 15px;margin-bottom:9px;}
+.clue-list-item .cl-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);margin-bottom:4px;}
+.clue-list-item .cl-txt{font-size:.84rem;color:var(--tx2);line-height:1.6;}
+.btn-close-modal{background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:8px 18px;font-size:.84rem;color:var(--tx2);margin-top:8px;}
 
-  .timer {
-    font-family: 'Jua', sans-serif; font-size: 22px;
-    background: rgba(255,255,255,0.06); border-radius: 10px;
-    padding: 6px 16px; letter-spacing: 1px;
-  }
-  .timer.low { color: #ff6677; animation: blink 1s infinite; }
-  @keyframes blink { 50% { opacity: 0.4; } }
+/* PROFILER interstitial */
+.profiler-overlay{position:fixed;inset:0;background:#000;z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
+.profiler-overlay.show{display:flex;animation:fadeIn .3s ease-out;}
+.profiler-icon{font-size:3.4rem;margin-bottom:18px;filter:drop-shadow(0 0 24px #9b6bffaa);}
+.profiler-text{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent2);line-height:1.6;white-space:pre-line;max-width:520px;}
+.profiler-line{width:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:22px auto 0;animation:strikeLine 1.6s ease-out forwards;}
+.profiler-elim{margin-top:24px;display:none;}
+.profiler-elim.show{display:block;animation:fadeUp .5s ease-out .3s both;}
+.profiler-elim-card{background:var(--c1);border:1px solid var(--red);border-radius:12px;padding:16px 22px;display:inline-flex;align-items:center;gap:13px;}
+.profiler-elim-av{width:44px;height:44px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:22px;position:relative;}
+.profiler-elim-av::after{content:'✕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#ff546888;font-size:1.3rem;font-weight:900;color:#fff;border-radius:50%;}
+.profiler-elim-name{font-weight:700;font-size:.95rem;}
+.profiler-elim-sub{font-size:.76rem;color:var(--red);}
 
-  .story-box {
-    background: rgba(127,223,255,0.06);
-    border: 1px solid rgba(127,223,255,0.18);
-    border-radius: 14px; padding: 18px; margin-bottom: 16px;
-    font-size: 14.5px; line-height: 1.8;
-  }
+/* end */
+#sEnd{flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.end-icon{font-size:3.6rem;margin-bottom:16px;}
+.end-title{font-family:var(--serif);font-size:1.9rem;font-weight:900;margin-bottom:14px;}
+.end-title.win{color:var(--green);}
+.end-title.lose{color:var(--red);}
+.end-body{color:var(--tx2);font-size:.9rem;line-height:1.85;max-width:480px;white-space:pre-line;margin-bottom:24px;}
+.btn-restart{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:9px;padding:13px 32px;font-size:.93rem;font-weight:700;}
 
-  .role-badge {
-    display: inline-block; font-size: 12px; font-weight: 700;
-    padding: 4px 10px; border-radius: 999px; margin-bottom: 10px;
-    background: rgba(127,223,255,0.15); color: #7fdfff;
-    border: 1px solid rgba(127,223,255,0.3);
-  }
+/* ══ CASE NOTE ══ */
+.note-card{background:var(--c1);border:1px solid var(--brd);border-radius:13px;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease-out, transform .5s ease-out;}
+.note-card.visible{opacity:1;transform:none;}
+.note-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s;}
+.note-header:hover{background:var(--c2);}
+.note-header.open{border-color:var(--brd);}
+.note-badge{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.note-step{font-family:var(--mono);font-size:.68rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.note-title{font-weight:700;font-size:.93rem;}
+.note-tag{font-size:.73rem;color:var(--gold);background:#d4af6a18;border:1px solid #d4af6a33;border-radius:20px;padding:2px 9px;margin-left:auto;white-space:nowrap;}
+.note-chevron{color:var(--tx3);font-size:.9rem;margin-left:8px;transition:transform .25s;}
+.note-header.open .note-chevron{transform:rotate(180deg);}
+.note-body{display:none;padding:0 18px 18px;}
+.note-header.open + .note-body{display:block;animation:fadeUp .3s ease-out;}
+.note-section{margin-top:14px;}
+.note-section-lbl{font-family:var(--mono);font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+.note-text{font-size:.85rem;color:var(--tx2);line-height:1.8;white-space:pre-line;}
+.note-formula{background:#0d0d14;border:1px solid var(--brd);border-radius:8px;padding:11px 14px;font-family:var(--mono);font-size:.85rem;color:var(--yellow);line-height:1.7;margin-top:8px;}
+.note-input{width:100%;background:#0d0d14;border:1.5px solid var(--brd);border-radius:9px;padding:10px 13px;color:var(--tx);font-size:.88rem;outline:none;resize:none;min-height:76px;margin-top:8px;transition:border-color .2s;}
+.note-input:focus{border-color:var(--accent);}
+.note-input::placeholder{color:var(--tx3);}
+.note-q{font-size:.85rem;color:var(--tx);margin-top:14px;margin-bottom:5px;font-weight:500;}
 
-  .game-layout {
-    display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
-  }
-  @media (max-width: 720px) {
-    .game-layout { grid-template-columns: 1fr; }
-  }
 
-  .main-panel { display: flex; flex-direction: column; gap: 14px; }
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--c1);border:1px solid var(--brd);border-radius:11px;padding:10px 17px;font-size:.83rem;z-index:900;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  .clue-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px; padding: 18px;
-  }
+/* final */
+.final-grid{display:grid;grid-template-columns:1fr;gap:13px;max-width:480px;}
+.final-card{background:var(--c2);border:1.5px solid var(--brd);border-radius:11px;padding:16px;text-align:left;transition:all .2s;}
+.final-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.final-card .fc-top{display:flex;align-items:center;gap:10px;}
+.final-card .fc-av{font-size:1.6rem;}
+.final-card .fc-name{font-weight:700;font-size:.92rem;}
+.final-card .fc-role{font-size:.76rem;color:var(--tx2);}
 
-  .clue-id {
-    font-family: 'Jua', sans-serif; font-size: 13px; color: #ffaa44;
-    letter-spacing: 1px; margin-bottom: 8px;
-  }
-
-  .clue-text { font-size: 15px; line-height: 1.8; }
-  .highlight {
-    background: rgba(127,223,255,0.18); color: #aef0ff;
-    padding: 1px 5px; border-radius: 4px;
-  }
-  .warn {
-    background: rgba(255,170,68,0.18); color: #ffcf99;
-    padding: 1px 5px; border-radius: 4px;
-  }
-
-  .answer-panel {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px; padding: 18px;
-  }
-  .answer-title { font-family: 'Jua', sans-serif; font-size: 15px; color: #aef0ff; margin-bottom: 10px; }
-  .answer-row { display: flex; gap: 8px; }
-  .answer-input {
-    flex: 1; padding: 12px 14px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px; color: #fff; font-size: 15px;
-    font-family: inherit; outline: none;
-  }
-  .answer-input:focus { border-color: #7fdfff; }
-  .btn-submit {
-    padding: 0 22px; border: none; border-radius: 10px;
-    background: #4fb8ff; color: #06121f; font-weight: 800;
-    font-family: 'Jua', sans-serif; cursor: pointer; font-size: 15px;
-  }
-  .btn-submit:hover { background: #6fc8ff; }
-
-  .answer-feedback { margin-top: 10px; font-size: 14px; min-height: 20px; }
-  .answer-feedback.wrong { color: #ff8888; }
-  .answer-feedback.right { color: #88ffaa; }
-
-  /* ═══ ORDERING UI ═══ */
-  .order-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-  .order-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 10px; padding: 12px 14px;
-    font-size: 14px; line-height: 1.6; cursor: grab;
-    display: flex; align-items: center; gap: 10px;
-    transition: transform .12s, background .12s;
-  }
-  .order-card.dragging { opacity: 0.4; }
-  .order-card:active { cursor: grabbing; }
-  .order-handle { font-size: 16px; color: #8888aa; flex-shrink: 0; }
-  .order-num {
-    font-family: 'Jua', sans-serif; font-size: 13px; color: #aef0ff;
-    background: rgba(127,223,255,0.15); border-radius: 6px;
-    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-
-  /* ═══ SIDE PANEL ═══ */
-  .side-panel { display: flex; flex-direction: column; gap: 14px; }
-  .members-section, .chat-section {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px; padding: 14px;
-  }
-  .section-label {
-    font-size: 12px; color: #8888aa; margin-bottom: 10px;
-    letter-spacing: 0.5px; font-weight: 700;
-  }
-  .member-list { display: flex; flex-direction: column; gap: 8px; }
-  .member-chip {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 14px; padding: 6px 10px; border-radius: 8px;
-    background: rgba(255,255,255,0.03);
-  }
-  .member-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .member-role { font-size: 11px; color: #8888aa; margin-left: auto; }
-
-  .chat-section { display: flex; flex-direction: column; }
-  .chat-header { font-size: 12px; color: #8888aa; margin-bottom: 8px; font-weight: 700; }
-  .chat-messages {
-    height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
-    margin-bottom: 10px; padding-right: 4px;
-  }
-  .chat-msg { font-size: 13px; line-height: 1.5; }
-  .chat-msg.system { color: #ffaa44; font-style: italic; }
-  .msg-meta { display: flex; justify-content: space-between; font-size: 11px; color: #8888aa; }
-  .msg-text { word-break: break-word; }
-  .chat-input-area { display: flex; gap: 6px; }
-  .chat-input {
-    flex: 1; padding: 10px 12px; font-size: 13px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 8px; color: #fff; font-family: inherit; outline: none;
-  }
-  .chat-input:focus { border-color: #7fdfff; }
-  .btn-chat {
-    padding: 0 14px; border: none; border-radius: 8px;
-    background: rgba(127,223,255,0.2); color: #aef0ff;
-    font-weight: 700; cursor: pointer; font-size: 13px;
-  }
-
-  /* ═══ OVERLAY ═══ */
-  .overlay {
-    display: none; position: fixed; inset: 0; z-index: 100;
-    background: rgba(5,5,15,0.92);
-    align-items: center; justify-content: center; padding: 20px;
-  }
-  .overlay.active { display: flex; }
-  .overlay-box {
-    background: rgba(20,20,40,0.95);
-    border: 1px solid rgba(127,223,255,0.3);
-    border-radius: 18px; padding: 32px 28px;
-    max-width: 480px; text-align: center;
-  }
-  .overlay-icon { font-size: 56px; display: block; margin-bottom: 12px; }
-  .overlay-title { font-family: 'Jua', sans-serif; font-size: 24px; color: #aef0ff; margin-bottom: 8px; }
-  .overlay-sub { font-size: 14px; color: #c0c0e0; margin-bottom: 16px; line-height: 1.6; }
-  .overlay-fact {
-    background: rgba(255,255,255,0.05); border-radius: 10px;
-    padding: 14px; font-size: 13.5px; line-height: 1.8;
-    color: #d0d0f0; margin-bottom: 20px; text-align: left;
-  }
-  .overlay-twist {
-    background: rgba(255,170,68,0.1); border: 1px solid rgba(255,170,68,0.25);
-    border-radius: 10px; padding: 12px; font-size: 13.5px;
-    line-height: 1.8; color: #ffd9a8; margin-bottom: 16px; text-align: left;
-  }
-  .btn-next {
-    padding: 12px 28px; border: none; border-radius: 10px;
-    background: linear-gradient(135deg, #4fb8ff, #7f6cff);
-    color: #fff; font-weight: 800; font-family: 'Jua', sans-serif;
-    cursor: pointer; font-size: 15px;
-  }
-
-  /* ═══ FINAL SCREEN ═══ */
-  .final-content { text-align: center; padding: 40px 20px; }
-  .final-icon { font-size: 72px; display: block; margin-bottom: 12px; }
-  .final-title { font-family: 'Jua', sans-serif; font-size: 36px; color: #aef0ff; margin-bottom: 6px; }
-  .final-sub { font-size: 14px; color: #8888aa; margin-bottom: 24px; }
-  .final-score-box {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    max-width: 420px; margin: 0 auto 24px;
-  }
-  .final-stat {
-    background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .stat-label { font-size: 12px; color: #8888aa; }
-  .stat-val { font-family: 'Jua', sans-serif; font-size: 20px; color: #aef0ff; }
-  .btn-restart {
-    padding: 12px 28px; border: none; border-radius: 10px;
-    background: rgba(255,255,255,0.08); color: #fff;
-    font-weight: 700; cursor: pointer; font-size: 14px;
-  }
+@media(max-width:700px){
+  .susp-grid{grid-template-columns:1fr;}
+  .intro-title{font-size:1.9rem;}
+}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="toast" id="toast"></div>
 
-  <!-- ═══════════════ START / LOGIN ═══════════════ -->
-  <div class="screen active" id="screen-start">
-    <div class="start-screen">
-      <span class="lab-icon">🧪</span>
-      <div class="game-title">SECTOR-7 탈출</div>
-      <div class="game-subtitle">화학 협동 방탈출 · 2인 1팀</div>
-      <div class="login-card">
-        <div>
-          <label>팀 코드 (같은 팀끼리 동일하게 입력)</label>
-          <input id="input-team" placeholder="예: GOLD" maxlength="12" autocomplete="off">
-        </div>
-        <div>
-          <label>닉네임</label>
-          <input id="input-nick" placeholder="닉네임 입력" maxlength="10" autocomplete="off">
-        </div>
-        <button class="btn-primary" onclick="login()">접속하기 🚀</button>
-        <div class="login-status" id="login-status"></div>
-        <div class="role-note">
-          💡 한 팀은 정원 2명입니다. 먼저 접속한 사람이 <b>"승무원 A"</b>, 두 번째 사람이 <b>"승무원 B"</b>가 됩니다.
-          각자 화면에 <b>서로 다른 단서</b>가 보이니, 꼭 옆 사람과 이야기하면서 풀어야 해요!
-        </div>
+<!-- PROFILER interstitial -->
+<div class="profiler-overlay" id="profilerOverlay">
+  <div class="profiler-icon">🧠</div>
+  <div class="profiler-text" id="profilerText"></div>
+  <div class="profiler-line"></div>
+  <div class="profiler-elim" id="profilerElim">
+    <div class="profiler-elim-card">
+      <div class="profiler-elim-av" id="profilerElimAv"></div>
+      <div>
+        <div class="profiler-elim-name" id="profilerElimName"></div>
+        <div class="profiler-elim-sub">용의선상에서 제외됨</div>
       </div>
     </div>
   </div>
-
-  <!-- ═══════════════ GAME SCREEN ═══════════════ -->
-  <div class="screen" id="screen-game">
-    <div class="top-bar">
-      <div class="stage-label" id="stage-label">구역 1: 기압 경보</div>
-      <div class="timer" id="timer">05:00</div>
-    </div>
-
-    <div class="story-box" id="story-box"></div>
-
-    <div class="game-layout">
-      <div class="main-panel">
-        <div class="clue-card">
-          <span class="role-badge" id="role-badge">승무원 A</span>
-          <div class="clue-id" id="clue-id">CLUE-A</div>
-          <div class="clue-text" id="clue-text">단서를 불러오는 중...</div>
-        </div>
-        <div class="answer-panel" id="order-panel" style="display:none;">
-          <div class="answer-title">🧩 실험 순서 배열 (드래그해서 순서를 바꾸세요)</div>
-          <div class="order-list" id="order-list"></div>
-          <button class="btn-submit" style="width:100%; padding:12px;" onclick="submitOrder()">이 순서로 제출</button>
-          <div class="answer-feedback" id="order-feedback"></div>
-        </div>
-        <div class="answer-panel" id="answer-panel-normal">
-          <div class="answer-title">🔓 정답 입력</div>
-          <div class="answer-row">
-            <input class="answer-input" id="answer-input" placeholder="팀원과 토의 후 입력..." autocomplete="off" spellcheck="false">
-            <button class="btn-submit" onclick="submitAnswer()">제출</button>
-          </div>
-          <div class="answer-feedback" id="answer-feedback"></div>
-        </div>
-      </div>
-
-      <div class="side-panel">
-        <div class="members-section">
-          <div class="section-label">접속 중인 승무원</div>
-          <div class="member-list" id="member-list"></div>
-        </div>
-        <div class="chat-section">
-          <div class="chat-header">팀 채팅 — 단서를 공유하고 토의하세요</div>
-          <div class="chat-messages" id="chat-messages"></div>
-          <div class="chat-input-area">
-            <input class="chat-input" id="chat-input" placeholder="단서 공유하기...">
-            <button class="btn-chat" onclick="sendChat()">전송</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════ STAGE CLEAR OVERLAY ═══════════════ -->
-  <div class="overlay" id="overlay-clear">
-    <div class="overlay-box">
-      <span class="overlay-icon" id="ol-icon">✅</span>
-      <div class="overlay-title" id="ol-title">구역 돌파!</div>
-      <div class="overlay-sub" id="ol-sub"></div>
-      <div class="overlay-twist" id="ol-twist" style="display:none;"></div>
-      <div class="overlay-fact" id="ol-fact"></div>
-      <button class="btn-next" id="btn-next" onclick="nextStage()">다음 구역 진입 ▶</button>
-    </div>
-  </div>
-
-  <!-- ═══════════════ FINAL ═══════════════ -->
-  <div class="screen" id="screen-final">
-    <div class="final-content">
-      <span class="final-icon">🚀</span>
-      <div class="final-title">탈출 성공!</div>
-      <div class="final-sub" id="final-team-name">팀 — · MISSION COMPLETE</div>
-      <div class="final-score-box" id="final-score-box"></div>
-      <button class="btn-restart" onclick="location.reload()">↩ 다시 시작</button>
-    </div>
-  </div>
-
 </div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<!-- clue modal -->
+<div class="modal-bg" id="clueModal">
+  <div class="modal-card">
+    <h3>🗂️ 확보한 단서</h3>
+    <div id="clueListContainer"></div>
+    <button class="btn-close-modal" onclick="closeClueModal()">닫기</button>
+  </div>
+</div>
+
+<!-- suspect modal -->
+<div class="modal-bg" id="suspModal">
+  <div class="modal-card">
+    <h3>👥 용의자 현황</h3>
+    <div id="suspListContainer"></div>
+    <button class="btn-close-modal" onclick="closeSuspModal()">닫기</button>
+  </div>
+</div>
+
+<!-- ═══ INTRO ═══ -->
+<div class="scr on" id="sIntro">
+  <div class="case-tape"></div>
+  <div class="intro-badge">CONFIDENTIAL · CASE NO. 2026-0438</div>
+  <div class="intro-title fadeUp">438호의 마지막 밤</div>
+  <div class="intro-sub fadeUp" style="animation-delay:.1s">경기북과학고등학교 기숙사 실종 사건 — 형사이자 과학수사관으로서<br>당신은 현장의 모든 증거를 직접 분석하고, 용의자 6인을 심문하며<br>20분 안에 진실을 밝혀내야 합니다.</div>
+  <div class="case-file fadeUp" style="animation-delay:.2s">
+    <div class="cf-row"><span class="cf-label">피해자</span><span class="cf-val">이서연 (17세, 경기북과학고 2학년)</span></div>
+    <div class="cf-row"><span class="cf-label">발생장소</span><span class="cf-val">경기북과학고등학교 기숙사 438호</span></div>
+    <div class="cf-row"><span class="cf-label">신고시각</span><span class="cf-val">오전 6시 40분</span></div>
+    <div class="cf-row"><span class="cf-label">상태</span><span class="cf-val" style="color:var(--red)">실종 — 48시간 경과, 생사 불명</span></div>
+    <div class="cf-row"><span class="cf-label">용의자</span><span class="cf-val">6명 (다음 화면에서 확인)</span></div>
+  </div>
+  <button class="btn-start fadeUp" style="animation-delay:.3s" onclick="goToSuspects()">📁 사건 파일 열기</button>
+  <div class="case-tape bottom"></div>
+</div>
+
+<!-- ═══ SUSPECTS ═══ -->
+<div class="scr" id="sSuspects">
+  <div class="susp-head fadeUp">
+    <h2>용의선상의 6인</h2>
+    <p>이서연 실종 당일, 그녀와 접점이 있었던 인물 6명입니다.<br>각자의 성격, 일화, 알리바이를 기억해두세요 — 수사 중 이 정보가 계속 필요합니다.</p>
+  </div>
+  <div class="susp-grid" id="suspGrid"></div>
+  <button class="btn-start fadeUp" onclick="startGame()">🔍 수사 시작하기</button>
+</div>
+
+<!-- ═══ GAME ═══ -->
+<div class="scr" id="sGame">
+  <div class="hud">
+    <div class="hud-l">
+      <div class="hud-title">🔍 438호의 마지막 밤</div>
+      <div class="hud-stage" id="hudStage">1 / 8단계</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="btn-susplist" onclick="openSuspModal()">👥 용의자</button>
+      <button class="btn-clueboard" onclick="openClueModal()">🗂️ 단서</button>
+      <div class="timer" id="timerEl">20:00</div>
+    </div>
+  </div>
+  <div class="game-body" id="gameBody"></div>
+</div>
+
+<!-- ═══ END ═══ -->
+<div class="scr" id="sEnd" style="flex-direction:column;align-items:center;padding:40px 24px;background:var(--bg);">
+  <div style="max-width:680px;width:100%;">
+    <div class="end-icon" id="endIcon" style="text-align:center;"></div>
+    <div class="end-title" id="endTitle" style="text-align:center;"></div>
+    <div class="end-body" id="endBody" style="text-align:center;"></div>
+    <!-- 수사 노트 (성공 시에만 표시) -->
+    <div id="caseNote" style="display:none;margin-top:32px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+        <div style="font-size:1.6rem;">📓</div>
+        <div>
+          <div style="font-family:var(--serif);font-size:1.25rem;font-weight:700;">수사 노트</div>
+          <div style="font-size:.82rem;color:var(--tx2);">이번 수사에서 사용한 과학 원리를 정리해보세요</div>
+        </div>
+      </div>
+      <div id="noteList" style="display:flex;flex-direction:column;gap:14px;"></div>
+    </div>
+    <div style="text-align:center;margin-top:28px;">
+      <button class="btn-restart" onclick="restartGame()">🔄 다시 수사하기</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDcpgWGMD6Pp80Y74iyIvXy-qyFJP2t_Ss",
-  authDomain: "chemistry-7e780.firebaseapp.com",
-  projectId: "chemistry-7e780",
-  storageBucket: "chemistry-7e780.firebasestorage.app",
-  messagingSenderId: "266020417916",
-  appId: "1:266020417916:web:929c78b780309a0ea634f9"
-};
-let db = null;
-let firebaseReady = false;
-try {
-  firebase.initializeApp(firebaseConfig);
-  db = firebase.firestore();
-  firebaseReady = true;
-} catch (e) {
-  console.error('Firebase init failed:', e);
-}
+const TOTAL_TIME = 1200;
 
-// ═══ GAME DATA ═══
-// 각 스테이지마다 정확히 2개의 역할(A, B)에게 서로 다른 조건/단서를 줍니다.
-const ROLE_NAMES = ['승무원 A', '승무원 B'];
-const MEMBER_COLORS = ['#7fdfff', '#ffaa44'];
+const SUSPECTS = [
+  {id:'dain', name:'김다은', role:'룸메이트', age:18, avatar:'👩🏻',
+   personality:'성실하지만 자존심이 강한 모범생. 전교 5등 안에 꾸준히 들었지만 최근 성적이 떨어지며 예민해졌다.',
+   episode:'서연과 입학 때부터 같은 방을 썼다. 처음엔 친했지만, 둘 다 같은 장학금(전국과학영재장학생)을 두고 경쟁하면서 사이가 서먹해졌다. 사건 두 달 전, 다은이 서연의 노트를 몰래 본 게 들통나 크게 다툰 적이 있다.',
+   alibi:'사건 당일 21:00~23:00 학교 자습실 3층에 있었다고 진술. 자습실 CCTV에는 21:00~22:00까지만 명확히 포착됨.',
+   motive:'장학금 경쟁, 노트 도용 사건으로 인한 앙금',
+   status:'suspect'},
+  {id:'hyunwoo', name:'최현우', role:'화학동아리 선배', age:19, avatar:'🧑🏻‍🔬',
+   personality:'카리스마 있고 후배들에게 인기가 많지만, 성과에 대한 집착이 심하다. 전국과학전람회 입상 경력이 있어 동아리 내 영향력이 크다.',
+   episode:'서연이 속한 화학동아리의 부장. 최근 R&E(연구·교육) 보고서를 준비하며 데이터 일부를 임의로 보정한 사실을 서연이 우연히 발견했다. 서연이 지도교사에게 알리겠다고 경고하자, 최현우는 "한 번만 봐달라"며 여러 번 따로 불러내 이야기했다는 목격담이 있다.',
+   alibi:'21:30부터 집에서 혼자 게임했다고 진술. 게임 로그 제출은 거부.',
+   motive:'연구 부정 발각 위기, 신고 경고에 대한 위협 회피',
+   status:'suspect'},
+  {id:'professor', name:'박정민 선생님', role:'담임 선생님', age:49, avatar:'🧑🏻‍🏫',
+   personality:'학생들 사이에서 열정적이라는 평과 자기 실적에 집착한다는 평이 엇갈리는 인물. 과학전람회 지도 경력이 화려하다.',
+   episode:'서연의 과학전람회 출품작이 좋은 평가를 받자, 지도교사 자격으로 공동 수상자에 본인 이름을 올리려 했다. 서연이 "온전히 제가 한 연구"라며 거절하자 불편한 기류가 생겼다. 이후 교무실에서 언성을 높였다는 목격담도 있다.',
+   alibi:'사건 당일 교사 연수 중이었다고 진술 (부산 1박).',
+   motive:'수상 공로 가로채기 시도 무산, 자존심 상함',
+   status:'suspect'},
+  {id:'doyoon', name:'이도윤', role:'전 남자친구', age:18, avatar:'🧑🏻',
+   personality:'다른 학교 재학 중. 다정한 인상이지만 집착이 강하다는 친구들의 평가가 있다.',
+   episode:'6개월 전 서연과 헤어진 뒤에도 SNS를 계속 확인하고 가끔 "잘 지내?"라는 메시지를 보냈다. 최근에는 서연의 학교 축제 때 몰래 찾아온 적도 있어 서연이 친구들에게 "좀 무섭다"고 말한 적이 있다.',
+   alibi:'헤어진 뒤로 연락도 안 했다고 진술.',
+   motive:'이별을 받아들이지 못함, 거절에 대한 분노',
+   status:'suspect'},
+  {id:'dorm', name:'윤미경 사감', role:'기숙사 사감', age:52, avatar:'👩🏻‍🦳',
+   personality:'20년 경력의 베테랑 사감. 학생들의 생활 패턴을 속속들이 알고 있으며 원칙주의자로 유명하다.',
+   episode:'사건 며칠 전, 서연이 사감에게 "요즘 누가 자꾸 따라다니는 것 같다"고 상담했다는 기록이 있다. 사감은 이를 대수롭지 않게 넘겼다고 진술했지만, 정작 그 상담 일지가 사건 이후 일부 누락되어 있는 것이 발견됐다.',
+   alibi:'사건 당일 21:00~23:00 다른 동(1동) 야간 순찰 중이었다고 진술.',
+   motive:'상담 묵살에 대한 책임 회피 가능성 (직접적 동기는 약함)',
+   status:'suspect'},
+  {id:'rival', name:'서지훈', role:'과학전람회 라이벌', age:18, avatar:'🧑🏻‍🎓',
+   personality:'성적 지상주의적 성향이 강하고 승부욕이 매우 세다. 서연과는 입학 때부터 묘한 라이벌 관계였다.',
+   episode:'올해 과학전람회 최종 후보가 서연과 지훈, 단 둘로 좁혀졌다. 1등에게만 주어지는 해외 연수 기회를 두고 두 사람의 신경전이 학교에 파다하게 퍼져 있었다. 사건 일주일 전, 지훈이 서연의 실험 데이터에 대해 "그거 진짜 너 혼자 한 거 맞아?"라며 공개적으로 의혹을 제기해 다툰 적이 있다.',
+   alibi:'사건 당일 21:00~23:00 본인 방에서 룸메이트와 함께 있었다고 진술.',
+   motive:'해외연수 선발 경쟁, 공개적 의혹 제기로 인한 갈등',
+   status:'suspect'},
+];
 
+// 8단계
 const STAGES = [
   {
-    id: 'stage1',
-    title: '구역 1: 기압 경보',
-    timeLimit: 300,
-    story: `<strong>[ 긴급 방송 ]</strong> 우주정거장 SECTOR-7에 원인불명의 기압 누출이 발생했습니다.<br><br>
-중앙 제어실의 잠금장치는 <em>4자리 숫자 코드</em>입니다. 코드는 <b>두 원소의 원자번호</b>를 각각 2자리로 이어 붙인 것입니다 (한 자리 수는 앞에 0을 붙입니다).<br><br>
-A와 B의 단말기에 각각 다른 원소 정보가 떠 있습니다. <strong>서로 불러주고 조합해야만 코드가 완성됩니다.</strong>`,
-    answers: ['0608', '06 08', '6 8'],
-    fact: `🧪 <strong>원자번호</strong>는 원소가 가진 양성자 수예요. 탄소(C)는 6번, 산소(O)는 8번! 그래서 코드는 "06" + "08" = <b>0608</b>이 됩니다. 우주에서 산소 농도가 떨어지면 순식간에 의식을 잃을 수 있어서, 실제 우주정거장에서도 산소·이산화탄소 농도를 24시간 감시해요.`,
-    clearTitle: '제어실 잠금 해제!',
-    clearSub: '기압 안정화 완료. 다음 구역으로 이동하세요.',
-    clearIcon: '🔓',
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>화면에 떠 있는 메시지: <span class="highlight">"생명체 호흡에 필수인 이 원소의 원자번호를 두 자리로 입력하라 → ??"</span><br><br>
-      힌트: 이 원소는 우리가 숨 쉴 때 들이마시는 기체의 핵심 성분입니다. 원소 기호는 <b>O</b>.<br>
-      <span class="warn">※ 이 정보만으로는 코드를 완성할 수 없습니다. B에게 물어보세요!</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>화면에 떠 있는 메시지: <span class="highlight">"다이아몬드와 연필심을 이루는 이 원소의 원자번호를 두 자리로 입력하라 → ??"</span><br><br>
-      힌트: 원소 기호는 <b>C</b>. 생명체를 이루는 기본 골격이 되는 원소이기도 합니다.<br>
-      <span class="warn">※ 코드 순서: "A가 알아낸 숫자" + "B가 알아낸 숫자" 순으로 4자리를 만드세요. A에게 물어보세요!</span>`
-    ]
+    id:1, name:'현장 감식', icon:'🩸', loc:'438호 출입문 · 복도',
+    profilerMsg:'당신은 이제 프로파일러입니다.\n현장에 남은 흔적 하나하나가 진실을 말해줍니다.',
+    intro:`신고 시각: 오전 6시 40분. 옆방 학생이 문이 잠겨있지 않고 안에 인기척이 없다고 신고했습니다.
+문손잡이와 복도 바닥, 두 군데에서 육안으로 보이지 않는 흔적이 있을 가능성이 있습니다. 루미놀 시약으로 두 구역 모두 검사하세요.`,
+    tool:{name:'루미놀 스프레이', icon:'🧪', kind:'luminol-multi',
+      desc:'문 표면과 복도 바닥, 두 영역을 각각 손가락(또는 마우스)으로 문질러서 검사하세요. 두 곳 모두 완료해야 다음으로 넘어갈 수 있습니다.',
+      areas:[
+        {x:26,y:18,w:32,h:30,label:'문손잡이 주변'},
+        {x:58,y:55,w:34,h:28,label:'복도 바닥'}
+      ]},
+    reveal:`① 문손잡이 주변: 소량의 혈흔 반응. 출혈량이 적어 큰 부상은 아닌 것으로 추정.
+② 복도 바닥: 끌린 자국 형태의 흔적 발견 — 누군가 끌려가거나 저항한 흔적으로 보임.`,
+    clue:{id:'c1', label:'문 앞 혈흔 + 복도 저항 흔적', text:'경미한 출혈, 몸싸움 및 저항 정황. 납치보다는 다툼 끝의 충돌 가능성이 높습니다.'},
+    deduction:'이 흔적은 살해 도구를 사용한 강력 범죄라기보다 몸싸움 정황을 보여줍니다. 6명 모두 여전히 용의선상에 있습니다.'
   },
   {
-    id: 'stage2',
-    title: '구역 2: 독성 가스 경보',
-    timeLimit: 300,
-    story: `환기 시스템이 고장났습니다. 산소 공급 장치를 재가동하려면 <strong>두 글자 화학 용어</strong>를 입력해야 합니다.<br><br>
-A와 B가 각각 절반의 정의를 갖고 있습니다. <em>두 정의를 합치면 한 단어</em>가 완성됩니다.`,
-    answers: ['중화', '중화반응', 'neutralization'],
-    fact: `🧪 <strong>중화반응</strong>은 산(H⁺)과 염기(OH⁻)가 만나 물(H₂O)과 염을 만드는 반응이에요. 위산이 너무 많이 분비되면 속이 쓰린데, 제산제(염기성 물질)를 먹으면 위산을 중화시켜서 편안해지는 게 바로 이 원리예요.`,
-    clearTitle: '산소 공급 복구!',
-    clearSub: '가스 농도 정상화. 다음 구역으로 이동하세요.',
-    clearIcon: '💨',
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>화학 노트 앞부분: <span class="highlight">"산(acid)과 염기(base)가 만나면 서로의 성질이 사라지는 반응이 있다. 이 현상의 <b>첫 글자</b>는 '중'으로 시작한다."</span><br><br>
-      예시: 염산(HCl) + 수산화나트륨(NaOH) → 소금 + 물<br>
-      <span class="warn">※ 두 글자 단어의 앞글자만 알아냈습니다. 뒷글자는 B에게!</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>화학 노트 뒷부분: <span class="highlight">"위산 과다일 때 제산제를 먹으면 증상이 사라지는 것도 같은 원리다. 이 단어의 <b>두 번째 글자</b>는 '화'이다."</span><br><br>
-      <span class="warn">※ A의 글자 + B의 글자를 순서대로 합치면 정답이 됩니다.</span>`
-    ]
-  },
-  {
-    id: 'stage3',
-    title: '구역 3: 보급 창고 — 이거 먹어도 돼?',
-    timeLimit: 240,
-    story: `잠긴 보급 창고 안에 정체불명의 시약통 4개가 놓여 있습니다. 라벨이 일부 지워져 있어요.<br><br>
-A와 B가 각각 2개씩 다른 시약 정보를 보고 있습니다. <strong>"먹을 수 있는 것" 개수</strong>를 맞춰야 창고가 열립니다.`,
-    answers: ['2', '2개', '두개', '두 개'],
-    fact: `🧪 정답은 <b>2개</b>입니다!<br>
-    ① 구연산(C₆H₈O₇) — 레몬·식초에도 들어있는 식용 가능한 산이에요. 새콤한 사탕 만들 때도 씀.<br>
-    ② 수산화나트륨(NaOH) — 비누·세제 원료지만 강한 부식성이 있어 절대 먹으면 안 돼요!<br>
-    ③ 베이킹소다(NaHCO₃) — 빵 부풀릴 때 쓰는 식용 가능한 물질이에요.<br>
-    ④ 메탄올(CH₃OH) — 에탄올(술)과 비슷해 보이지만 마시면 실명·사망 위험이 있는 독성 물질이에요. 절대 구분 없이 마시면 안 됩니다!`,
-    clearTitle: '창고 개방!',
-    clearSub: '시약 분류 완료. 다음 구역으로 이동하세요.',
-    clearIcon: '🧴',
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>
-      시약 ① 라벨: <span class="highlight">"C₆H₈O₇ — 레몬, 오렌지 등 신맛 나는 과일에 풍부하게 들어있는 성분"</span><br><br>
-      시약 ② 라벨: <span class="highlight">"NaOH — 비누 만들 때 쓰는 강염기. 만지면 미끌거리고 피부에 닿으면 화상 위험"</span><br><br>
-      <span class="warn">※ B가 가진 시약 ③, ④ 정보도 들어서 "먹을 수 있는 시약 개수"를 합산하세요.</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>
-      시약 ③ 라벨: <span class="highlight">"NaHCO₃ — 빵, 쿠키를 부풀릴 때 쓰는 흰 가루. 위산 중화제로도 먹음"</span><br><br>
-      시약 ④ 라벨: <span class="highlight">"CH₃OH — 알코올의 한 종류. 냄새와 외형이 술과 비슷하지만 절대 마시면 안 됨 (실명·사망 위험)"</span><br><br>
-      <span class="warn">※ A가 가진 시약 ①, ② 정보도 들어서 "먹을 수 있는 시약 개수"를 합산하세요.</span>`
-    ]
-  },
-  {
-    id: 'stage4',
-    title: '구역 4: 점검 로봇의 아재개그 관문',
-    timeLimit: 180,
-    story: `복도를 막고 선 낡은 점검 로봇이 삑삑거립니다.<br><br>
-"흐흐... 내 아재개그 두 개를 맞혀야 비켜주지. A, B 각자 문제 하나씩 받아라. <b>두 답을 이어 붙이면 한 단어(네 글자)</b>가 된다."`,
-    answers: ['평행우주', '평행 우주'],
-    fact: `😄 정답은 <b>"평행우주"</b>! A의 답은 "평행"(서로 만나지 않는 두 직선의 관계), B의 답은 "우주"(우유가 흘러서 만들어진 별?!) — 둘을 합치면 "평행우주". 로봇이 만족스럽게 "크크크... 좋은 드립이었어" 하며 비켜줍니다.`,
-    clearTitle: '로봇, 만족하며 비켜주다',
-    clearSub: '복도가 열렸습니다. 다음 구역으로 이동하세요.',
-    clearIcon: '🤖',
-    twist: `🔁 <b>반전</b>: 알고 보니 이 로봇은 SECTOR-7의 청소 로봇이었고, 복도를 막은 이유는 그냥 "아무도 내 개그를 안 들어줘서 심심했다"는 것이었습니다. 승무원들은 어이없어하지만... 일단 통과!`,
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>
-      로봇의 문제 ①: <span class="highlight">"서로 마주 보고 있지만 영원히 만날 수 없는 두 직선을 뭐라고 할까? (두 글자)"</span><br><br>
-      <span class="warn">※ 너의 답(두 글자) 뒤에 B의 답(두 글자)을 이어 붙이면 네 글자 단어가 완성돼. B와 답을 공유해봐!</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>
-      로봇의 문제 ②: <span class="highlight">"우유가 쏟아져서 만들어진 별이 있는 곳은 어디일까? '우유'+'주(state)'... 가 아니라, 그냥 '우주(universe)'! (두 글자)"</span><br><br>
-      <span class="warn">※ A의 답(두 글자) 뒤에 너의 답(두 글자)을 이어 붙이면 네 글자 단어가 완성돼. A와 답을 공유해봐!</span>`
-    ]
-  },
-  {
-    id: 'stage5',
-    title: '구역 5: 실험 설계실',
-    timeLimit: 360,
-    isOrdering: true,
-    story: `이곳은 실험 설계 시뮬레이터입니다. 함장이 다급하게 외칩니다 — "미지의 가루 X가 산성인지 염기성인지 30초 안에 알아내야 엔진을 끄지 않아도 돼! 실험 순서를 올바르게 배열하라!"<br><br>
-A는 "실험 카드 4장"을 들고 있고, B는 "순서 배치 규칙 메모"를 들고 있습니다. <strong>아래 카드를 올바른 실험 순서대로 드래그하여 배열</strong>한 뒤 제출하세요.`,
-    orderingItems: [
-      { id: 'card1', text: '① 적양배추 즙(천연 지시약)을 작은 비커에 담는다' },
-      { id: 'card2', text: '② 가루 X를 아주 소량만 비커에 넣는다' },
-      { id: 'card3', text: '③ 색깔 변화를 관찰한다 (빨강~분홍=산성, 초록~노랑=염기성)' },
-      { id: 'card4', text: '④ 관찰 결과를 기록하고 함장에게 보고한다' }
+    id:2, name:'1차 심문', icon:'🗣️', loc:'심문실',
+    profilerMsg:'프로파일러의 눈으로 사람을 읽으십시오.\n말이 아니라 망설임 속에 진실이 있습니다.',
+    intro:`6명의 용의자를 차례로 불러 심문합니다. 각자의 진술을 듣고 의심스러운 부분을 표시하세요.
+질문을 선택하면 용의자의 반응이 나타납니다. 모순되거나 회피하는 태도를 잘 살펴보세요.`,
+    interrogation:[
+      {suspectId:'dain', questions:[
+        {q:'그날 저녁 9시부터 11시까지 정확히 어디 있었나요?', a:'자습실 3층에 있었어요. CCTV 확인하시면 돼요.', flag:false},
+        {q:'서연 씨와 최근 사이는 어땠나요?', a:'...좋았어요. 평범한 룸메이트였죠.', flag:true, flagNote:'시선 회피, 말끝 흐림'},
+        {q:'장학금 문제로 다툰 적 있나요?', a:'그런 거로 싸울 사이는 아니었어요.', flag:true, flagNote:'질문과 무관한 방어적 답변'}
+      ]},
+      {suspectId:'hyunwoo', questions:[
+        {q:'그날 저녁 9시 반 이후 어디 있었나요?', a:'집에서 혼자 게임했습니다.', flag:false},
+        {q:'서연 씨가 최근 선배님께 불만이 있었다는 얘기 들으셨나요?', a:'아니요, 전혀요. 잘 지냈습니다.', flag:true, flagNote:'단호한 부정 — 과도한 방어'},
+        {q:'그날 밤 과학실에 다시 가신 적 있나요?', a:'아니요, 9시 이후로는 집에만 있었습니다.', flag:true, flagNote:'추후 기록과 모순 가능성'}
+      ]},
+      {suspectId:'professor', questions:[
+        {q:'그날 어디 계셨나요?', a:'교사 연수 중이었습니다. 부산에서 1박 했어요.', flag:false},
+        {q:'정확히 언제 학교로 돌아오셨나요?', a:'다음날 아침에요. 연수 일정이 늦게 끝났습니다.', flag:true, flagNote:'구체적 시각 회피'},
+        {q:'서연 씨 과학전람회 출품작 관련해서 마찰이 있었다고 들었습니다.', a:'마찰이라기보다는... 의견 차이가 있었죠.', flag:true, flagNote:'완곡한 표현으로 축소'}
+      ]},
+      {suspectId:'doyoon', questions:[
+        {q:'서연 씨와 헤어진 후 연락하셨나요?', a:'아니요, 헤어진 뒤로는 한 번도 연락 안 했어요.', flag:true, flagNote:'단정적 부정'},
+        {q:'그날 기숙사 근처에 가신 적 있나요?', a:'아니요, 그쪽엔 갈 일이 없었습니다.', flag:true, flagNote:'추후 단서와 충돌 여지'},
+        {q:'아직 서연 씨에게 미련이 있으신가요?', a:'...그건 사건이랑 상관없는 거 아닌가요.', flag:true, flagNote:'질문 회피, 감정적 동요'}
+      ]},
+      {suspectId:'dorm', questions:[
+        {q:'그날 21시부터 23시까지 어디 계셨나요?', a:'1동 야간 순찰 중이었어요. 매일 하는 일이라...', flag:false},
+        {q:'서연 학생이 최근 상담을 요청한 적 있나요?', a:'음... 글쎄요, 기억이 잘 안 나네요.', flag:true, flagNote:'기억 안 난다는 답변이 부자연스러움'},
+        {q:'상담 일지에 누락된 부분이 있던데요.', a:'아, 그건... 제가 정리하다가 실수로...', flag:true, flagNote:'당황한 기색, 변명조'}
+      ]},
+      {suspectId:'rival', questions:[
+        {q:'그날 21시부터 23시까지 어디 있었나요?', a:'제 방에서 룸메이트랑 같이 있었어요.', flag:false},
+        {q:'서연 씨와 최근 갈등이 있었다고 들었습니다.', a:'그냥... 경쟁하다 보면 그럴 수도 있는 거 아닌가요.', flag:true, flagNote:'대수롭지 않다는 듯한 태도가 오히려 부자연스러움'},
+        {q:'데이터 조작 의혹을 제기하셨다던데요.', a:'제가 틀린 말 한 것도 아니잖아요.', flag:true, flagNote:'방어적이고 공격적인 어조'}
+      ]}
     ],
-    correctOrder: ['card1', 'card2', 'card3', 'card4'],
-    answers: ['지시약', 'ph지시약', '리트머스'],
-    fact: `🧪 올바른 순서는 <b>"지시약 준비 → 미지 물질 소량 투입 → 색 변화 관찰 → 기록"</b>이에요! 순서가 중요한 이유: 만약 가루를 먼저 넣고 나중에 지시약을 부으면 반응이 섞여서 색 변화를 놓치기 쉽고, 양을 많이 넣으면 반응이 너무 강해 위험할 수 있어요. 적양배추 즙의 색소(안토시아닌)는 pH에 따라 빨강(산성)↔보라(중성)↔초록·노랑(염기성)으로 변해요.`,
-    clearTitle: '엔진 재가동!',
-    clearSub: '실험 설계 검증 완료. 마지막 구역으로 이동하세요.',
-    clearIcon: '⚗️',
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>
-      실험 카드함에 4장의 카드가 들어있습니다 (오른쪽 패널에서 순서를 맞춰보세요).<br><br>
-      <span class="warn">※ 카드 자체에는 순서 번호가 안 보입니다. B가 가진 "순서 배치 규칙"을 듣고 함께 배열하세요!</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>
-      순서 배치 규칙 메모: <span class="highlight">"① 측정 도구(지시약) 준비가 항상 먼저다. ② 그 다음 미지 물질은 '소량만' 넣어야 안전하다. ③ 변화를 관찰하는 건 물질을 넣은 다음이다. ④ 보고서 작성은 항상 마지막이다."</span><br><br>
-      <span class="warn">※ A가 가진 4장의 카드를 이 규칙에 맞게 순서대로 배열하도록 알려주세요!</span>`
+    clue:{id:'c2', label:'1차 심문 — 의심 정황 6건', text:'6명 모두 크고 작은 거짓이나 회피를 보였습니다. 특히 최현우(과학실 재방문 부인), 이도윤(연락 사실 부인), 윤미경 사감(상담일지 누락)이 추후 물증으로 직접 반박 가능한 형태입니다.'},
+    deduction:'전원이 의심스럽지만, 진짜 거짓말은 물증으로 확인해야 합니다. 다음 단계부터 본격적으로 용의자를 좁혀나가겠습니다.'
+  },
+  {
+    id:3, name:'디지털 포렌식', icon:'💡', loc:'서연의 책상 · 통신사 기록실',
+    profilerMsg:'기술은 거짓말을 하지 않습니다.\n오직 사람만이 거짓말을 합니다.',
+    eliminates:'dorm',
+    intro:`서연의 책상에서 형광펜으로 쓰인 숨겨진 메모를 찾아야 합니다. UV 라이트로 비춰보세요.
+또한 사감의 순찰 기록 시스템(NFC 태그) 로그가 도착했습니다 — 그날 밤 사감의 실제 동선을 확인할 수 있습니다.`,
+    tool:{name:'UV 라이트', icon:'🔦', kind:'uv',
+      desc:'책상 위 영역을 손가락(또는 마우스)으로 드래그해서 비춰보세요. 비춘 부분만 형광 글씨가 서서히 드러납니다.',
+      area:{x:18,y:42,w:58,h:28}},
+    uvWritten:'선배 또 그런다...\n데이터 갖고 협박\n무섭다.',
+    extra:{type:'logmatch', title:'사감 NFC 순찰 로그 대조',
+      desc:'사감의 순찰 태그 기록을 시간순으로 확인하세요. 21:00~23:00 동안 본인 진술(1동 순찰)과 일치하는지 맞춰보세요.',
+      logs:['21:02 1동 1층 태그','21:18 1동 2층 태그','21:35 1동 3층 태그','21:51 1동 옥상 태그','22:10 1동 1층 태그(복귀)','22:30 1동 2층 태그'],
+      verdict:'기록 전부 1동에서만 발생 — 진술과 100% 일치. 438호가 있는 3동에는 접근 기록 자체가 없습니다.'},
+    reveal:`형광 메모 발견: "선배 또 그런다... 데이터 갖고 협박하지 말라고 했는데. 무섭다."
+NFC 순찰 로그 대조 결과: 윤미경 사감은 사건 당일 21:00~23:00 내내 1동에서만 태그가 찍혔으며, 서연이 있던 3동에는 접근 기록이 전혀 없습니다.`,
+    clue:{id:'c3', label:'형광 메모 + 사감 동선 확정', text:'메모는 "선배"를 지목 — 최현우 정황 강화. 사감의 순찰 로그는 물리적으로 3동 근처에 가지 않았음을 증명합니다.'},
+    eliminateExplain:'윤미경 사감은 사건 당일 1동에서만 순찰했다는 것이 NFC 태그 시스템으로 물리적으로 증명되었습니다. 상담 일지 누락은 단순 실수로 추정되며, 용의선상에서 제외합니다.',
+    deduction:'메모의 "선배"는 최현우를 강하게 지목합니다. 윤미경 사감은 확실한 알리바이로 제외되었습니다. 5명이 남았습니다.'
+  },
+  {
+    id:4, name:'표적 분석 훈련', icon:'🎯', loc:'경찰 훈련센터 사격장',
+    profilerMsg:'정확한 판단력을 갖추십시오.\n증인의 기억은 때로 허상을 보여줍니다.',
+    eliminates:'rival',
+    intro:`목격자 진술의 신뢰도를 검증하기 위해, 당신도 표적 인식 훈련을 통과해야 합니다.
+또한 서지훈의 알리바이(룸메이트 진술)를 보강할 CCTV 자료가 도착했습니다. 훈련을 완료하면 자동으로 CCTV 분석 결과가 공개됩니다.`,
+    tool:{name:'표적 인식 사격 훈련', icon:'🎯', kind:'shooting',
+      desc:'화면에 무작위로 나타나는 표적 8개를 빠르게 클릭(탭)하세요. 6개 이상 명중해야 훈련을 통과합니다. 제한시간 12초.',
+      targetCount:8, timeLimit:12, passCount:6},
+    reveal:`훈련 통과 — 분석력이 검증되었습니다.
+CCTV 분석 결과: 사건 당일 21:00~23:00, 서지훈과 그의 룸메이트가 기숙사 4층 휴게실에서 함께 라면을 먹는 모습이 CCTV에 선명하게 포착되었습니다. 본인 진술과 정확히 일치합니다.`,
+    clue:{id:'c4', label:'서지훈 CCTV 알리바이 확정', text:'서지훈은 사건 시각 내내 룸메이트와 함께 휴게실 CCTV에 포착되어 물리적으로 범행이 불가능합니다.'},
+    eliminateExplain:'서지훈은 CCTV로 명확한 알리바이가 입증되어 용의선상에서 제외합니다. 데이터 조작 의혹 제기는 사실로 밝혀졌으나(서연과 무관한 사안), 사건과는 직접 관련이 없습니다.',
+    deduction:'서지훈이 제외되며 4명이 남았습니다: 김다은, 최현우, 박정민 선생님, 이도윤.'
+  },
+  {
+    id:5, name:'족적 감식', icon:'👣', loc:'과학실 앞 복도',
+    profilerMsg:'바닥에 새겨진 한 걸음이\n천 마디 거짓말보다 정직합니다.',
+    eliminates:'dain',
+    intro:`복도 바닥에 희미한 발자국이 남아있습니다. 석고를 부어 본을 뜨면 신발 밑창 패턴과 사이즈가 드러납니다.
+본을 뜬 후, 용의자들의 신발 사이즈 기록과 직접 대조해야 합니다.`,
+    tool:{name:'석고 본뜨기 키트', icon:'🪣', kind:'cast',
+      desc:'발자국이 있을 만한 바닥 영역에 석고 용액을 천천히 드래그(또는 손가락)로 부어보세요. 굳으면서 패턴이 드러납니다.',
+      area:{x:38,y:48,w:30,h:30}},
+    extra:{type:'sizematch', title:'신발 사이즈 대조',
+      desc:'본뜬 발자국의 추정 사이즈는 270mm입니다. 용의자 4명의 신발 사이즈 기록과 비교해 일치하는 사람을 찾아보세요.',
+      options:[
+        {name:'김다은', size:'235mm'},
+        {name:'최현우', size:'270mm'},
+        {name:'박정민 선생님', size:'265mm'},
+        {name:'이도윤', size:'268mm'}
+      ],
+      footSize:'270mm'},
+    reveal:`석고 본 완성: 운동화 밑창 패턴, 추정 사이즈 270mm 확인.
+신발 사이즈 대조 결과: 김다은(235mm)은 발자국과 35mm 차이로 명백히 불일치. 나머지 3명은 사이즈 범위 내에 있어 추가 확인이 필요합니다.`,
+    clue:{id:'c5', label:'발자국 사이즈 270mm — 김다은 배제', text:'235mm인 김다은의 발 사이즈는 현장 발자국과 명백히 일치하지 않습니다. 최현우(270mm)는 정확히 일치합니다.'},
+    eliminateExplain:'김다은의 신발 사이즈(235mm)는 현장 발자국(270mm)과 35mm나 차이가 나 물리적으로 일치할 수 없습니다. 용의선상에서 제외합니다.',
+    deduction:'김다은이 제외되며 3명이 남았습니다: 최현우, 박정민 선생님, 이도윤. 최현우의 발 사이즈는 정확히 일치합니다.'
+  },
+  {
+    id:6, name:'성분 분석', icon:'🧫', loc:'증거 보관실',
+    profilerMsg:'분자 하나도 거짓말을 하지 않습니다.\n화학은 가장 정직한 증인입니다.',
+    eliminates:'professor',
+    intro:`현장에서 발견된 머그컵에서 정체불명의 잔여물이 검출되었습니다. 시약을 순서대로 시험관에 넣어 색 변화를 관찰하면 성분을 알 수 있습니다.
+또한 박정민 선생님의 연수원 출입기록이 도착했습니다.`,
+    tool:{name:'시험관 반응 테스트', icon:'⚗️', kind:'titration',
+      desc:'아래 시약을 순서대로 시험관에 드래그(또는 탭)해서 넣어보세요. 5단계 반응을 모두 진행해야 최종 성분이 확인됩니다.',
+      reagents:[
+        {id:'r1', name:'증류수', color:'#bcd4ff'},
+        {id:'r2', name:'머그컵 잔여물 추출액', color:'#d9c79e'},
+        {id:'r3', name:'페놀프탈레인', color:'#ffb3e6'},
+        {id:'r4', name:'염산 1방울 (중화 테스트)', color:'#ffe08a'},
+        {id:'r5', name:'BTB 용액 (최종 확인)', color:'#9fe6c9'}
+      ],
+      correctOrder:['r1','r2','r3','r4','r5'],
+      stepResults:[
+        '증류수를 부어 잔여물을 희석합니다. 용액이 옅은 갈색을 띱니다.',
+        '머그컵 잔여물 추출액을 넣자 미세한 거품이 발생합니다 — 베이킹소다(NaHCO₃) 반응 패턴.',
+        '페놀프탈레인을 떨어뜨리자 용액이 옅은 분홍색으로 변합니다 — 약염기성 확인.',
+        '염산 한 방울로 중화 테스트 — 분홍색이 서서히 옅어지며 약염기였음을 재확인.',
+        'BTB 용액으로 최종 확인 — 최초 상태에서 초록~파랑 계열 반응, 성분 매칭 완료: 아스피린(C₉H₈O₄) + 베이킹소다(NaHCO₃).'
+      ]},
+    extra:{type:'recordcheck', title:'연수원 출입기록 대조',
+      desc:'박정민 선생님의 연수원 카드 출입 기록을 확인하세요.',
+      logs:['14:00 연수원 도착 체크인','16:20 연수원 카드 미사용 (외출 추정)','19:40 학교 인근 주유소 CCTV 포착','23:50 연수원 카드 재사용 (복귀)'],
+      verdict:'16:20부터 19:40까지 약 3시간 행적이 묘연하며, 19:40에는 학교 인근에서 목격되었습니다. "다음날 아침 복귀"라는 진술은 거짓이지만, 본인 차량 블랙박스에서 21:00~23:00 동안 학교에서 멀리 떨어진 편의점 영수증이 발견되어 그 시각 알리바이는 따로 확인됩니다.'},
+    reveal:`최종 분석: 아스피린(C₉H₈O₄) + 베이킹소다(NaHCO₃) 성분 검출. 시약장 재고와 대조 결과, 최현우의 실험 노트에 같은 조합 기록 존재 — "위약 효과 테스트"라는 메모와 함께.
+연수원 출입기록: 박정민 선생님은 행적이 묘연했던 것은 사실이나, 21:00~23:00 결정적 시각에는 학교에서 멀리 떨어진 편의점 영수증으로 알리바이가 확인됩니다.`,
+    clue:{id:'c6', label:'시약 성분 일치(최현우) + 박정민 선생님 알리바이 확정', text:'머그컵 성분이 최현우 실험 노트와 정확히 일치합니다. 박정민 선생님은 일부 거짓말을 했지만 결정적 시각의 알리바이는 편의점 영수증으로 입증되었습니다.'},
+    eliminateExplain:'박정민 선생님은 오후 행적을 속였지만, 사건의 결정적 시각(21:00~23:00)에는 학교에서 멀리 떨어진 곳에 있었다는 물증(영수증)이 확인되어 용의선상에서 제외합니다.',
+    deduction:'박정민 선생님이 제외되며 2명이 남았습니다: 최현우, 이도윤. 시약 성분은 최현우를 강하게 지목합니다.'
+  },
+  {
+    id:7, name:'타임라인 재구성', icon:'🧩', loc:'사건 종합 분석실',
+    profilerMsg:'시간은 거짓말을 허락하지 않습니다.\n조각난 순간들을 다시 맞춰보십시오.',
+    eliminates:'doyoon',
+    intro:`이도윤의 통화기록 발신 위치(기지국 정보)와 사건 당일 전체 타임라인을 직접 재구성해야 합니다.
+타임라인 조각들을 올바른 시간 순서대로 배치하세요.`,
+    tool:{name:'타임라인 재구성', icon:'🧩', kind:'timeline',
+      desc:'아래 사건 조각들을 드래그(또는 탭으로 선택 후 위치 클릭)해서 시간 순서대로 배치하세요.',
+      pieces:[
+        {id:'p1', text:'19:02 이도윤, 본인 동네 PC방 출입 기록', time:1},
+        {id:'p2', text:'19:45 이도윤, 서연에게 발신(부재중)', time:2},
+        {id:'p3', text:'21:00 이서연, 과학실 첫 출입', time:3},
+        {id:'p4', text:'21:20 이도윤, 같은 PC방에서 친구와 게임 (목격자 3명)', time:4},
+        {id:'p5', text:'21:43 누군가 과학실 재입장', time:5},
+        {id:'p6', text:'22:50 이도윤, PC방 결제 기록(친구 3명과 동석)', time:6},
+        {id:'p7', text:'23:10 과학실 퇴실', time:7}
+      ]},
+    reveal:`타임라인 재구성 완료: 이도윤은 19:02부터 22:50까지 자신의 동네 PC방에서 친구 3명과 함께 있었던 것이 결제 기록과 목격자 진술로 확인됩니다.
+사건 발생 시각(21:43)에 이도윤은 학교 근처에 있을 수 없었던 물리적 위치(편도 1시간 거리)에 있었습니다.`,
+    clue:{id:'c7', label:'이도윤 PC방 알리바이 확정', text:'이도윤은 사건 시각 내내 본인 동네 PC방에서 친구 3명과 함께 있었던 것이 결제 기록과 목격자 진술로 입증되었습니다. 학교까지 거리상 범행이 불가능합니다.'},
+    eliminateExplain:'이도윤의 "연락 안 했다"는 진술은 거짓이었지만(부재중 발신 다수), 정작 결정적 시각에는 학교와 먼 거리의 PC방에 있었다는 것이 결제기록과 목격자 3명으로 명백히 증명되어 용의선상에서 제외합니다.',
+    deduction:'이도윤이 제외되며, 최종적으로 단 한 명이 남았습니다: 최현우.'
+  },
+  {
+    id:8, name:'최종 확정', icon:'⚖️', loc:'사건 종합 보고실',
+    profilerMsg:'모든 추리의 끝에서,\n당신은 진실과 마주합니다.',
+    intro:`5명이 모두 명확한 물증으로 용의선상에서 제외되었습니다. 남은 사람은 단 한 명, 최현우입니다.
+지금까지 모은 모든 단서를 마지막으로 검토하고, 최종적으로 범인을 지목하세요.`,
+    finalChoice:true,
+    correctAnswer:'hyunwoo',
+    explainCorrect:`최현우가 범인입니다.
+동기: 서연이 그의 R&E 데이터 조작을 목격하고 신고를 경고함.
+물증: ①거짓 알리바이(혼자 게임했다는 거짓) ②과학실 재입장 21:43 기록 ③발자국 사이즈 270mm 일치 ④커피잔 시약 성분이 그의 실험 노트와 일치 ⑤형광 메모 "선배가 또 그런다"가 직접 지목.
+그날 밤 다툼 끝에 몸싸움이 있었고, 서연은 크게 다치지 않은 채 인근 병원에서 발견되었습니다. 최현우는 결국 자백했습니다.`,
+    explainWrong:`이미 모든 다른 용의자가 명확한 물증으로 제외되었습니다. 남은 사람은 최현우뿐입니다.`
+  }
+];
+
+const ENDING = {
+  success:{title:'사건 해결', body:'정확한 추리로 최현우를 진범으로 지목했습니다.\n이서연은 병원에서 안정을 취하고 있으며, 수사팀의 신속하고 체계적인 분석이 사건을 해결했습니다.'},
+  wrong:{title:'오인 지목', body:'다시 한번 증거를 검토해보세요.\n진범은 최현우였습니다.'},
+  fail:{title:'시간 초과', body:'제한 시간 안에 사건을 해결하지 못했습니다.\n다시 도전해서 진실을 밝혀보세요.'}
+};
+// ════════ STATE ════════
+let gs={stage:0,timeLeft:1200,clues:[],interroDone:{},scanned:false,extraChecked:false,picked:null};
+let timerInt=null;
+
+function g(id){return document.getElementById(id);}
+function showScreen(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));g(id).classList.add('on');}
+function toast(msg,col){
+  const t=g('toast');t.textContent=msg;t.style.borderColor=col||'#9b6bff';t.style.color=col||'#9b6bff';
+  t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400);
+}
+function pad(n){return String(n).padStart(2,'0');}
+
+// ════════ INTRO → SUSPECTS ════════
+function goToSuspects(){ showScreen('sSuspects'); renderSuspects(); }
+function renderSuspects(){
+  g('suspGrid').innerHTML=SUSPECTS.map((s,i)=>`
+    <div class="susp-card fadeUp" style="animation-delay:${i*.07}s" id="suspCard_${s.id}">
+      <div class="susp-top">
+        <div class="susp-av">${s.avatar}</div>
+        <div><div class="susp-name">${s.name}</div><div class="susp-role">${s.role} · ${s.age}세</div></div>
+      </div>
+      <div class="susp-detail-lbl">🎭 성격</div>
+      <div class="susp-detail-txt">${s.personality}</div>
+      <div class="susp-detail-lbl">📖 비하인드 일화</div>
+      <div class="susp-detail-txt">${s.episode}</div>
+      <div class="susp-detail-lbl">📋 진술 (알리바이)</div>
+      <div class="susp-detail-txt">${s.alibi}</div>
+      <div class="susp-detail-lbl">⚠️ 추정 동기</div>
+      <div class="susp-detail-txt">${s.motive}</div>
+    </div>`).join('');
+}
+
+// ════════ GAME START ════════
+function startGame(){
+  gs={stage:0,timeLeft:1200,clues:[],interroDone:{},scanned:false,extraChecked:false,picked:null};
+  showScreen('sGame');
+  showProfilerThen(0,true);
+  timerInt=setInterval(()=>{
+    gs.timeLeft--;
+    const m=Math.floor(gs.timeLeft/60),s=gs.timeLeft%60;
+    const el=g('timerEl');
+    el.textContent=`${pad(m)}:${pad(s)}`;
+    el.className='timer'+(gs.timeLeft<=120?' danger':gs.timeLeft<=300?' warn':'');
+    if(gs.timeLeft<=0){clearInterval(timerInt);endGame('fail');}
+  },1000);
+}
+
+// ════════ PROFILER INTERSTITIAL ════════
+function showProfilerThen(idx,isFirst){
+  const s=STAGES[idx];
+  const ov=g('profilerOverlay');
+  g('profilerText').textContent=s.profilerMsg||'당신은 이제 프로파일러입니다.';
+  g('profilerElim').classList.remove('show');
+  ov.classList.add('show');
+  setTimeout(()=>{
+    ov.classList.remove('show');
+    loadStage(idx);
+  }, 2200);
+}
+
+function showEliminationThen(prevIdx,nextIdx){
+  const prevStage=STAGES[prevIdx];
+  const elimId=prevStage.eliminates;
+  const ov=g('profilerOverlay');
+  if(elimId){
+    const sus=SUSPECTS.find(x=>x.id===elimId);
+    sus.status='cleared';
+    const card=g('suspCard_'+elimId);
+    if(card) card.classList.add('eliminated');
+    g('profilerText').textContent=STAGES[nextIdx].profilerMsg||'다음 단계로 이동합니다.';
+    g('profilerElimAv').textContent=sus.avatar;
+    g('profilerElimName').textContent=sus.name+' — 용의선상에서 제외';
+    ov.classList.add('show');
+    g('profilerElim').classList.remove('show');
+    setTimeout(()=>g('profilerElim').classList.add('show'),400);
+    setTimeout(()=>{ ov.classList.remove('show'); loadStage(nextIdx); }, 3200);
+  } else {
+    g('profilerText').textContent=STAGES[nextIdx].profilerMsg||'다음 단계로 이동합니다.';
+    g('profilerElim').classList.remove('show');
+    ov.classList.add('show');
+    setTimeout(()=>{ ov.classList.remove('show'); loadStage(nextIdx); }, 2200);
+  }
+}
+
+// ════════ STAGE LOADER ════════
+function loadStage(idx){
+  if(idx>=STAGES.length){return;}
+  gs.stage=idx; gs.scanned=false; gs.extraChecked=false;
+  const s=STAGES[idx];
+  g('hudStage').textContent=`${idx+1} / ${STAGES.length}단계 — ${s.name}`;
+
+  if(s.interrogation) renderInterrogationStage(s);
+  else if(s.finalChoice) renderFinalStage(s);
+  else if(s.tool && s.tool.kind==='luminol-multi') renderMultiSceneStage(s);
+  else if(s.tool && s.tool.kind==='shooting') renderShootingStage(s);
+  else if(s.tool && s.tool.kind==='cast') renderCastStage(s);
+  else if(s.tool && s.tool.kind==='titration') renderTitrationStage(s);
+  else if(s.tool && s.tool.kind==='timeline') renderTimelineStage(s);
+  else renderToolStage(s);
+}
+
+function nextStage(){
+  const cur=gs.stage;
+  if(cur+1>=STAGES.length){ return; }
+  showEliminationThen(cur,cur+1);
+}
+
+// ════════ HELPER: standard footer (clue+deduction+continue) ════════
+function stdFooter(s){
+  return `
+    <div class="reveal-text" id="revealBox">
+      <div class="reveal-label">🔬 분석 결과</div>
+      <div id="revealContent"></div>
+    </div>
+    <div class="clue-pop" id="cluePop">
+      <div class="clue-pop-lbl">📎 단서 확보</div>
+      <div class="clue-pop-title">${s.clue.label}</div>
+      <div class="clue-pop-txt">${s.clue.text}</div>
+    </div>
+    <div class="deduction-box" id="deductBox">
+      <div class="deduction-lbl">🧠 추리 노트</div>
+      <div>${s.deduction}</div>
+    </div>
+    <button class="btn-continue" id="btnContinue" disabled onclick="nextStage()">다음 단계로 →</button>
+  `;
+}
+function finishClue(s){
+  setTimeout(()=>{
+    g('cluePop').classList.add('show');
+    gs.clues.push(s.clue);
+    setTimeout(()=>{
+      g('deductBox').classList.add('show');
+      g('btnContinue').disabled=false;
+    },700);
+  },600);
+}
+
+// ════════ SINGLE-AREA TOOL STAGE (uv only now) ════════
+function renderToolStage(s){
+  // UV라이트 전용 — 스위치 ON/OFF로 글자 전체 fade-in
+  const body=g('gameBody');
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
+        <div class="tool-desc">UV 라이트를 켜서 책상을 비춰보세요. 형광 메모가 드러납니다.</div>
+        <div id="uvScene" style="position:relative;width:100%;aspect-ratio:16/9;background:#06060a;border-radius:9px;overflow:hidden;border:1px solid var(--brd);">
+          <!-- 기본 어두운 배경 -->
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <span style="color:#2a2a40;font-size:.9rem;">UV 라이트를 켜면 숨겨진 내용이 드러납니다</span>
+          </div>
+          <!-- 형광 메모 레이어 (처음엔 완전 투명) -->
+          <div id="uvReveal" style="position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease-in;display:flex;flex-direction:column;justify-content:center;padding:8% 10%;gap:10px;">
+            ${(s.uvWritten||'형광 메모').split('\n').map(line=>`
+              <div style="font-family:var(--mono);font-size:clamp(13px,2.5vw,22px);color:#3ecfb8;text-shadow:0 0 12px #3ecfb8,0 0 28px #3ecfb855;letter-spacing:.04em;">${line}</div>
+            `).join('')}
+          </div>
+          <!-- UV 빛 오버레이 (스위치 켤 때 보라 틴트) -->
+          <div id="uvLight" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#6b48ff22,transparent 70%);opacity:0;transition:opacity .6s;pointer-events:none;"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;margin-top:16px;gap:14px;">
+          <span style="font-size:.85rem;color:var(--tx2);">UV 라이트</span>
+          <button id="uvSwitch" onclick="toggleUV()" style="width:58px;height:30px;border-radius:30px;background:#2a2a40;border:1.5px solid var(--brd2);position:relative;transition:background .3s;cursor:pointer;">
+            <span id="uvSwitchKnob" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#4a4a68;transition:all .3s;display:block;"></span>
+          </button>
+          <span id="uvSwitchLabel" style="font-size:.82rem;color:var(--tx3);">OFF</span>
+        </div>
+      </div>
+      ${extraBlock(s)}
+      ${stdFooter(s)}
+    </div>
+  `;
+  window._uvOn=false;
+  setupExtra(s);
+}
+function toggleUV(){
+  window._uvOn=!window._uvOn;
+  const sw=g('uvSwitch'), knob=g('uvSwitchKnob'), lbl=g('uvSwitchLabel');
+  const reveal=g('uvReveal'), light=g('uvLight');
+  if(window._uvOn){
+    sw.style.background='#3c1d99'; knob.style.left='31px'; knob.style.background='#c4a3ff'; lbl.textContent='ON'; lbl.style.color='var(--accent2)';
+    reveal.style.opacity='1'; light.style.opacity='1';
+    if(!gs.scanned){
+      gs.scanned=true;
+      toast('💡 형광 메모 발견!','#3ecfb8');
+      setTimeout(()=>{
+        const s=STAGES[gs.stage];
+        g('revealContent').textContent=s.reveal;
+        g('revealBox').classList.add('show');
+        if(s.extra) g('extraBox').classList.add('show');
+        else finishClue(s);
+      },1600);
+    }
+  } else {
+    sw.style.background='#2a2a40'; knob.style.left='3px'; knob.style.background='#4a4a68'; lbl.textContent='OFF'; lbl.style.color='var(--tx3)';
+    reveal.style.opacity='0'; light.style.opacity='0';
+  }
+}
+
+// ════════ EXTRA BLOCK (logmatch / sizematch / recordcheck) ════════
+function extraBlock(s){
+  if(!s.extra) return '';
+  const e=s.extra;
+  if(e.type==='logmatch' || e.type==='recordcheck'){
+    return `<div class="extra-box" id="extraBox">
+      <div class="extra-title">${e.title}</div>
+      <div class="extra-desc">${e.desc}</div>
+      ${e.logs.map(l=>`<div class="extra-log-row">${l}</div>`).join('')}
+      <button class="btn-extra-check" onclick="checkExtra('${e.type}')">🔍 대조 분석 실행</button>
+      <div class="extra-verdict" id="extraVerdict">${e.verdict}</div>
+    </div>`;
+  }
+  if(e.type==='sizematch'){
+    return `<div class="extra-box" id="extraBox">
+      <div class="extra-title">${e.title}</div>
+      <div class="extra-desc">${e.desc}</div>
+      <div id="sizeOpts">${e.options.map(o=>`<div class="size-opt-row" onclick="checkSize('${o.size}','${o.name}',this)"><span>${o.name}</span><span style="font-family:var(--mono)">${o.size}</span></div>`).join('')}</div>
+      <div class="extra-verdict" id="extraVerdict"></div>
+    </div>`;
+  }
+  return '';
+}
+function setupExtra(s){
+  if(!s.extra) return;
+}
+function checkExtra(type){
+  g('extraVerdict').classList.add('show');
+  if(!gs.extraChecked){
+    gs.extraChecked=true;
+    toast('✅ 대조 분석 완료','#3ecf8e');
+    finishClue(STAGES[gs.stage]);
+  }
+}
+function checkSize(size,name,el){
+  document.querySelectorAll('.size-opt-row').forEach(r=>r.classList.remove('match','nomatch'));
+  const s=STAGES[gs.stage];
+  const footSize=s.extra.footSize;
+  document.querySelectorAll('.size-opt-row').forEach((r,i)=>{
+    const opt=s.extra.options[i];
+    r.classList.add(opt.size===footSize?'match':'nomatch');
+  });
+  const v=g('extraVerdict');
+  v.classList.add('show');
+  if(!gs.extraChecked){
+    gs.extraChecked=true;
+    toast('🔍 사이즈 대조 완료','#3ecf8e');
+    finishClue(s);
+  }
+}
+
+// ════════ MULTI-AREA STAGE (luminol-multi: 2 areas) ════════
+function renderMultiSceneStage(s){
+  const body=g('gameBody');
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
+        <div class="tool-desc">각 구역에 루미놀을 뿌려보세요. 버튼을 클릭하면 시약이 해당 구역에 분사됩니다.</div>
+        <div id="luminolScene" style="position:relative;width:100%;aspect-ratio:16/9;background:#08080d;border-radius:9px;overflow:hidden;border:1px solid var(--brd);">
+          <canvas id="luminolCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div id="luminolBtns" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:20%;"></div>
+        </div>
+        <div id="luminolStatus" style="font-size:.82rem;color:var(--tx2);margin-top:10px;">두 구역 모두 검사해야 결과가 나타납니다.</div>
+      </div>
+      ${stdFooter(s)}
+    </div>
+  `;
+  setupLuminolClick(s);
+}
+
+function setupLuminolClick(s){
+  const canvas=g('luminolCanvas');
+  const scene=g('luminolScene');
+  const btnWrap=g('luminolBtns');
+  let doneCount=0;
+  const revealed=[];
+
+  function resize(){
+    canvas.width=scene.clientWidth;
+    canvas.height=scene.clientHeight;
+    drawLuminol();
+  }
+
+  function drawLuminol(){
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#08080d';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='#1e1e2e';
+    for(let i=1;i<6;i++){
+      ctx.beginPath();ctx.moveTo(0,canvas.height*(i/6));ctx.lineTo(canvas.width,canvas.height*(i/6));ctx.stroke();
+    }
+    // 구역 표시
+    s.tool.areas.forEach((area,i)=>{
+      const ax=canvas.width*area.x/100, ay=canvas.height*area.y/100, aw=canvas.width*area.w/100, ah=canvas.height*area.h/100;
+      const done=revealed.includes(i);
+      ctx.strokeStyle=done?'#3ecf8e55':'#3e3e5866';
+      ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
+      if(done){
+        // 동그라미 혈흔 그리기
+        const scale=Math.max(0.5, Math.min(aw,ah)/60);
+        const blobs=buildBloodSplatterPath(ax+aw*0.5, ay+ah*0.55, scale);
+        blobs.forEach(b=>{
+          const grad=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+          grad.addColorStop(0,'#5dffb8ee'); grad.addColorStop(0.5,'#3ecf8eaa'); grad.addColorStop(1,'#3ecf8e00');
+          ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,7); ctx.fill();
+        });
+        ctx.fillStyle='#3ecf8e18'; ctx.fillRect(ax,ay,aw,ah);
+      }
+    });
+  }
+
+  // 버튼 생성
+  s.tool.areas.forEach((area,i)=>{
+    const btn=document.createElement('button');
+    btn.id='luminolBtn_'+i;
+    btn.style.cssText='background:linear-gradient(135deg,#196c2e,#1f8a3e);border:1.5px solid #3ecf8e;color:#e8f8f0;border-radius:10px;padding:11px 18px;font-size:.84rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;';
+    btn.innerHTML=`<span style="font-size:1.5rem;">🧪</span>${area.label}에<br>루미놀 분사`;
+    btn.onclick=()=>{
+      if(revealed.includes(i)) return;
+      revealed.push(i);
+      btn.style.opacity='.35'; btn.style.cursor='default'; btn.disabled=true;
+      doneCount++;
+      drawLuminol();
+      toast(`✅ ${area.label} 검사 완료 (${doneCount}/${s.tool.areas.length})`,'#3ecfb8');
+      g('luminolStatus').textContent=`${doneCount}/${s.tool.areas.length} 구역 완료`;
+      if(doneCount===s.tool.areas.length){
+        g('revealContent').textContent=s.reveal;
+        g('revealBox').classList.add('show');
+        finishClue(s);
+      }
+    };
+    btnWrap.appendChild(btn);
+  });
+
+  resize();
+  window.addEventListener('resize',resize);
+}
+
+// ════════ CANVAS REVEAL ENGINE (shared, parametrized by element id suffix) ════════
+function buildBloodSplatterPath(cx,cy,scale){
+  const blobs=[{x:cx,y:cy,r:24*scale}];
+  const n=8;
+  for(let i=0;i<n;i++){
+    const ang=(i/n)*Math.PI*2 + (i%2?0.3:0);
+    const dist=(20+(i*7)%28)*scale;
+    blobs.push({x:cx+Math.cos(ang)*dist, y:cy+Math.sin(ang)*dist*0.85, r:(6+(i*3)%10)*scale});
+  }
+  return blobs;
+}
+
+
+function setupRevealCanvas(area, kind, stageData, onDone){
+  setupRevealCanvasMulti(area, kind, null, onDone, stageData);
+}
+
+function setupRevealCanvasMulti(area, kind, idSuffix, onDone, stageData){
+  const baseId = idSuffix ? 'base_'+idSuffix : 'baseCanvas';
+  const revealId = idSuffix ? 'reveal_'+idSuffix : 'revealCanvas';
+  const wrapId = idSuffix ? 'wrap_'+idSuffix : 'sceneWrap';
+  const wrap=g(wrapId), baseCanvas=g(baseId), revealCanvas=g(revealId);
+  let paintedCells=new Set();
+  const gridN=14;
+  let done=false;
+
+  function resize(){
+    [baseCanvas,revealCanvas].forEach(c=>{c.width=wrap.clientWidth;c.height=wrap.clientHeight;});
+    drawBase(); drawReveal();
+  }
+  function drawBase(){
+    const ctx=baseCanvas.getContext('2d');
+    ctx.clearRect(0,0,baseCanvas.width,baseCanvas.height);
+    ctx.fillStyle='#08080d'; ctx.fillRect(0,0,baseCanvas.width,baseCanvas.height);
+    ctx.strokeStyle='#22222f'; ctx.lineWidth=1;
+    for(let i=1;i<6;i++){
+      ctx.beginPath();ctx.moveTo(0,baseCanvas.height*(i/6));ctx.lineTo(baseCanvas.width,baseCanvas.height*(i/6));ctx.stroke();
+      ctx.beginPath();ctx.moveTo(baseCanvas.width*(i/6),0);ctx.lineTo(baseCanvas.width*(i/6),baseCanvas.height);ctx.stroke();
+    }
+    const ax=baseCanvas.width*area.x/100, ay=baseCanvas.height*area.y/100, aw=baseCanvas.width*area.w/100, ah=baseCanvas.height*area.h/100;
+    ctx.strokeStyle='#3e3e5855'; ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
+    ctx.fillStyle='#5a5a7866'; ctx.font='11px monospace';
+    ctx.fillText(kind==='cast'?'발자국 추정 위치':'증거 추정 위치', ax+6, ay+16);
+  }
+  function drawReveal(){
+    const ctx=revealCanvas.getContext('2d');
+    ctx.clearRect(0,0,revealCanvas.width,revealCanvas.height);
+    if(paintedCells.size===0) return;
+    ctx.save(); ctx.beginPath();
+    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
+    paintedCells.forEach(key=>{
+      const [cx,cy]=key.split(',').map(Number);
+      ctx.moveTo((cx+0.5)*cw+16,(cy+0.5)*ch);
+      ctx.arc((cx+0.5)*cw,(cy+0.5)*ch,18,0,7);
+    });
+    ctx.clip();
+    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
+    if(kind==='luminol'){
+      ctx.fillStyle='#0a0a10'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
+      const scale = Math.max(0.6, Math.min(aw,ah)/60);
+      const blobs=buildBloodSplatterPath(ax+aw*0.5, ay+ah*0.55, scale);
+      blobs.forEach(b=>{
+        const grad=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+        grad.addColorStop(0,'#5dffb8ee'); grad.addColorStop(0.5,'#3ecf8eaa'); grad.addColorStop(1,'#3ecf8e00');
+        ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,7); ctx.fill();
+      });
+
+      // 영역 전체를 옅게 형광 반응으로 채워서, 어디를 칠해도 무언가 보이도록 보강
+      ctx.fillStyle='#3ecf8e15';
+      ctx.fillRect(ax,ay,aw,ah);
+    } else if(kind==='uv'){
+      ctx.fillStyle='#06060a'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
+      ctx.fillStyle='#3ecfb8'; ctx.font=`${Math.max(13,aw*0.045)}px 'IBM Plex Mono',monospace`;
+      ctx.shadowColor='#3ecfb8'; ctx.shadowBlur=8;
+      const lines=(stageData && stageData.uvWritten ? stageData.uvWritten : '형광 메모').split('\n');
+      lines.forEach((ln,i)=>ctx.fillText(ln, ax+10, ay+24+i*22));
+    }
+    ctx.restore();
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  let drawing=false;
+  function getPos(e){
+    const r=revealCanvas.getBoundingClientRect();
+    const t=e.touches&&e.touches[0];
+    return {x:(t?t.clientX:e.clientX)-r.left, y:(t?t.clientY:e.clientY)-r.top};
+  }
+  function paintAt(x,y){
+    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
+    const cx=Math.floor(x/cw), cy=Math.floor(y/ch);
+    for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){
+      const nx=cx+dx, ny=cy+dy;
+      if(nx>=0&&nx<gridN&&ny>=0&&ny<gridN) paintedCells.add(nx+','+ny);
+    }
+  }
+  function areaCellRange(){
+    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
+    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
+    return {minX:Math.floor(ax/cw),maxX:Math.ceil((ax+aw)/cw),minY:Math.floor(ay/ch),maxY:Math.ceil((ay+ah)/ch)};
+  }
+  function computeProgress(){
+    const r=areaCellRange();
+    let total=0, painted=0;
+    for(let x=r.minX;x<r.maxX;x++)for(let y=r.minY;y<r.maxY;y++){ total++; if(paintedCells.has(x+','+y)) painted++; }
+    return total? painted/total : 0;
+  }
+  function pointerDown(e){drawing=true; addPoint(e);}
+  function pointerMove(e){if(drawing) addPoint(e);}
+  function pointerUp(){drawing=false;}
+  function addPoint(e){
+    const p=getPos(e); paintAt(p.x,p.y); drawReveal();
+    const progress=computeProgress();
+    const pb = idSuffix ? g('prog_'+idSuffix) : g('progBar');
+    if(pb) pb.style.width=(Math.min(100,progress*100))+'%';
+    if(progress>=0.4 && !done){ done=true; onDone(); }
+  }
+  revealCanvas.addEventListener('mousedown',pointerDown);
+  revealCanvas.addEventListener('mousemove',pointerMove);
+  window.addEventListener('mouseup',pointerUp);
+  revealCanvas.addEventListener('touchstart',e=>{e.preventDefault();pointerDown(e);},{passive:false});
+  revealCanvas.addEventListener('touchmove',e=>{e.preventDefault();pointerMove(e);},{passive:false});
+  revealCanvas.addEventListener('touchend',e=>{e.preventDefault();pointerUp();},{passive:false});
+  revealCanvas.style.touchAction='none';
+  revealCanvas.style.cursor='crosshair';
+}
+
+// ════════ CAST STAGE (footprint + size match) ════════
+function renderCastStage(s){
+  const body=g('gameBody');
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
+        <div class="tool-desc">${s.tool.desc}</div>
+        <div class="scene-wrap" id="sceneWrap">
+          <canvas class="scene-img" id="baseCanvas"></canvas>
+          <canvas class="scene-img" id="revealCanvas"></canvas>
+          <div class="scan-hint" id="scanHint">🖐️ 천천히 부어서 본뜨기</div>
+          <div id="progBar" style="position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,#d4af6a,#f0d9a8);width:0%;transition:width .15s;z-index:6;"></div>
+        </div>
+      </div>
+      ${extraBlock(s)}
+      ${stdFooter(s)}
+    </div>
+  `;
+  setupCastCanvas(s);
+}
+function setupCastCanvas(s){
+  const wrap=g('sceneWrap'), baseCanvas=g('baseCanvas'), revealCanvas=g('revealCanvas');
+  const area=s.tool.area;
+  let paintedCells=new Set(); const gridN=14; let done=false;
+  function resize(){[baseCanvas,revealCanvas].forEach(c=>{c.width=wrap.clientWidth;c.height=wrap.clientHeight;}); drawBase(); drawReveal();}
+  function drawBase(){
+    const ctx=baseCanvas.getContext('2d');
+    ctx.clearRect(0,0,baseCanvas.width,baseCanvas.height);
+    ctx.fillStyle='#08080d'; ctx.fillRect(0,0,baseCanvas.width,baseCanvas.height);
+    ctx.strokeStyle='#22222f';
+    for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(0,baseCanvas.height*(i/6));ctx.lineTo(baseCanvas.width,baseCanvas.height*(i/6));ctx.stroke();}
+    const ax=baseCanvas.width*area.x/100, ay=baseCanvas.height*area.y/100, aw=baseCanvas.width*area.w/100, ah=baseCanvas.height*area.h/100;
+    ctx.strokeStyle='#3e3e5855'; ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
+  }
+  function drawReveal(){
+    const ctx=revealCanvas.getContext('2d');
+    ctx.clearRect(0,0,revealCanvas.width,revealCanvas.height);
+    if(paintedCells.size===0) return;
+    ctx.save(); ctx.beginPath();
+    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
+    paintedCells.forEach(key=>{const[cx,cy]=key.split(',').map(Number);ctx.moveTo((cx+0.5)*cw+16,(cy+0.5)*ch);ctx.arc((cx+0.5)*cw,(cy+0.5)*ch,18,0,7);});
+    ctx.clip();
+    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
+    ctx.fillStyle='#0c0c10'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
+    ctx.strokeStyle='#d4af6a'; ctx.fillStyle='#d4af6a33'; ctx.lineWidth=2;
+    const sx=ax+aw*0.5, sy=ay+ah*0.5, sw=aw*0.55, sh=ah*0.85;
+    ctx.beginPath(); ctx.ellipse(sx,sy-sh*0.28,sw*0.34,sh*0.22,0,0,7); ctx.ellipse(sx,sy+sh*0.15,sw*0.42,sh*0.32,0,0,7); ctx.fill(); ctx.stroke();
+    for(let i=0;i<6;i++){ ctx.beginPath(); ctx.moveTo(sx-sw*0.3, sy-sh*0.1+i*sh*0.09); ctx.lineTo(sx+sw*0.3, sy-sh*0.1+i*sh*0.09); ctx.stroke(); }
+    ctx.restore();
+  }
+  resize(); window.addEventListener('resize',resize);
+  let drawing=false;
+  function getPos(e){const r=revealCanvas.getBoundingClientRect();const t=e.touches&&e.touches[0];return {x:(t?t.clientX:e.clientX)-r.left,y:(t?t.clientY:e.clientY)-r.top};}
+  function paintAt(x,y){const cw=revealCanvas.width/gridN,ch=revealCanvas.height/gridN;const cx=Math.floor(x/cw),cy=Math.floor(y/ch);for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){const nx=cx+dx,ny=cy+dy;if(nx>=0&&nx<gridN&&ny>=0&&ny<gridN)paintedCells.add(nx+','+ny);}}
+  function progress(){const cw=revealCanvas.width/gridN,ch=revealCanvas.height/gridN;const ax=revealCanvas.width*area.x/100,ay=revealCanvas.height*area.y/100,aw=revealCanvas.width*area.w/100,ah=revealCanvas.height*area.h/100;const minX=Math.floor(ax/cw),maxX=Math.ceil((ax+aw)/cw),minY=Math.floor(ay/ch),maxY=Math.ceil((ay+ah)/ch);let total=0,painted=0;for(let x=minX;x<maxX;x++)for(let y=minY;y<maxY;y++){total++;if(paintedCells.has(x+','+y))painted++;}return total?painted/total:0;}
+  function pointerDown(e){drawing=true;addPoint(e);}
+  function pointerMove(e){if(drawing)addPoint(e);}
+  function pointerUp(){drawing=false;}
+  function addPoint(e){
+    const p=getPos(e); paintAt(p.x,p.y); drawReveal();
+    const pr=progress();
+    const pb=g('progBar'); if(pb) pb.style.width=(Math.min(100,pr*100))+'%';
+    if(pr>=0.4 && !done){
+      done=true;
+      g('scanHint').style.opacity='0';
+      const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
+      toast('🔬 본뜨기 완료!','#3ecfb8');
+      if(s.extra) g('extraBox').classList.add('show');
+      else finishClue(s);
+    }
+  }
+  revealCanvas.addEventListener('mousedown',pointerDown);
+  revealCanvas.addEventListener('mousemove',pointerMove);
+  window.addEventListener('mouseup',pointerUp);
+  revealCanvas.addEventListener('touchstart',e=>{e.preventDefault();pointerDown(e);},{passive:false});
+  revealCanvas.addEventListener('touchmove',e=>{e.preventDefault();pointerMove(e);},{passive:false});
+  revealCanvas.addEventListener('touchend',e=>{e.preventDefault();pointerUp();},{passive:false});
+  revealCanvas.style.touchAction='none';
+}
+
+// ════════ SHOOTING MINIGAME ════════
+function renderShootingStage(s){
+  const body=g('gameBody');
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
+        <div class="tool-desc">${s.tool.desc}</div>
+        <div id="shootContainer"></div>
+      </div>
+      ${stdFooter(s)}
+    </div>
+  `;
+  renderShootIntro(s);
+}
+function renderShootIntro(s){
+  g('shootContainer').innerHTML=`
+    <div class="shoot-result">
+      <div style="font-size:2.2rem;margin-bottom:10px;">🎯</div>
+      <div style="font-size:.9rem;color:var(--tx2);margin-bottom:16px;">표적 ${s.tool.targetCount}개 중 ${s.tool.passCount}개 이상 명중 시 통과<br>제한시간 ${s.tool.timeLimit}초</div>
+      <button class="btn-shoot-start" onclick="runShootGame(STAGES[${gs.stage}])">▶ 훈련 시작</button>
+    </div>`;
+}
+function runShootGame(s){
+  let hits=0, spawned=0, timeLeft=s.tool.timeLimit;
+  const range=document.createElement('div');
+  range.className='shoot-range';
+  range.innerHTML=`<div class="shoot-hud"><span>🎯 명중 <b id="hitCount">0</b>/${s.tool.targetCount}</span><span>⏱ <b id="shootTimer">${s.tool.timeLimit}</b>초</span></div>`;
+  g('shootContainer').innerHTML='';
+  g('shootContainer').appendChild(range);
+
+  function spawnTarget(){
+    if(spawned>=s.tool.targetCount) return;
+    spawned++;
+    const t=document.createElement('div');
+    t.className='shoot-target';
+    const maxX=range.clientWidth-60, maxY=range.clientHeight-90;
+    const x=20+Math.random()*Math.max(40,maxX), y=44+Math.random()*Math.max(40,maxY);
+    t.style.left=x+'px'; t.style.top=y+'px';
+    t.textContent=spawned;
+    let clicked=false;
+    function hit(e){
+      e.preventDefault();
+      if(clicked) return; clicked=true;
+      hits++; t.classList.add('hit');
+      g('hitCount').textContent=hits;
+      toast('🎯 명중!','#3ecf8e');
+      setTimeout(()=>t.remove(),250);
+    }
+    t.addEventListener('click',hit);
+    t.addEventListener('touchstart',hit,{passive:false});
+    range.appendChild(t);
+    setTimeout(()=>{ if(!clicked && t.parentElement) t.remove(); }, 1800);
+  }
+  const spawnInt=setInterval(spawnTarget, Math.floor(s.tool.timeLimit*1000/s.tool.targetCount));
+  spawnTarget();
+
+  const cdInt=setInterval(()=>{
+    timeLeft--;
+    const te=g('shootTimer'); if(te) te.textContent=Math.max(0,timeLeft);
+    if(timeLeft<=0){
+      clearInterval(cdInt); clearInterval(spawnInt);
+      finishShootGame(s,hits);
+    }
+  },1000);
+}
+function finishShootGame(s,hits){
+  const pass=hits>=s.tool.passCount;
+  g('shootContainer').innerHTML=`
+    <div class="shoot-result">
+      <div style="font-size:2.2rem;margin-bottom:8px;">${pass?'✅':'⚠️'}</div>
+      <div style="font-weight:700;font-size:1rem;margin-bottom:6px;">${pass?'훈련 통과!':'훈련 미달성'} (${hits}/${s.tool.targetCount} 명중)</div>
+      ${pass?'':'<button class="btn-shoot-start" onclick="renderShootIntro(STAGES['+gs.stage+'])">↺ 다시 도전</button>'}
+    </div>`;
+  if(pass){
+    toast('✅ 표적 인식 훈련 통과!','#3ecf8e');
+    const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
+    finishClue(s);
+  }
+}
+
+// ════════ TITRATION (5-step, drag or tap) ════════
+function renderTitrationStage(s){
+  const body=g('gameBody');
+  const t=s.tool;
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${t.icon}</span><span class="tool-name">${t.name}</span></div>
+        <div class="tool-desc">${t.desc}</div>
+        <div style="display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap;margin:18px 0;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-family:monospace;font-size:.7rem;color:var(--tx3);">시험관</div>
+            <div id="testTube" style="width:46px;height:150px;border:2px solid #3e3e58;border-radius:0 0 20px 20px;border-top:none;position:relative;overflow:hidden;background:#0d0d14;">
+              <div id="tubeColor" style="position:absolute;bottom:0;left:0;right:0;height:0%;background:#1a1a28;transition:all .5s ease-out;"></div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div style="font-family:monospace;font-size:.7rem;color:var(--tx3);margin-bottom:8px;">시약 (드래그 또는 탭해서 시험관에 넣기)</div>
+            <div id="reagentRow" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+          </div>
+        </div>
+        <div id="titrationLog" style="display:flex;flex-direction:column;gap:7px;margin-bottom:8px;"></div>
+      </div>
+      ${extraBlock(s)}
+      ${stdFooter(s)}
+    </div>
+  `;
+  setupTitration(s);
+}
+function setupTitration(s){
+  const t=s.tool;
+  let addedOrder=[];
+  const row=g('reagentRow');
+  row.innerHTML=t.reagents.map(r=>`
+    <div class="ir-q-btn" draggable="true" id="reag_${r.id}"
+      style="cursor:grab;display:inline-flex;align-items:center;gap:7px;width:auto;"
+      ondragstart="event.dataTransfer.setData('text',this.id)">
+      <span style="width:12px;height:12px;border-radius:50%;background:${r.color};display:inline-block;"></span>${r.name}
+    </div>`).join('');
+
+  const tube=g('testTube');
+  tube.addEventListener('dragover',e=>e.preventDefault());
+  tube.addEventListener('drop',e=>{ e.preventDefault(); handleDrop(e.dataTransfer.getData('text')); });
+
+  t.reagents.forEach(r=>{
+    const el=g('reag_'+r.id);
+    el.addEventListener('touchend',e=>{ e.preventDefault(); handleDrop('reag_'+r.id); },{passive:false});
+    el.style.touchAction='manipulation';
+    el.addEventListener('click',()=>handleDrop('reag_'+r.id));
+  });
+
+  function handleDrop(domId){
+    const rid=domId.replace('reag_','');
+    const r=t.reagents.find(x=>x.id===rid);
+    const el=g(domId);
+    if(!r||!el||el.style.pointerEvents==='none') return;
+    if(addedOrder.includes(rid)){ toast('이미 넣은 시약이에요','#ff5468'); return; }
+    addedOrder.push(rid);
+    el.style.opacity='.3'; el.style.pointerEvents='none';
+
+    const fillPct=Math.min(92, addedOrder.length*(90/t.reagents.length));
+    g('tubeColor').style.height=fillPct+'%';
+    g('tubeColor').style.background=r.color;
+
+    const log=g('titrationLog');
+    const stepIdx=addedOrder.length-1;
+    const msg=t.stepResults[stepIdx]||`${r.name}을(를) 넣었습니다.`;
+    const entry=document.createElement('div');
+    entry.className='reveal-text show'; entry.style.marginTop='0';
+    entry.innerHTML=`<div class="reveal-label">STEP ${addedOrder.length}/${t.reagents.length}</div><div>${msg}</div>`;
+    log.appendChild(entry);
+
+    if(addedOrder.length===t.reagents.length){
+      setTimeout(()=>{
+        toast('🔬 반응 분석 완료!','#3ecfb8');
+        const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
+        if(s.extra) g('extraBox').classList.add('show');
+        else finishClue(s);
+      },500);
+    }
+  }
+}
+
+// ════════ TIMELINE PUZZLE ════════
+function renderTimelineStage(s){
+  const body=g('gameBody');
+  const t=s.tool;
+  // 섞기
+  const shuffled=[...t.pieces].sort(()=>Math.random()-0.5);
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="tool-box">
+        <div class="tool-head"><span class="tool-icon">${t.icon}</span><span class="tool-name">${t.name}</span></div>
+        <div class="tool-desc">${t.desc}</div>
+        <div style="margin-bottom:10px;font-size:.8rem;color:var(--tx2);">
+          ① 왼쪽 조각을 클릭해 선택 → ② 오른쪽 빈 칸을 클릭해 배치
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;">
+          <div>
+            <div style="font-size:.74rem;color:var(--tx3);font-family:monospace;margin-bottom:8px;">🗂️ 사건 조각</div>
+            <div id="tlPool" style="display:flex;flex-direction:column;gap:7px;"></div>
+          </div>
+          <div>
+            <div style="font-size:.74rem;color:var(--tx3);font-family:monospace;margin-bottom:8px;">⏱️ 시간 순서</div>
+            <div id="tlSlots" style="display:flex;flex-direction:column;gap:7px;"></div>
+          </div>
+        </div>
+        <div id="tlStatus" style="margin-top:12px;font-size:.82rem;color:var(--tx2);">조각을 선택하고 시간 칸에 배치해보세요.</div>
+        <button id="tlReset" onclick="tlResetAll()" style="margin-top:8px;background:var(--c3);border:1px solid var(--brd);border-radius:8px;padding:6px 14px;font-size:.8rem;color:var(--tx2);">↺ 전체 초기화</button>
+      </div>
+      ${stdFooter(s)}
+    </div>
+  `;
+  setupTimeline(s, shuffled);
+}
+
+// 타임라인 전역 상태 (setupTimeline 호출마다 초기화)
+let tlState={selected:null, slots:[], pieces:[], s:null, t:null};
+
+function tlResetAll(){
+  tlState.slots=tlState.slots.map(()=>null);
+  tlState.pieces.forEach(p=>p.placed=false);
+  tlState.selected=null;
+  tlRender();
+  g('tlStatus').textContent='전체 초기화했어요. 다시 배치해보세요.';
+}
+
+function setupTimeline(s, shuffled){
+  const t=s.tool;
+  tlState={
+    selected: null,
+    slots: new Array(t.pieces.length).fill(null),
+    pieces: shuffled.map(p=>({...p, placed:false})),
+    s, t
+  };
+  tlRender();
+}
+
+function tlRender(){
+  const {pieces, slots, selected, t}=tlState;
+  const pool=g('tlPool');
+  const slotsEl=g('tlSlots');
+  if(!pool||!slotsEl) return;
+
+  // 조각 풀 렌더
+  pool.innerHTML='';
+  pieces.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='tl-piece';
+    el.textContent=p.text;
+    if(p.placed){
+      el.classList.add('placed');
+      el.style.opacity='.35';
+      el.style.cursor='default';
+    } else if(selected===p.id){
+      el.classList.add('selected');
+      el.style.borderColor='var(--gold)';
+      el.style.background='#d4af6a15';
+    }
+    if(!p.placed){
+      el.style.cursor='pointer';
+      el.onclick=()=>tlSelectPiece(p.id);
+    }
+    pool.appendChild(el);
+  });
+
+  // 슬롯 렌더
+  slotsEl.innerHTML='';
+  slots.forEach((pid,i)=>{
+    const el=document.createElement('div');
+    el.className='tl-slot';
+    if(pid){
+      const piece=tlState.t.pieces.find(p=>p.id===pid);
+      el.textContent=piece.text;
+      el.classList.add('filled');
+      // 채워진 칸 클릭 = 해당 조각 돌려보내기
+      el.onclick=()=>tlUnplace(i);
+      el.title='클릭하면 조각을 돌려보냅니다';
+    } else {
+      el.textContent=(i+1)+'번째';
+      el.onclick=()=>tlPlacePiece(i);
+    }
+    slotsEl.appendChild(el);
+  });
+}
+
+function tlSelectPiece(pid){
+  tlState.selected = (tlState.selected===pid) ? null : pid;
+  tlRender();
+  const p=tlState.pieces.find(x=>x.id===pid);
+  g('tlStatus').textContent = tlState.selected
+    ? `"${p.text.slice(0,20)}..." 선택됨 → 오른쪽 칸을 클릭해 배치하세요`
+    : '선택이 해제됐어요.';
+}
+
+function tlUnplace(slotIdx){
+  const pid=tlState.slots[slotIdx];
+  if(!pid) return;
+  tlState.slots[slotIdx]=null;
+  const p=tlState.pieces.find(x=>x.id===pid);
+  if(p) p.placed=false;
+  tlState.selected=null;
+  tlRender();
+  g('tlStatus').textContent='조각을 돌려보냈어요. 다시 배치해보세요.';
+}
+
+function tlPlacePiece(slotIdx){
+  if(!tlState.selected){ toast('먼저 왼쪽에서 조각을 선택하세요','#f0c64e'); return; }
+  if(tlState.slots[slotIdx]!==null){ toast('이미 채워진 칸이에요 — 클릭하면 비울 수 있어요','#ff5468'); return; }
+  const pid=tlState.selected;
+  tlState.slots[slotIdx]=pid;
+  const p=tlState.pieces.find(x=>x.id===pid);
+  if(p) p.placed=true;
+  tlState.selected=null;
+  tlRender();
+  // 다 채웠으면 채점
+  if(tlState.slots.every(x=>x!==null)){
+    checkTimeline(tlState.s, tlState.t, tlState.slots);
+  } else {
+    const remaining=tlState.pieces.filter(x=>!x.placed).length;
+    g('tlStatus').textContent=`배치 완료! 남은 조각: ${remaining}개`;
+  }
+}
+
+function checkTimeline(s,t,slots){
+  let allCorrect=true;
+  slots.forEach((pid,i)=>{
+    const piece=t.pieces.find(p=>p.id===pid);
+    const slotEl=document.getElementById('tlSlots')?.children[i];
+    if(piece && piece.time===i+1){
+      if(slotEl) slotEl.classList.add('correct');
+    } else {
+      allCorrect=false;
+    }
+  });
+  if(allCorrect){
+    toast('🧩 타임라인 재구성 완료!','#3ecf8e');
+    g('tlStatus').textContent='✅ 모두 올바른 순서입니다!';
+    const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
+    finishClue(s);
+  } else {
+    toast('순서가 맞지 않아요. 틀린 칸을 클릭해서 다시 배치해보세요.','#ff5468');
+    g('tlStatus').textContent='❌ 순서가 맞지 않아요. 틀린 칸을 클릭해서 비우고 다시 배치해보세요.';
+    // 틀린 칸 빨간 테두리
+    slots.forEach((pid,i)=>{
+      const piece=t.pieces.find(p=>p.id===pid);
+      const slotEl=document.getElementById('tlSlots')?.children[i];
+      if(slotEl && piece && piece.time!==i+1){
+        slotEl.style.borderColor='var(--red)';
+        setTimeout(()=>{if(slotEl)slotEl.style.borderColor='';},1400);
+      }
+    });
+  }
+}
+
+// ════════ INTERROGATION STAGE ════════
+function renderInterrogationStage(s){
+  const body=g('gameBody');
+  gs.interroDone[s.id]={};
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div class="interro-tabs" id="interroTabs"></div>
+      <div class="interro-room" id="interroRoom"></div>
+      ${stdFooter(s)}
+    </div>
+  `;
+  renderInterroTabs(s,0);
+  renderInterroRoom(s,0);
+}
+function renderInterroTabs(s,activeIdx){
+  g('interroTabs').innerHTML=s.interrogation.map((grp,i)=>{
+    const sus=SUSPECTS.find(x=>x.id===grp.suspectId);
+    const done=gs.interroDone[s.id][grp.suspectId];
+    return `<button class="interro-tab ${i===activeIdx?'active':''} ${done?'done':''}" onclick="renderInterroRoom(STAGES[${s.id-1}],${i})">
+      <span class="it-av">${sus.avatar}</span>${sus.name}${done?' ✓':''}
+    </button>`;
+  }).join('');
+}
+function renderInterroRoom(s,idx){
+  renderInterroTabs(s,idx);
+  const grp=s.interrogation[idx];
+  const sus=SUSPECTS.find(x=>x.id===grp.suspectId);
+  g('interroRoom').innerHTML=`
+    <div class="ir-suspect">
+      <div class="ir-av">${sus.avatar}</div>
+      <div><div class="ir-name">${sus.name}</div><div class="ir-role">${sus.role}</div></div>
+    </div>
+    <div class="ir-q-list">
+      ${grp.questions.map((qa,qi)=>`
+        <div>
+          <button class="ir-q-btn" id="irq_${s.id}_${idx}_${qi}" onclick="askQuestion(${s.id},${idx},${qi})">❓ ${qa.q}</button>
+          <div class="ir-answer" id="ira_${s.id}_${idx}_${qi}">
+            <div>"${qa.a}"</div>
+            ${qa.flag?`<div class="ir-flag">🚩 ${qa.flagNote}</div>`:''}
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+function askQuestion(stageId,idx,qi){
+  const s=STAGES[stageId-1];
+  const grp=s.interrogation[idx];
+  g(`irq_${stageId}_${idx}_${qi}`).disabled=true;
+  g(`ira_${stageId}_${idx}_${qi}`).classList.add('show');
+  const allAnswered=grp.questions.every((_,i)=>g(`irq_${stageId}_${idx}_${i}`).disabled);
+  if(allAnswered){
+    gs.interroDone[stageId][grp.suspectId]=true;
+    renderInterroTabs(s,idx);
+    const allDone=s.interrogation.every(gr=>gs.interroDone[stageId][gr.suspectId]);
+    if(allDone){
+      toast('✅ 모든 용의자 심문 완료','#3ecf8e');
+      finishClue(s);
+    }
+  }
+}
+
+// ════════ FINAL STAGE ════════
+function renderFinalStage(s){
+  const body=g('gameBody');
+  const remaining=SUSPECTS.filter(x=>x.status!=='cleared');
+  body.innerHTML=`
+    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
+    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
+    <div class="stage-card fadeUp">
+      <div class="stage-icon">${s.icon}</div>
+      <div class="stage-title">${s.name}</div>
+      <div class="stage-intro">${s.intro}</div>
+      <div style="margin-bottom:12px;"><button class="btn-clueboard" onclick="openClueModal()">🗂️ 단서 다시 보기</button></div>
+      <div class="final-grid" id="finalGrid"></div>
+    </div>
+  `;
+  g('finalGrid').innerHTML=remaining.map(sus=>`
+    <button class="final-card" onclick="pickFinal('${sus.id}')">
+      <div class="fc-top"><span class="fc-av">${sus.avatar}</span><div><div class="fc-name">${sus.name}</div><div class="fc-role">${sus.role}</div></div></div>
+    </button>`).join('');
+}
+function pickFinal(suspectId){
+  const s=STAGES[STAGES.length-1];
+  gs.picked=suspectId;
+  if(suspectId===s.correctAnswer) endGame('success',s.explainCorrect);
+  else endGame('wrong',s.explainWrong);
+}
+
+// ════════ MODALS ════════
+function openClueModal(){
+  g('clueListContainer').innerHTML = gs.clues.length
+    ? gs.clues.map(c=>`<div class="clue-list-item"><div class="cl-lbl">${c.label}</div><div class="cl-txt">${c.text}</div></div>`).join('')
+    : '<div style="color:var(--tx3);font-size:.85rem;">아직 확보한 단서가 없습니다.</div>';
+  g('clueModal').classList.add('show');
+}
+function closeClueModal(){g('clueModal').classList.remove('show');}
+function openSuspModal(){
+  g('suspListContainer').innerHTML = SUSPECTS.map(s=>`
+    <div class="clue-list-item" style="display:flex;align-items:center;gap:12px;${s.status==='cleared'?'opacity:.4':''}">
+      <div style="font-size:1.6rem;">${s.avatar}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;">${s.name} <span style="font-size:.74rem;color:var(--tx2);font-weight:400;">${s.role}</span></div>
+        <div style="font-size:.78rem;color:${s.status==='cleared'?'var(--green)':'var(--tx2)'};">${s.status==='cleared'?'✅ 용의선상 제외':'🔍 수사 중'}</div>
+      </div>
+    </div>`).join('');
+  g('suspModal').classList.add('show');
+}
+function closeSuspModal(){g('suspModal').classList.remove('show');}
+
+// ════════ END ════════
+const CASE_NOTES = [
+  {
+    step:'단계 1', title:'루미놀 반응', icon:'🧪', tag:'화학·법과학',
+    badgeColor:'#196c2e', badgeBg:'#3ecf8e22',
+    given:[
+      {label:'반응식 (참고)', content:'루미놀(C₈H₇N₃O₂) + H₂O₂ → [Fe 촉매] → 3-아미노프탈산 + N₂ + hν(빛)'},
+      {label:'물질 이름', content:'발광 현상: 화학발광(Chemiluminescence) / 검출 대상: 혈액 속 헤모글로빈의 Fe 이온'}
+    ],
+    blanks:[
+      {q:'루미놀이 혈흔과 반응하면 어떤 색의 빛이 나타나나요?', ph:'조사해서 적어보세요...'},
+      {q:'이 반응에서 Fe 이온은 어떤 역할을 하나요? (반응 중 변하나요, 변하지 않나요?)', ph:'조사해서 적어보세요...'},
+      {q:'왜 어두운 곳에서만 루미놀 반응을 관찰할 수 있을까요?', ph:'조사해서 적어보세요...'},
+      {q:'이번 사건에서 루미놀로 발견한 흔적이 수사에 어떻게 도움이 됐나요?', ph:'직접 생각해서 적어보세요...'}
     ]
   },
   {
-    id: 'stage6',
-    title: '구역 6: 최종 탈출 — 불꽃 반응',
-    timeLimit: 300,
-    story: `드디어 마지막 구역! 탈출 포드의 점화 코드는 <em>불꽃 반응 색깔</em>로 구성된 <strong>두 글자 단어</strong>입니다.<br><br>
-A와 B가 각각 다른 금속의 불꽃색 정보를 가지고 있습니다. <span class="warn">반전 주의: 둘 다 같은 색을 보고 있을 수도 있어요!</span>`,
-    answers: ['노랑', '노란색', '노랑색', 'yellow'],
-    fact: `🧪 <strong>불꽃 반응</strong>은 금속 원소를 태우면 특유의 색깔 빛을 내는 현상이에요. 나트륨(Na)은 노란색, 구리(Cu)는 청록색, 리튬(Li)은 빨간색, 칼륨(K)은 보라색! 불꽃놀이의 화려한 색깔도 다 이 원리로 만들어져요. 이번 단계의 반전은 — A와 B가 본 시약통 라벨이 사실 <b>같은 물질(나트륨 화합물)</b>이었다는 것! 서로 다른 이름으로 불렸을 뿐, 둘 다 정답은 "노랑"이었어요.`,
-    clearTitle: '탈출 성공!',
-    clearSub: '모든 승무원이 탈출 포드에 탑승했습니다. SECTOR-7을 떠납니다.',
-    clearIcon: '🚀',
-    roleClues: [
-      `📟 <b>당신의 단말기 (A)</b><br>
-      시약통 라벨: <span class="highlight">"NaCl (염화나트륨, 식염) — 이 물질을 불꽃에 넣으면 특유의 색이 나타난다."</span><br><br>
-      <span class="warn">※ 나트륨(Na)의 불꽃색을 떠올려 보세요. B와 답을 맞춰보면 재밌는 사실을 발견할 거예요!</span>`,
-      `📟 <b>당신의 단말기 (B)</b><br>
-      시약통 라벨: <span class="highlight">"NaHCO₃ (베이킹소다, 탄산수소나트륨) — 이 물질을 불꽃에 넣으면 특유의 색이 나타난다."</span><br><br>
-      <span class="warn">※ 이것도 나트륨(Na) 화합물입니다. A와 답을 비교해보세요 — 같은 답이 나올 수도 있어요!</span>`
+    step:'단계 3', title:'UV 형광 반응', icon:'💡', tag:'빛·파장',
+    badgeColor:'#1a6b5a', badgeBg:'#3ecfb822',
+    given:[
+      {label:'UV 파장 범위 (참고)', content:'자외선(UV): 약 10~400nm / 가시광선: 약 380~700nm'},
+      {label:'형광 원리 (참고)', content:'UV 광자 흡수 → 전자 들뜸(Excitation) → 낮은 에너지 상태로 복귀하며 가시광선 방출'}
+    ],
+    blanks:[
+      {q:'형광(Fluorescence)과 인광(Phosphorescence)의 차이점은 무엇인가요?', ph:'조사해서 적어보세요...'},
+      {q:'형광펜 잉크 속 어떤 성분이 UV에 반응하나요?', ph:'조사해서 적어보세요...'},
+      {q:'법과학에서 UV 라이트로 찾을 수 있는 증거를 2가지 이상 써보세요.', ph:'조사해서 적어보세요...'},
+      {q:'이 사건에서 발견한 형광 메모의 내용이 범인 특정에 어떤 역할을 했나요?', ph:'직접 생각해서 적어보세요...'}
+    ]
+  },
+  {
+    step:'단계 5', title:'석고 본뜨기', icon:'👣', tag:'화학·물리적 증거',
+    badgeColor:'#5a3a00', badgeBg:'#d4af6a22',
+    given:[
+      {label:'화학식 (참고)', content:'소석고: CaSO₄·½H₂O\n경화 반응: CaSO₄·½H₂O + 1½H₂O → CaSO₄·2H₂O (이수석고)'},
+      {label:'반응 특성 (참고)', content:'물을 만나면 발열 반응이 일어나며 굳음 (약 20~30분 소요)'}
+    ],
+    blanks:[
+      {q:'석고가 굳는 과정은 화학적 변화인가요, 물리적 변화인가요? 이유도 함께 써보세요.', ph:'조사해서 적어보세요...'},
+      {q:'발자국으로 알 수 있는 정보를 3가지 이상 써보세요. (사이즈 외에도)', ph:'조사해서 적어보세요...'},
+      {q:'이 사건에서 발자국 사이즈가 김다은을 용의선상에서 제외한 이유를 논리적으로 써보세요.', ph:'직접 생각해서 적어보세요...'}
+    ]
+  },
+  {
+    step:'단계 6', title:'시험관 적정 — 산염기 반응', icon:'⚗️', tag:'산염기·지시약',
+    badgeColor:'#0d4a6b', badgeBg:'#00d4ff22',
+    given:[
+      {label:'이번 실험 반응식 (참고)', content:'아스피린(CH₃COOC₆H₄COOH) + NaHCO₃ → 염 + H₂O + CO₂↑'},
+      {label:'지시약 색 변화 (참고)', content:'페놀프탈레인: 산성·중성 → 무색 / 염기성 → 분홍\nBTB: 산성 → 노랑 / 중성 → 초록 / 염기성 → 파랑'}
+    ],
+    blanks:[
+      {q:'페놀프탈레인이 색이 변하는 pH 범위는 어떻게 될까요? 조사해서 써보세요.', ph:'조사해서 적어보세요...'},
+      {q:'이 실험에서 CO₂ 기포가 발생한 이유를 반응식과 연결해서 설명해보세요.', ph:'조사해서 적어보세요...'},
+      {q:'지시약은 스스로 pH를 바꾸지 않습니다. 그렇다면 지시약의 역할을 한 문장으로 정의해보세요.', ph:'조사해서 적어보세요...'},
+      {q:'아스피린과 베이킹소다가 치명적이지 않음에도 범죄 증거가 된 이유를 써보세요.', ph:'직접 생각해서 적어보세요...'}
+    ]
+  },
+  {
+    step:'단계 7', title:'타임라인 재구성', icon:'🧩', tag:'논리적 추론',
+    badgeColor:'#1a3a6b', badgeBg:'#9b6bff22',
+    given:[
+      {label:'이 사건 핵심 시각 (참고)', content:'21:20 이도윤 PC방 목격 (학교에서 약 30km 거리)\n21:43 과학실 재입장 기록\n→ 21:20에서 21:43까지 23분 = 이동 불가능'},
+      {label:'알리바이 판단 기준 (참고)', content:'물리적 불가능: 같은 시각 두 장소에 있을 수 없음\n전자 기록(결제·카드키·기지국)은 조작이 어려움'}
+    ],
+    blanks:[
+      {q:'알리바이(Alibi)란 무엇인지 자신의 말로 정의해보세요.', ph:'조사해서 적어보세요...'},
+      {q:'전자 기록이 목격자 진술보다 신뢰도가 높은 이유를 써보세요.', ph:'조사해서 적어보세요...'},
+      {q:'이도윤은 거짓말을 했지만 범인이 아니었습니다. 의심스러운 행동이 반드시 범죄를 의미하지 않는 이유를 논리적으로 써보세요.', ph:'직접 생각해서 적어보세요...'},
+      {q:'이 사건에서 최현우를 범인으로 확정한 결정적 물증 3가지를 직접 정리해보세요.', ph:'직접 생각해서 적어보세요...'}
     ]
   }
 ];
 
-// ═══ STATE ═══
-let myTeam = '';
-let myNick = '';
-let myRole = 0; // 0 = A, 1 = B
-let currentStageIdx = 0;
-let timerInterval = null;
-let timeLeft = 0;
-let seenMsgIds = new Set();
-let offlineMode = false;
-let teamUnsub = null;
-let chatUnsub = null;
+function endGame(type,explain){
+  clearInterval(timerInt);
+  showScreen('sEnd');
+  const e = type==='success'?ENDING.success : type==='wrong'?ENDING.wrong : ENDING.fail;
+  g('endIcon').textContent = type==='success'?'🎉':type==='wrong'?'❌':'⏰';
+  g('endTitle').textContent=e.title;
+  g('endTitle').className='end-title '+(type==='success'?'win':'lose');
+  g('endBody').textContent=(explain?explain+'\n\n':'')+e.body;
 
-// ═══ LOGIN ═══
-async function login() {
-  const team = document.getElementById('input-team').value.trim().toUpperCase();
-  const nick = document.getElementById('input-nick').value.trim();
-  const status = document.getElementById('login-status');
-
-  if (!team || !nick) {
-    status.textContent = '⚠ 팀 코드와 닉네임을 모두 입력해주세요';
-    return;
-  }
-
-  status.textContent = '접속 중...';
-
-  if (typeof firebase === 'undefined' || !firebaseReady || !db) {
-    status.textContent = '⚠ Firebase 라이브러리를 불러오지 못했습니다. 오프라인 모드로 시작합니다.';
-    startOfflineMode(team, nick);
-    return;
-  }
-
-  try {
-    myTeam = team;
-    myNick = nick;
-
-    const teamRef = db.collection('teams').doc(team);
-    const snap = await teamRef.get();
-
-    if (!snap.exists) {
-      await teamRef.set({
-        stage: 0,
-        stageStartTime: Date.now(),
-        members: { [nick]: { role: 0, joinedAt: Date.now() } },
-        solved: false,
-        totalElapsed: 0
-      });
-      myRole = 0;
-    } else {
-      const data = snap.data();
-      const members = data.members || {};
-      if (members[nick] !== undefined) {
-        myRole = members[nick].role;
-      } else {
-        const takenRoles = Object.values(members).map(m => m.role);
-        if (takenRoles.length >= 2) {
-          status.textContent = '⚠ 이 팀은 이미 2명(A, B)이 모두 접속했습니다. 다른 팀 코드를 사용하세요.';
-          return;
-        }
-        myRole = takenRoles.includes(0) ? 1 : 0;
-        await teamRef.update({
-          [`members.${nick}`]: { role: myRole, joinedAt: Date.now() }
-        });
-      }
-    }
-
-    showScreen('screen-game');
-    initGame();
-    status.textContent = '';
-  } catch (e) {
-    console.error('Login error:', e);
-    let detail = e.message || String(e);
-    let extra = '';
-    if (e.code === 'permission-denied' || /permission/i.test(detail)) {
-      extra = ' (Firestore 보안 규칙이 막혀있을 수 있어요. Firebase 콘솔 → Firestore Database → 규칙에서 read/write를 허용해주세요.)';
-    } else if (e.code === 'unavailable' || /network|fetch|offline/i.test(detail)) {
-      extra = ' (네트워크 연결을 확인해주세요. 오프라인 모드로 1인 플레이를 시작합니다.)';
-      status.textContent = '⚠ 접속 실패: ' + detail + extra;
-      startOfflineMode(team, nick);
-      return;
-    }
-    status.textContent = '❌ 접속 실패: ' + detail + extra;
+  if(type==='success'){
+    g('caseNote').style.display='block';
+    renderCaseNote();
   }
 }
 
-// ═══ OFFLINE FALLBACK (no Firebase connection) ═══
-function startOfflineMode(team, nick) {
-  myTeam = team;
-  myNick = nick;
-  myRole = 0;
-  currentStageIdx = 0;
-  offlineMode = true;
-  showScreen('screen-game');
-  document.getElementById('member-list').innerHTML =
-    `<div class="member-chip"><span class="member-dot" style="background:#7fdfff"></span>${escapeHtml(nick)}<span class="member-role">승무원 A (오프라인)</span></div>`;
-  document.getElementById('chat-messages').innerHTML =
-    `<div class="chat-msg system"><div class="msg-text">⚠ Firebase에 연결할 수 없어 오프라인 모드로 시작합니다. 1인 테스트 플레이로 모든 단서를 확인할 수 있어요. (채팅·실시간 동기화는 비활성화됩니다.)</div></div>`;
-  loadStage();
-}
-
-// ═══ INIT GAME ═══
-function initGame() {
-  const teamRef = db.collection('teams').doc(myTeam);
-
-  teamUnsub = teamRef.onSnapshot((snap) => {
-    if (!snap.exists) return;
-    const data = snap.data();
-
-    if (data.stage !== undefined && data.stage !== currentStageIdx) {
-      currentStageIdx = data.stage;
-      if (currentStageIdx >= STAGES.length) {
-        showFinal(data);
-        return;
-      }
-      loadStage();
-    }
-
-    renderMembers(data.members || {});
-  });
-
-  chatUnsub = teamRef.collection('chat').orderBy('ts', 'asc')
-    .onSnapshot((snap) => {
-      snap.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          const msg = change.doc.data();
-          const id = change.doc.id;
-          if (!seenMsgIds.has(id)) {
-            seenMsgIds.add(id);
-            renderChatMsg(msg);
-          }
-        }
-      });
-    });
-
-  teamRef.get().then((snap) => {
-    const data = snap.data();
-    currentStageIdx = data.stage || 0;
-    if (currentStageIdx >= STAGES.length) {
-      showFinal(data);
-    } else {
-      loadStage();
-    }
-    renderMembers(data.members || {});
-  });
-}
-
-// ═══ LOAD STAGE ═══
-function loadStage() {
-  const stage = STAGES[currentStageIdx];
-  document.getElementById('stage-label').textContent = stage.title;
-  document.getElementById('story-box').innerHTML = stage.story;
-  document.getElementById('role-badge').textContent = ROLE_NAMES[myRole];
-  document.getElementById('role-badge').style.background = `rgba(${myRole===0?'127,223,255':'255,170,68'},0.15)`;
-  document.getElementById('role-badge').style.color = MEMBER_COLORS[myRole];
-  document.getElementById('clue-id').textContent = `단말기 — ${ROLE_NAMES[myRole]}`;
-  document.getElementById('clue-text').innerHTML = stage.roleClues[myRole];
-  document.getElementById('answer-input').value = '';
-  document.getElementById('answer-feedback').textContent = '';
-  document.getElementById('answer-feedback').className = 'answer-feedback';
-
-  if (stage.isOrdering) {
-    document.getElementById('order-panel').style.display = 'block';
-    document.getElementById('answer-panel-normal').style.display = 'none';
-    renderOrderList(stage);
-  } else {
-    document.getElementById('order-panel').style.display = 'none';
-    document.getElementById('answer-panel-normal').style.display = 'block';
-  }
-
-  startTimer(stage.timeLimit);
-}
-
-// ═══ ORDERING ═══
-let currentOrder = [];
-function renderOrderList(stage) {
-  currentOrder = stage.orderingItems.map(it => it.id);
-  shuffleArray(currentOrder);
-  drawOrderList(stage);
-  document.getElementById('order-feedback').textContent = '';
-  document.getElementById('order-feedback').className = 'answer-feedback';
-}
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-}
-function drawOrderList(stage) {
-  const list = document.getElementById('order-list');
-  list.innerHTML = '';
-  currentOrder.forEach((id, idx) => {
-    const item = stage.orderingItems.find(it => it.id === id);
-    const div = document.createElement('div');
-    div.className = 'order-card';
-    div.draggable = true;
-    div.dataset.id = id;
-    div.innerHTML = `<span class="order-num">${idx+1}</span><span class="order-handle">⠿</span><span>${item.text}</span>`;
-    div.addEventListener('dragstart', () => div.classList.add('dragging'));
-    div.addEventListener('dragend', () => { div.classList.remove('dragging'); syncOrderFromDOM(stage); });
-    div.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      const dragging = list.querySelector('.dragging');
-      if (!dragging || dragging === div) return;
-      const rect = div.getBoundingClientRect();
-      const after = (e.clientY - rect.top) > rect.height / 2;
-      list.insertBefore(dragging, after ? div.nextSibling : div);
-    });
-    list.appendChild(div);
-  });
-}
-function syncOrderFromDOM(stage) {
-  const cards = document.querySelectorAll('#order-list .order-card');
-  currentOrder = Array.from(cards).map(c => c.dataset.id);
-  cards.forEach((c, idx) => { c.querySelector('.order-num').textContent = idx + 1; });
-}
-async function submitOrder() {
-  const stage = STAGES[currentStageIdx];
-  const feedback = document.getElementById('order-feedback');
-  const correct = JSON.stringify(currentOrder) === JSON.stringify(stage.correctOrder);
-
-  if (correct) {
-    feedback.textContent = '✅ 순서가 정확합니다!';
-    feedback.className = 'answer-feedback right';
-    showClearOverlay(stage);
-    if (offlineMode) {
-      currentStageIdx++;
-      return;
-    }
-    await systemChat(`🎉 ${myNick}님 팀이 실험 순서를 정확히 배열했습니다!`);
-    const teamRef = db.collection('teams').doc(myTeam);
-    await teamRef.update({ stage: currentStageIdx + 1, stageStartTime: Date.now() });
-  } else {
-    feedback.textContent = '❌ 순서가 맞지 않습니다. B의 규칙 메모를 다시 들어보세요!';
-    feedback.className = 'answer-feedback wrong';
-    if (!offlineMode) {
-      await systemChat(`❌ ${myNick}님 팀이 순서를 제출했지만 틀렸습니다. 다시 시도하세요.`);
-    }
-  }
-}
-
-// ═══ TIMER ═══
-function startTimer(seconds) {
-  clearInterval(timerInterval);
-  timeLeft = seconds;
-  updateTimerDisplay();
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    if (timeLeft < 0) timeLeft = 0;
-    updateTimerDisplay();
-    if (timeLeft <= 0) clearInterval(timerInterval);
-  }, 1000);
-}
-function updateTimerDisplay() {
-  const m = Math.floor(timeLeft / 60);
-  const s = timeLeft % 60;
-  const el = document.getElementById('timer');
-  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  el.classList.toggle('low', timeLeft <= 30);
-}
-
-// ═══ SUBMIT ANSWER ═══
-async function submitAnswer() {
-  const input = document.getElementById('answer-input');
-  const feedback = document.getElementById('answer-feedback');
-  const raw = input.value.trim();
-  const normalized = raw.toLowerCase().replace(/\s+/g, '');
-  const stage = STAGES[currentStageIdx];
-
-  const correct = stage.answers.some(a => a.toLowerCase().replace(/\s+/g, '') === normalized);
-
-  if (correct) {
-    feedback.textContent = '✅ 정답입니다!';
-    feedback.className = 'answer-feedback right';
-    showClearOverlay(stage);
-
-    if (offlineMode) {
-      currentStageIdx++;
-      return;
-    }
-    await systemChat(`🎉 ${myNick}님이 정답을 맞췄습니다! "${raw}"`);
-    const teamRef = db.collection('teams').doc(myTeam);
-    await teamRef.update({ stage: currentStageIdx + 1, stageStartTime: Date.now() });
-  } else {
-    feedback.textContent = '❌ 다시 시도해보세요. 팀원과 상의했나요?';
-    feedback.className = 'answer-feedback wrong';
-    if (!offlineMode) {
-      await systemChat(`❌ ${myNick}님이 "${raw}"를 입력했지만 오답이었습니다.`);
-    }
-  }
-}
-
-// ═══ CLEAR OVERLAY ═══
-function showClearOverlay(stage) {
-  document.getElementById('ol-icon').textContent = stage.clearIcon;
-  document.getElementById('ol-title').textContent = stage.clearTitle;
-  document.getElementById('ol-sub').textContent = stage.clearSub;
-  document.getElementById('ol-fact').innerHTML = stage.fact;
-
-  const twistEl = document.getElementById('ol-twist');
-  if (stage.twist) {
-    twistEl.style.display = 'block';
-    twistEl.innerHTML = stage.twist;
-  } else {
-    twistEl.style.display = 'none';
-  }
-
-  const btn = document.getElementById('btn-next');
-  btn.textContent = (currentStageIdx + 1 >= STAGES.length) ? '탈출 완료 ▶' : '다음 구역 진입 ▶';
-
-  document.getElementById('overlay-clear').classList.add('active');
-}
-
-function nextStage() {
-  document.getElementById('overlay-clear').classList.remove('active');
-  if (offlineMode) {
-    if (currentStageIdx >= STAGES.length) {
-      showFinal({ members: { [myNick]: { role: 0 } } });
-    } else {
-      loadStage();
-    }
-  }
-}
-
-// ═══ MEMBERS ═══
-function renderMembers(members) {
-  const list = document.getElementById('member-list');
-  list.innerHTML = '';
-  Object.entries(members).forEach(([nick, info]) => {
-    const div = document.createElement('div');
-    div.className = 'member-chip';
-    const color = MEMBER_COLORS[info.role] || '#7fdfff';
-    div.innerHTML = `<span class="member-dot" style="background:${color}"></span>${nick}<span class="member-role">${ROLE_NAMES[info.role]}</span>`;
-    list.appendChild(div);
-  });
-}
-
-// ═══ CHAT ═══
-function renderChatMsg(msg) {
-  const container = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'chat-msg' + (msg.system ? ' system' : '');
-
-  if (msg.system) {
-    div.innerHTML = `<div class="msg-text">${escapeHtml(msg.text)}</div>`;
-  } else {
-    const color = MEMBER_COLORS[msg.role] || '#7fdfff';
-    div.innerHTML = `
-      <div class="msg-meta">
-        <span style="color:${color}; font-weight:700;">${escapeHtml(msg.author)} (${ROLE_NAMES[msg.role] || ''})</span>
+function renderCaseNote(){
+  const list=g('noteList');
+  list.innerHTML='';
+  CASE_NOTES.forEach((note,i)=>{
+    const card=document.createElement('div');
+    card.className='note-card';
+    const givenHTML=note.given.map(gv=>`
+      <div style="margin-bottom:10px;">
+        <div style="font-size:.7rem;color:var(--gold);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${gv.label}</div>
+        <div class="note-formula" style="white-space:pre-line;">${gv.content}</div>
+      </div>`).join('');
+    const blanksHTML=note.blanks.map((b,bi)=>`
+      <div style="margin-bottom:14px;">
+        <div style="font-size:.84rem;font-weight:600;color:var(--tx);margin-bottom:6px;">Q${bi+1}. ${b.q}</div>
+        <textarea class="note-input" placeholder="${b.ph}" rows="3"></textarea>
+      </div>`).join('');
+    card.innerHTML=`
+      <div class="note-header" id="nh_${i}" onclick="toggleNote(${i})">
+        <div class="note-badge" style="background:${note.badgeBg};color:${note.badgeColor};width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">${note.icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:var(--mono);font-size:.68rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;">${note.step}</div>
+          <div style="font-weight:700;font-size:.93rem;">${note.title}</div>
+        </div>
+        <div style="font-size:.73rem;color:var(--gold);background:#d4af6a18;border:1px solid #d4af6a33;border-radius:20px;padding:2px 9px;margin-left:8px;white-space:nowrap;">${note.tag}</div>
+        <span style="color:var(--tx3);font-size:.9rem;margin-left:8px;transition:transform .25s;" id="chev_${i}">▼</span>
       </div>
-      <div class="msg-text">${escapeHtml(msg.text)}</div>`;
-  }
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  if (offlineMode) {
-    renderChatMsg({ author: myNick, role: myRole, text: text, system: false });
-    return;
-  }
-  await db.collection('teams').doc(myTeam).collection('chat').add({
-    author: myNick, role: myRole, text: text, system: false, ts: firebase.firestore.FieldValue.serverTimestamp()
+      <div class="note-body" id="nb_${i}">
+        <div style="background:#d4af6a0a;border:1px solid #d4af6a22;border-radius:9px;padding:14px 16px;margin-bottom:16px;">
+          <div style="font-size:.76rem;color:var(--gold);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">📌 제공된 정보 (참고용)</div>
+          ${givenHTML}
+        </div>
+        <div style="font-size:.76rem;color:var(--accent2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">✏️ 직접 조사해서 채워보세요</div>
+        ${blanksHTML}
+      </div>
+    `;
+    list.appendChild(card);
+    setTimeout(()=>card.classList.add('visible'), 150+i*120);
   });
 }
 
-async function systemChat(text) {
-  await db.collection('teams').doc(myTeam).collection('chat').add({
-    text: text, system: true, ts: firebase.firestore.FieldValue.serverTimestamp()
+function toggleNote(i){
+  const h=document.getElementById('nh_'+i);
+  const chev=document.getElementById('chev_'+i);
+  const wasOpen=h.classList.contains('open');
+  CASE_NOTES.forEach((_,j)=>{
+    const hj=document.getElementById('nh_'+j);
+    const cj=document.getElementById('chev_'+j);
+    if(hj)hj.classList.remove('open');
+    if(cj)cj.style.transform='';
   });
+  if(!wasOpen){
+    h.classList.add('open');
+    if(chev)chev.style.transform='rotate(180deg)';
+  }
+}
+function restartGame(){
+  SUSPECTS.forEach(s=>s.status='suspect');
+  showScreen('sIntro');
 }
 
-// ═══ FINAL ═══
-function showFinal(data) {
-  clearInterval(timerInterval);
-  showScreen('screen-final');
-  document.getElementById('final-team-name').textContent = `팀 ${myTeam} · MISSION COMPLETE`;
-  const memberCount = Object.keys(data.members || {}).length;
-  document.getElementById('final-score-box').innerHTML = `
-    <div class="final-stat"><span class="stat-label">팀 코드</span><span class="stat-val">${myTeam}</span></div>
-    <div class="final-stat"><span class="stat-label">승무원 수</span><span class="stat-val">${memberCount}명</span></div>
-    <div class="final-stat"><span class="stat-label">클리어 구역</span><span class="stat-val">${STAGES.length} / ${STAGES.length}</span></div>
-    <div class="final-stat"><span class="stat-label">결과</span><span class="stat-val">🎉 완료!</span></div>
-  `;
-}
 
-// ═══ UTILS ═══
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-document.getElementById('input-nick').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
-document.getElementById('answer-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitAnswer(); });
-document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 </script>
 </body>
 </html>
