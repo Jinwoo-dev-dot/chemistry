@@ -2,1772 +2,2083 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>438호의 마지막 밤 — 과학수사 미스터리</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>리원준 실종 사건 — 경기북과학고</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
-
 :root{
-  --bg:#0a0a0f; --c1:#13131c; --c2:#1c1c28; --c3:#262635;
-  --brd:#2e2e42; --brd2:#3e3e58;
-  --accent:#9b6bff; --accent2:#c4a3ff;
-  --blood:#8b1e2e; --blood2:#c23a4e;
-  --uv:#3ecfb8; --gold:#d4af6a;
-  --tx:#e8e6f0; --tx2:#8a87a8; --tx3:#4a4768;
-  --green:#3ecf8e; --red:#ff5468; --yellow:#f0c64e;
+  --bg:#09090e;--c1:#111118;--c2:#1a1a25;--c3:#222230;
+  --brd:#2a2a3e;--brd2:#3a3a55;
+  --p:#7c6dfa;--p2:#a99fff;--p3:#d0caff;
+  --g:#00e5a0;--r:#ff4d6d;--y:#ffd60a;--o:#ff9500;--t:#00d4ff;
+  --gold:#d4af6a;--blood:#c23a4e;
+  --tx:#eeeeff;--tx2:#8888bb;--tx3:#44446a;
   --font:'Noto Sans KR',sans-serif;
   --serif:'Noto Serif KR',serif;
   --mono:'IBM Plex Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;}
-body{font-family:var(--font);background:var(--bg);color:var(--tx);overflow-x:hidden;}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--tx);overflow-x:hidden;}
 button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit;}
-input,textarea{font-family:inherit;}
+textarea,input{font-family:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--brd);}
 
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  opacity:.5;}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
-  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.45) 100%);}
-
-.scr{display:none;min-height:100vh;}
+.scr{display:none;min-height:100vh;flex-direction:column;}
 .scr.on{display:flex;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-@keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes strikeLine{from{width:0}to{width:100%}}
-.fadeUp{animation:fadeUp .5s ease-out both;}
-.fadeIn{animation:fadeIn .6s ease-out both;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes glitch{0%,100%{transform:none}20%{transform:skew(-1deg)}40%{transform:skew(1deg)}}
+@keyframes titleGlow{0%,100%{text-shadow:0 0 30px #7c6dfa33,0 0 60px #7c6dfa11}50%{text-shadow:0 0 40px #7c6dfa77,0 0 90px #7c6dfa33}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes scanline{0%{top:-10%}100%{top:110%}}
+@keyframes borderGlow{0%,100%{box-shadow:0 0 8px #7c6dfa22}50%{box-shadow:0 0 18px #7c6dfa55}}
+@keyframes slideRight{from{transform:translateX(-8px);opacity:0}to{transform:none;opacity:1}}
+.fu{animation:fadeUp .45s ease-out both;}
 
-/* ══ INTRO ══ */
-#sIntro{flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative;
-  background:radial-gradient(ellipse at 50% 20%,#1a0d2e 0%,var(--bg) 65%);}
-.case-tape{position:absolute;top:0;left:0;width:100%;height:36px;background:repeating-linear-gradient(45deg,#d4af6a,#d4af6a 18px,#13131c 18px,#13131c 36px);opacity:.85;}
-.case-tape.bottom{top:auto;bottom:0;}
-.intro-badge{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;color:var(--blood2);text-transform:uppercase;margin-bottom:18px;border:1px solid var(--blood);padding:4px 14px;border-radius:30px;}
-.intro-title{font-family:var(--serif);font-size:2.6rem;font-weight:900;letter-spacing:-.01em;margin-bottom:10px;color:#f0eefa;text-shadow:0 0 30px #9b6bff44;}
-.intro-sub{font-size:.95rem;color:var(--tx2);max-width:540px;line-height:1.8;margin-bottom:30px;}
-.case-file{background:var(--c1);border:1px solid var(--brd);border-radius:4px;padding:26px 30px;max-width:560px;text-align:left;margin-bottom:28px;position:relative;}
-.case-file::before{content:'CASE FILE';position:absolute;top:-11px;left:24px;background:var(--bg);padding:0 10px;font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--blood2);}
-.cf-row{display:flex;gap:10px;margin-bottom:8px;font-size:.86rem;}
-.cf-label{color:var(--tx3);font-family:var(--mono);min-width:84px;flex-shrink:0;}
-.cf-val{color:var(--tx);}
-.btn-start{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:8px;padding:15px 42px;font-size:1rem;font-weight:700;letter-spacing:.02em;transition:transform .15s,opacity .2s;box-shadow:0 8px 28px #9b6bff33;}
-.btn-start:hover{opacity:.9;}
-.btn-start:active{transform:scale(.97);}
+/* noise */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");}
+/* subtle scanline sweep */
+body::after{content:'';position:fixed;left:0;right:0;height:120px;pointer-events:none;z-index:9998;
+  background:linear-gradient(180deg,transparent,#7c6dfa06,transparent);
+  animation:scanline 9s linear infinite;}
 
-/* ══ SUSPECTS ══ */
-#sSuspects{flex-direction:column;align-items:center;padding:36px 24px;background:var(--bg);}
-.susp-head{text-align:center;margin-bottom:26px;}
-.susp-head h2{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:8px;}
-.susp-head p{color:var(--tx2);font-size:.85rem;max-width:520px;line-height:1.7;}
-.susp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:880px;width:100%;margin-bottom:30px;}
-.susp-card{background:var(--c1);border:1px solid var(--brd);border-radius:13px;padding:19px 21px;transition:all .25s;position:relative;overflow:hidden;}
-.susp-card:hover{border-color:var(--accent);transform:translateY(-2px);}
-.susp-card.eliminated{opacity:.4;}
-.susp-card.eliminated::after{content:'용의선상 제외';position:absolute;top:10px;right:10px;background:var(--green);color:#000;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px;}
-.susp-top{display:flex;align-items:center;gap:13px;margin-bottom:11px;}
-.susp-av{width:52px;height:52px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:2px solid var(--brd2);}
-.susp-name{font-weight:700;font-size:1.04rem;}
-.susp-role{font-size:.78rem;color:var(--tx2);}
-.susp-detail-lbl{font-family:var(--mono);font-size:.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;margin-top:9px;}
-.susp-detail-txt{font-size:.81rem;color:var(--tx2);line-height:1.6;}
+/* ── INTRO ── */
+#sIntro{align-items:center;justify-content:center;text-align:center;padding:36px 20px;position:relative;
+  background:radial-gradient(ellipse at 50% 0%,#1a0520,var(--bg) 65%);}
+.tape{position:absolute;left:0;right:0;height:32px;
+  background:repeating-linear-gradient(45deg,#ffd60a,#ffd60a 14px,#111 14px,#111 28px);opacity:.9;}
+.tape.top{top:0}.tape.bot{bottom:0}
+.case-badge{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;color:var(--blood);border:1px solid var(--blood);padding:3px 13px;border-radius:30px;margin-bottom:14px;text-transform:uppercase;}
+.intro-title{font-family:var(--serif);font-size:2.5rem;font-weight:900;color:#f0eefa;margin-bottom:8px;animation:titleGlow 3s ease-in-out infinite;}
+.intro-sub{color:var(--tx2);font-size:.88rem;line-height:1.85;max-width:460px;margin-bottom:26px;white-space:pre-line;}
+.case-file{background:var(--c1);border:1px solid var(--brd);border-radius:4px;padding:20px 26px;max-width:500px;width:100%;text-align:left;margin-bottom:22px;position:relative;animation:floaty 5s ease-in-out infinite;}
+.case-file:hover{border-color:var(--brd2);}
+.case-file::before{content:'CASE FILE · CONFIDENTIAL';position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 9px;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--blood);}
+.cf{display:flex;gap:9px;margin-bottom:6px;font-size:.83rem;}
+.cfl{color:var(--tx3);font-family:var(--mono);min-width:76px;flex-shrink:0;}
+.cfv{color:var(--tx);}
+.btn-primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:9px;padding:13px 36px;font-size:.96rem;font-weight:700;box-shadow:0 6px 22px #7c6dfa33;transition:all .2s;position:relative;overflow:hidden;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,#ffffff33 50%,transparent 60%);background-size:200% 100%;animation:shimmer 3s ease-in-out infinite;}
+.btn-primary:hover{opacity:.92;transform:translateY(-2px);box-shadow:0 10px 30px #7c6dfa55;}
+.btn-primary:active{transform:translateY(0);}
+.btn-secondary{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:10px 22px;font-size:.88rem;color:var(--tx2);transition:all .2s;}
+.btn-secondary:hover{border-color:var(--p);color:var(--p2);transform:translateY(-1px);}
 
-/* ══ HUD ══ */
-#sGame{flex-direction:column;}
-.hud{background:var(--c1);border-bottom:1px solid var(--brd);padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
-.hud-l{display:flex;align-items:center;gap:12px;}
-.hud-title{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--accent2);}
-.hud-stage{background:var(--c2);border:1px solid var(--brd);border-radius:20px;padding:4px 13px;font-size:.78rem;color:var(--tx2);}
-.timer{font-family:var(--mono);font-size:1.25rem;font-weight:600;color:var(--green);background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:5px 15px;letter-spacing:.04em;}
-.timer.warn{color:var(--yellow);animation:pulse .8s ease-in-out infinite;}
-.timer.danger{color:var(--red);animation:pulse .4s ease-in-out infinite;}
-.btn-clueboard{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:6px 14px;font-size:.8rem;color:var(--tx2);transition:all .2s;}
-.btn-clueboard:hover{border-color:var(--accent);color:var(--accent2);}
-.btn-susplist{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:6px 14px;font-size:.8rem;color:var(--tx2);transition:all .2s;}
-.btn-susplist:hover{border-color:var(--gold);color:var(--gold);}
+/* ── PROFILE SCREEN ── */
+#sProfiles{align-items:center;padding:28px 20px;background:var(--bg);}
+.profile-head{text-align:center;margin-bottom:22px;max-width:680px;width:100%;}
+.profile-head h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:8px;}
+.profile-head p{color:var(--tx2);font-size:.84rem;line-height:1.7;}
+.profile-nav{display:flex;align-items:center;justify-content:space-between;max-width:780px;width:100%;margin-bottom:16px;}
+.pnav-dots{display:flex;gap:7px;}
+.pnav-dot{width:10px;height:10px;border-radius:50%;background:var(--brd);transition:all .2s;}
+.pnav-dot.active{background:var(--p);transform:scale(1.25);}
+.profile-card{background:var(--c1);border:1.5px solid var(--brd);border-radius:16px;padding:26px 28px;max-width:780px;width:100%;animation:fadeUp .4s ease-out;}
+.pc-top{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--brd);}
+.pc-avatar{width:64px;height:64px;border-radius:50%;background:var(--c2);border:2px solid var(--p);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;}
+.pc-name{font-family:var(--serif);font-size:1.35rem;font-weight:700;}
+.pc-role{font-size:.78rem;color:var(--tx2);margin-top:3px;}
+.pc-age{font-family:var(--mono);font-size:.74rem;background:var(--c3);border:1px solid var(--brd2);border-radius:20px;padding:3px 10px;margin-top:5px;display:inline-block;color:var(--tx2);}
+.pc-body{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.pc-section{}
+.pc-lbl{font-family:var(--mono);font-size:.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.pc-text{font-size:.85rem;color:var(--tx2);line-height:1.75;}
+.pc-tells{display:flex;flex-direction:column;gap:5px;margin-top:6px;}
+.pc-tell{font-size:.8rem;color:var(--tx3);padding:5px 10px;background:var(--c2);border-radius:7px;border-left:2px solid var(--p);}
+.pc-warning{background:#ff4d6d11;border:1px solid #ff4d6d33;border-radius:9px;padding:10px 13px;margin-top:12px;font-size:.82rem;color:#ff8096;grid-column:1/-1;}
+.pnav-btns{display:flex;gap:9px;justify-content:center;margin-top:18px;}
+.read-notice{text-align:center;margin-top:14px;font-size:.78rem;color:var(--tx3);}
 
-.game-body{flex:1;padding:24px;max-width:960px;margin:0 auto;width:100%;}
-.stage-meta{font-family:var(--mono);font-size:.74rem;color:var(--tx3);margin-bottom:6px;}
-.stage-loc{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;color:var(--accent2);margin-bottom:14px;}
-.stage-card{background:var(--c1);border:1px solid var(--brd);border-radius:14px;padding:24px;margin-bottom:18px;}
-.stage-icon{font-size:1.8rem;margin-bottom:10px;}
-.stage-title{font-family:var(--serif);font-size:1.3rem;font-weight:700;margin-bottom:12px;}
-.stage-intro{font-size:.9rem;color:var(--tx2);line-height:1.8;white-space:pre-line;margin-bottom:16px;}
+/* ── HUD ── */
+.hud{background:var(--c1);border-bottom:1px solid var(--brd);padding:9px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;}
+.hud-l{display:flex;align-items:center;gap:10px;}
+.hud-title{font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--p2);}
+.timer{font-family:var(--mono);font-size:1.08rem;font-weight:600;background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:4px 12px;color:var(--g);}
+.timer.warn{color:var(--y);animation:pulse .8s infinite;}
+.timer.danger{color:var(--r);animation:pulse .35s infinite;}
+.hud-r{display:flex;gap:7px;align-items:center;}
+.hud-btn{background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:5px 12px;font-size:.77rem;color:var(--tx2);transition:all .2s;}
+.hud-btn:hover{border-color:var(--p);color:var(--p2);}
+.clue-pill{font-family:var(--mono);font-size:.76rem;background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:4px 11px;color:var(--gold);}
 
-/* tool */
-.tool-box{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:16px;}
-.tool-head{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
-.tool-icon{font-size:1.4rem;}
-.tool-name{font-weight:700;font-size:.92rem;}
-.tool-desc{font-size:.82rem;color:var(--tx2);line-height:1.6;margin-bottom:14px;}
-.scene-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#08080d;border-radius:9px;overflow:hidden;border:1px solid var(--brd);cursor:crosshair;user-select:none;}
-.scene-img{position:absolute;inset:0;width:100%;height:100%;}
-.scan-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:.76rem;color:var(--tx2);background:#00000099;padding:5px 12px;border-radius:20px;pointer-events:none;transition:opacity .3s;z-index:5;}
-.reveal-text{background:#0d0d14;border:1px solid var(--accent);border-radius:9px;padding:13px 16px;font-size:.85rem;line-height:1.7;color:var(--tx);margin-top:12px;display:none;white-space:pre-line;}
-.reveal-text.show{display:block;animation:fadeUp .4s ease-out;}
-.reveal-label{font-family:var(--mono);font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
+/* ── MAIN GAME ── */
+#sGame{flex:1;}
+.game-layout{display:grid;grid-template-columns:200px 1fr;height:calc(100vh - 50px);overflow:hidden;}
 
-.clue-pop{background:linear-gradient(135deg,#1c1430,#13101f);border:1px solid var(--accent);border-radius:11px;padding:15px 18px;margin-top:14px;display:none;}
-.clue-pop.show{display:block;animation:fadeUp .4s ease-out;}
-.clue-pop-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
-.clue-pop-title{font-weight:700;font-size:.9rem;margin-bottom:5px;}
-.clue-pop-txt{font-size:.83rem;color:var(--tx2);line-height:1.6;}
+/* sidebar */
+.sidebar{background:var(--c1);border-right:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden;}
+.sb-section{padding:10px 12px;border-bottom:1px solid var(--brd);}
+.sb-section h4{font-size:.74rem;color:var(--tx3);margin-bottom:7px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;}
+.sb-btn{width:100%;text-align:left;background:none;border:1.5px solid var(--brd);border-radius:9px;padding:9px 11px;margin-bottom:5px;color:var(--tx2);font-size:.8rem;transition:all .2s;position:relative;animation:slideRight .3s ease-out both;}
+.sb-btn:hover{border-color:var(--p);color:var(--tx);transform:translateX(3px);}
+.sb-btn.active{border-color:var(--p);background:#7c6dfa11;color:var(--p2);animation:borderGlow 2.5s ease-in-out infinite;}
+.sb-btn.active::before{content:'';position:absolute;left:-1.5px;top:20%;bottom:20%;width:3px;background:var(--p);border-radius:3px;}
+.sb-btn.locked{opacity:.35;cursor:not-allowed;}
+.sb-btn .sb-icon{margin-right:6px;}
+.sb-sub{font-size:.68rem;color:var(--tx3);margin-top:2px;}
+.new-badge{display:inline-block;background:var(--r);color:#fff;font-size:.62rem;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:5px;vertical-align:middle;}
 
-.btn-continue{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:9px;padding:11px 26px;font-size:.9rem;font-weight:700;margin-top:16px;transition:opacity .2s;}
-.btn-continue:hover{opacity:.88;}
-.btn-continue:disabled{opacity:.3;cursor:not-allowed;}
+/* workspace */
+.workspace{display:flex;flex-direction:column;overflow:hidden;}
+.tool-bar{display:flex;gap:6px;padding:9px 14px;border-bottom:1px solid var(--brd);background:var(--c1);flex-shrink:0;}
+.tool-btn{display:flex;align-items:center;gap:4px;background:var(--c2);border:1.5px solid var(--brd);border-radius:8px;padding:5px 11px;font-size:.76rem;color:var(--tx2);transition:all .2s;}
+.tool-btn:hover{border-color:var(--p);}
+.tool-btn.active{border-color:var(--p);color:var(--p2);background:#7c6dfa15;}
+.ws-content{flex:1;overflow-y:auto;padding:16px;}
 
-.deduction-box{background:#0d0d14;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;padding:13px 17px;margin-top:14px;font-size:.83rem;color:var(--tx2);line-height:1.7;display:none;}
-.deduction-box.show{display:block;animation:fadeUp .4s ease-out;}
-.deduction-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+/* scene canvas */
+.scene-view{background:var(--c1);border:1px solid var(--brd);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.sv-canvas-wrap{position:relative;width:100%;aspect-ratio:16/9;}
+.sv-canvas-wrap canvas{position:absolute;inset:0;width:100%;height:100%;}
+.sv-hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:.73rem;color:var(--tx2);background:#000000aa;padding:4px 12px;border-radius:20px;pointer-events:none;z-index:5;white-space:nowrap;}
+.sv-prog{position:absolute;bottom:0;left:0;height:3px;width:0%;transition:width .15s;z-index:6;}
+.sv-prog.luminol{background:linear-gradient(90deg,#00e5a0,#00ff88);}
+.sv-prog.uv{background:linear-gradient(90deg,#7c6dfa,#3ecfb8);}
+.sv-prog.cast{background:linear-gradient(90deg,#d4af6a,#f0d9a8);}
+.sv-info{padding:13px 15px;}
+.sv-name{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin-bottom:5px;}
+.sv-desc{font-size:.83rem;color:var(--tx2);line-height:1.7;}
+.sv-tools-hint{font-size:.74rem;color:var(--p2);margin-top:6px;font-family:var(--mono);}
 
-/* extra panel (logmatch/sizematch/recordcheck) */
-.extra-box{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:17px;margin-bottom:16px;display:none;}
-.extra-box.show{display:block;animation:fadeUp .4s ease-out;}
-.extra-title{font-weight:700;font-size:.9rem;margin-bottom:6px;}
-.extra-desc{font-size:.82rem;color:var(--tx2);margin-bottom:12px;line-height:1.6;}
-.extra-log-row{background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:8px 13px;font-size:.81rem;font-family:var(--mono);margin-bottom:6px;color:var(--tx2);}
-.extra-verdict{background:#9b6bff11;border:1px solid #9b6bff44;border-radius:8px;padding:11px 14px;font-size:.83rem;color:var(--accent2);line-height:1.6;margin-top:10px;display:none;}
-.extra-verdict.show{display:block;animation:fadeUp .4s ease-out;}
-.btn-extra-check{background:var(--c3);border:1px solid var(--brd2);border-radius:8px;padding:8px 16px;font-size:.83rem;color:var(--tx);margin-top:6px;transition:all .2s;}
-.btn-extra-check:hover{border-color:var(--accent);}
-.size-opt-row{display:flex;align-items:center;justify-content:space-between;background:var(--c2);border:1.5px solid var(--brd);border-radius:8px;padding:10px 14px;margin-bottom:7px;transition:all .2s;cursor:pointer;}
-.size-opt-row:hover{border-color:var(--accent);}
-.size-opt-row.match{border-color:var(--green);background:#3ecf8e15;}
-.size-opt-row.nomatch{border-color:var(--red);opacity:.55;}
+/* clue list */
+.clue-list{display:flex;flex-direction:column;gap:8px;padding:0 0 16px;}
+.clue-item{background:var(--c2);border:1.5px solid var(--brd);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .22s;display:flex;align-items:center;gap:11px;animation:fadeUp .35s ease-out both;}
+.clue-item:hover{border-color:var(--gold);transform:translateX(5px);box-shadow:0 4px 16px #d4af6a18;}
+.clue-item.found{border-color:var(--g);background:#00e5a010;}
+.clue-item.found:hover{box-shadow:0 4px 16px #00e5a022;}
+.clue-item.needs-tool{border-style:dashed;}
+.clue-item.needs-tool.locked-tool{opacity:.5;cursor:not-allowed;}
+.ci-icon{font-size:1.3rem;flex-shrink:0;}
+.ci-body{flex:1;min-width:0;}
+.ci-name{font-size:.83rem;font-weight:600;margin-bottom:2px;}
+.ci-meta{font-size:.7rem;color:var(--tx3);}
+.ci-found-badge{font-size:.66rem;font-weight:700;color:var(--g);background:#00e5a022;border-radius:20px;padding:1px 8px;flex-shrink:0;}
 
-/* interrogation */
-.interro-tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;}
-.interro-tab{background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:8px 13px;font-size:.82rem;color:var(--tx2);transition:all .2s;display:flex;align-items:center;gap:6px;}
-.interro-tab.active{border-color:var(--accent);color:var(--accent2);background:#9b6bff15;}
-.interro-tab.done{border-color:var(--green);color:var(--green);}
-.interro-tab .it-av{font-size:1.05rem;}
-.interro-room{background:#0d0d14;border:1px solid var(--brd);border-radius:12px;padding:18px;}
-.ir-suspect{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--brd);}
-.ir-av{width:46px;height:46px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:22px;}
-.ir-name{font-weight:700;font-size:.95rem;}
-.ir-role{font-size:.78rem;color:var(--tx2);}
-.ir-q-list{display:flex;flex-direction:column;gap:8px;}
-.ir-q-btn{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:10px 14px;font-size:.83rem;text-align:left;color:var(--tx);transition:all .2s;width:100%;}
-.ir-q-btn:hover:not(:disabled){border-color:var(--accent);}
-.ir-q-btn:disabled{opacity:.4;cursor:default;}
-.ir-answer{background:#15101f;border:1px solid var(--brd2);border-radius:9px;padding:11px 14px;margin-top:7px;font-size:.83rem;color:var(--tx2);line-height:1.6;display:none;}
-.ir-answer.show{display:block;animation:fadeUp .3s ease-out;}
-.ir-flag{display:inline-flex;align-items:center;gap:5px;background:#ff546815;border:1px solid #ff546844;color:var(--red);border-radius:20px;padding:2px 9px;font-size:.7rem;margin-top:6px;}
+/* narrative banner */
+.narrative-banner{background:linear-gradient(90deg,#1a0520,var(--c1));border:1px solid var(--p);border-radius:11px;padding:14px 16px;margin-bottom:14px;animation:fadeUp .4s ease-out;}
+.nb-label{font-family:var(--mono);font-size:.68rem;color:var(--p2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.nb-text{font-size:.86rem;color:var(--tx2);line-height:1.7;}
 
-/* shooting minigame */
-.shoot-range{position:relative;width:100%;aspect-ratio:16/9;background:radial-gradient(ellipse at 50% 30%,#1a1a28,#08080d 75%);border-radius:9px;overflow:hidden;border:1px solid var(--brd);}
-.shoot-target{position:absolute;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle,#ff5468 0%,#ff5468 22%,#1c1c28 24%,#1c1c28 38%,#ff5468 40%,#ff5468 58%,#1c1c28 60%,#1c1c28 74%,#ff5468 76%);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;animation:popIn .2s ease-out;box-shadow:0 0 18px #ff546866;border:2px solid #fff3;}
-.shoot-target.hit{animation:none;opacity:0;transform:scale(1.5);transition:all .25s;}
-.shoot-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.85rem;color:var(--tx);background:#00000077;padding:6px 12px;border-radius:8px;z-index:5;}
-.shoot-result{text-align:center;padding:20px;}
-.btn-shoot-start{background:linear-gradient(135deg,var(--red),#ff8096);color:#15101f;border-radius:9px;padding:12px 28px;font-weight:700;font-size:.92rem;}
+/* ── INTERROGATION ── */
+#sInterrogate{flex:1;flex-direction:column;}
+#sInterrogate.on{display:flex;}
+.ih{background:var(--c1);border-bottom:1px solid var(--brd);padding:13px 18px;display:flex;align-items:center;gap:12px;}
+.ih-av{width:44px;height:44px;border-radius:50%;background:var(--c2);border:2px solid var(--p);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ih-name{font-weight:700;font-size:.97rem;}
+.ih-role{font-size:.74rem;color:var(--tx2);}
+.q-left{font-family:var(--mono);font-size:.78rem;background:var(--c2);border:1px solid var(--brd);border-radius:20px;padding:3px 11px;margin-left:auto;}
+.q-left.low{color:var(--r);border-color:var(--r);}
+.chat-wrap{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:11px;}
+.msg{max-width:80%;font-size:.85rem;line-height:1.7;animation:fadeUp .3s ease-out;}
+.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:13px 13px 4px 13px;padding:9px 14px;}
+.msg-suspect{align-self:flex-start;background:var(--c2);border:1px solid var(--brd);border-radius:13px 13px 13px 4px;padding:9px 14px;}
+.msg-action{align-self:flex-start;font-size:.76rem;color:var(--tx3);font-style:italic;padding:3px 14px;}
+.msg-profiler{align-self:center;width:92%;background:#d4af6a0d;border:1px solid #d4af6a33;border-radius:10px;padding:10px 14px;font-size:.81rem;color:var(--gold);}
+.pf-lbl{font-family:var(--mono);font-size:.66rem;color:var(--gold);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;}
+.msg-sys{align-self:center;font-size:.74rem;color:var(--tx3);font-family:var(--mono);}
+.typing-bubble{align-self:flex-start;background:var(--c2);border:1px solid var(--brd);border-radius:13px;padding:10px 16px;display:flex;gap:5px;}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--tx2);animation:pulse .8s infinite;}
+.typing-dot:nth-child(2){animation-delay:.2s;}
+.typing-dot:nth-child(3){animation-delay:.4s;}
+.input-row{background:var(--c1);border-top:1px solid var(--brd);padding:13px 18px;display:flex;gap:9px;align-items:flex-end;}
+.q-input{flex:1;background:var(--c2);border:1.5px solid var(--brd);border-radius:10px;padding:10px 13px;color:var(--tx);font-size:.87rem;outline:none;resize:none;max-height:90px;transition:border-color .2s;}
+.q-input:focus{border-color:var(--p);}
+.btn-send{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:9px;padding:10px 17px;font-weight:700;font-size:.86rem;flex-shrink:0;}
+.btn-send:disabled{opacity:.3;cursor:not-allowed;}
+.btn-back{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:9px 15px;font-size:.82rem;color:var(--tx2);}
 
-/* timeline puzzle */
-.tl-pool{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
-.tl-piece{background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:11px 14px;font-size:.83rem;cursor:grab;transition:all .2s;}
-.tl-piece:hover{border-color:var(--accent);}
-.tl-piece.placed{opacity:.3;cursor:default;}
-.tl-piece.selected{border-color:var(--gold);background:#d4af6a15;}
-.tl-slots{display:flex;flex-direction:column;gap:7px;}
-.tl-slot{background:#0d0d14;border:1.5px dashed var(--brd2);border-radius:9px;padding:11px 14px;font-size:.83rem;min-height:20px;color:var(--tx3);transition:all .2s;cursor:pointer;}
-.tl-slot.filled{border-style:solid;border-color:var(--accent);color:var(--tx);background:#9b6bff11;}
-.tl-slot.correct{border-color:var(--green);background:#3ecf8e11;}
+/* ── MODALS ── */
+.overlay{position:fixed;inset:0;background:#000000cc;z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.overlay.on{display:flex;}
+.modal{background:var(--c1);border:1px solid var(--brd);border-radius:14px;padding:24px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;animation:popIn .3s ease-out;}
+.modal h3{font-family:var(--serif);font-size:1.15rem;margin-bottom:14px;}
 
-/* clueboard / suspect modal */
-.modal-bg{position:fixed;inset:0;background:#000000c0;z-index:800;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-bg.show{display:flex;}
-.modal-card{background:var(--c1);border:1px solid var(--brd);border-radius:14px;padding:24px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;}
-.modal-card h3{font-family:var(--serif);font-size:1.2rem;margin-bottom:16px;}
-.clue-list-item{background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:12px 15px;margin-bottom:9px;}
-.clue-list-item .cl-lbl{font-family:var(--mono);font-size:.7rem;color:var(--gold);margin-bottom:4px;}
-.clue-list-item .cl-txt{font-size:.84rem;color:var(--tx2);line-height:1.6;}
-.btn-close-modal{background:var(--c2);border:1px solid var(--brd);border-radius:8px;padding:8px 18px;font-size:.84rem;color:var(--tx2);margin-top:8px;}
+/* clue reveal modal */
+.clue-reveal{background:var(--c1);border:1px solid var(--p);border-radius:14px;padding:24px;max-width:460px;width:100%;animation:popIn .3s ease-out;}
+.cr-icon{font-size:2.2rem;margin-bottom:10px;}
+.cr-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:10px;}
+.cr-reveal{background:#0d0d18;border:1px solid var(--p);border-radius:9px;padding:13px 15px;font-size:.85rem;line-height:1.75;margin-bottom:12px;white-space:pre-line;}
+.cr-analysis{background:#d4af6a0d;border:1px solid #d4af6a33;border-radius:9px;padding:11px 14px;}
+.cr-albl{font-family:var(--mono);font-size:.67rem;color:var(--gold);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.cr-atxt{font-size:.82rem;color:var(--tx2);line-height:1.65;}
 
-/* PROFILER interstitial */
-.profiler-overlay{position:fixed;inset:0;background:#000;z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
-.profiler-overlay.show{display:flex;animation:fadeIn .3s ease-out;}
-.profiler-icon{font-size:3.4rem;margin-bottom:18px;filter:drop-shadow(0 0 24px #9b6bffaa);}
-.profiler-text{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent2);line-height:1.6;white-space:pre-line;max-width:520px;}
-.profiler-line{width:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:22px auto 0;animation:strikeLine 1.6s ease-out forwards;}
-.profiler-elim{margin-top:24px;display:none;}
-.profiler-elim.show{display:block;animation:fadeUp .5s ease-out .3s both;}
-.profiler-elim-card{background:var(--c1);border:1px solid var(--red);border-radius:12px;padding:16px 22px;display:inline-flex;align-items:center;gap:13px;}
-.profiler-elim-av{width:44px;height:44px;border-radius:50%;background:var(--c3);display:flex;align-items:center;justify-content:center;font-size:22px;position:relative;}
-.profiler-elim-av::after{content:'✕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#ff546888;font-size:1.3rem;font-weight:900;color:#fff;border-radius:50%;}
-.profiler-elim-name{font-weight:700;font-size:.95rem;}
-.profiler-elim-sub{font-size:.76rem;color:var(--red);}
+/* profiler overlay */
+#profilerOverlay{position:fixed;inset:0;background:#000000ee;z-index:900;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;}
+#profilerOverlay.on{display:flex;animation:fadeIn .3s;}
+.po-icon{font-size:3.2rem;margin-bottom:16px;filter:drop-shadow(0 0 24px var(--p2));}
+.po-title{font-family:var(--serif);font-size:1.45rem;font-weight:700;color:var(--p2);margin-bottom:10px;}
+.po-body{color:var(--tx2);font-size:.9rem;line-height:1.75;max-width:460px;white-space:pre-line;}
+.po-bar{width:0;height:2px;background:linear-gradient(90deg,transparent,var(--p),transparent);margin:20px auto 0;animation:popIn 1.6s ease-out forwards;}
 
-/* end */
-#sEnd{flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
-.end-icon{font-size:3.6rem;margin-bottom:16px;}
-.end-title{font-family:var(--serif);font-size:1.9rem;font-weight:900;margin-bottom:14px;}
-.end-title.win{color:var(--green);}
-.end-title.lose{color:var(--red);}
-.end-body{color:var(--tx2);font-size:.9rem;line-height:1.85;max-width:480px;white-space:pre-line;margin-bottom:24px;}
-.btn-restart{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#15101f;border-radius:9px;padding:13px 32px;font-size:.93rem;font-weight:700;}
+/* ── BATTLE ── */
+#sBattle{align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(ellipse at 50% 0%,#1a0010,var(--bg) 55%);}
+.battle-card{background:var(--c1);border:1px solid var(--brd);border-radius:16px;padding:28px;max-width:620px;width:100%;text-align:center;}
+.battle-phase-lbl{font-family:var(--mono);font-size:.72rem;color:var(--r);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;}
+.battle-title{font-family:var(--serif);font-size:1.35rem;font-weight:700;margin-bottom:10px;}
+.battle-desc{font-size:.86rem;color:var(--tx2);line-height:1.7;margin-bottom:20px;}
+.timing-arena{position:relative;width:100%;aspect-ratio:16/9;background:#0a0008;border-radius:10px;overflow:hidden;border:1px solid var(--brd);margin-bottom:14px;}
+.timing-hud{position:absolute;top:8px;left:10px;right:10px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.82rem;background:#00000088;padding:5px 10px;border-radius:8px;z-index:3;}
+.t-target{position:absolute;cursor:pointer;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;animation:popIn .2s ease-out;box-shadow:0 0 18px currentColor;transition:opacity .2s,transform .2s;}
+.t-target.hit{opacity:0;transform:scale(2);}
+.choice-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+.choice-opt{background:var(--c2);border:1.5px solid var(--brd);border-radius:10px;padding:13px 16px;text-align:left;font-size:.87rem;transition:all .2s;}
+.choice-opt:hover{border-color:var(--p);transform:translateX(4px);}
+.choice-opt.result-great{border-color:var(--y);background:#ffd60a11;}
+.choice-opt.result-good{border-color:var(--g);background:#00e5a011;}
+.choice-opt.result-bad{border-color:var(--r);background:#ff4d6d11;}
+.final-q{width:100%;background:var(--c2);border:1.5px solid var(--brd);border-radius:10px;padding:12px 14px;color:var(--tx);font-size:.9rem;resize:none;min-height:88px;outline:none;margin-bottom:12px;transition:border-color .2s;}
+.final-q:focus{border-color:var(--p);}
+.btn-battle{background:linear-gradient(135deg,var(--r),#ff8096);color:#fff;border-radius:9px;padding:12px 28px;font-size:.92rem;font-weight:700;transition:opacity .2s;}
+.btn-battle:hover{opacity:.88;}
+.btn-battle:disabled{opacity:.35;cursor:not-allowed;}
 
-/* ══ CASE NOTE ══ */
-.note-card{background:var(--c1);border:1px solid var(--brd);border-radius:13px;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease-out, transform .5s ease-out;}
-.note-card.visible{opacity:1;transform:none;}
-.note-header{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s;}
-.note-header:hover{background:var(--c2);}
-.note-header.open{border-color:var(--brd);}
-.note-badge{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.note-step{font-family:var(--mono);font-size:.68rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
-.note-title{font-weight:700;font-size:.93rem;}
-.note-tag{font-size:.73rem;color:var(--gold);background:#d4af6a18;border:1px solid #d4af6a33;border-radius:20px;padding:2px 9px;margin-left:auto;white-space:nowrap;}
-.note-chevron{color:var(--tx3);font-size:.9rem;margin-left:8px;transition:transform .25s;}
-.note-header.open .note-chevron{transform:rotate(180deg);}
-.note-body{display:none;padding:0 18px 18px;}
-.note-header.open + .note-body{display:block;animation:fadeUp .3s ease-out;}
-.note-section{margin-top:14px;}
-.note-section-lbl{font-family:var(--mono);font-size:.7rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;}
-.note-text{font-size:.85rem;color:var(--tx2);line-height:1.8;white-space:pre-line;}
-.note-formula{background:#0d0d14;border:1px solid var(--brd);border-radius:8px;padding:11px 14px;font-family:var(--mono);font-size:.85rem;color:var(--yellow);line-height:1.7;margin-top:8px;}
-.note-input{width:100%;background:#0d0d14;border:1.5px solid var(--brd);border-radius:9px;padding:10px 13px;color:var(--tx);font-size:.88rem;outline:none;resize:none;min-height:76px;margin-top:8px;transition:border-color .2s;}
-.note-input:focus{border-color:var(--accent);}
-.note-input::placeholder{color:var(--tx3);}
-.note-q{font-size:.85rem;color:var(--tx);margin-top:14px;margin-bottom:5px;font-weight:500;}
+/* ── END ── */
+#sEnd{align-items:center;justify-content:center;padding:36px 20px;}
+.end-box{background:var(--c1);border:1px solid var(--brd);border-radius:18px;padding:32px;max-width:520px;width:100%;text-align:center;}
+.end-ico{font-size:3.4rem;margin-bottom:14px;}
+.end-title{font-family:var(--serif);font-size:1.7rem;font-weight:900;margin-bottom:12px;}
+.end-title.win{color:var(--g);}
+.end-title.lose{color:var(--r);}
+.end-body{font-size:.87rem;color:var(--tx2);line-height:1.85;max-width:420px;margin:0 auto 22px;white-space:pre-line;}
 
-
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--c1);border:1px solid var(--brd);border-radius:11px;padding:10px 17px;font-size:.83rem;z-index:900;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--c1);border:1px solid var(--brd);border-radius:11px;padding:9px 16px;font-size:.82rem;z-index:9000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* final */
-.final-grid{display:grid;grid-template-columns:1fr;gap:13px;max-width:480px;}
-.final-card{background:var(--c2);border:1.5px solid var(--brd);border-radius:11px;padding:16px;text-align:left;transition:all .2s;}
-.final-card:hover{border-color:var(--accent);transform:translateY(-2px);}
-.final-card .fc-top{display:flex;align-items:center;gap:10px;}
-.final-card .fc-av{font-size:1.6rem;}
-.final-card .fc-name{font-weight:700;font-size:.92rem;}
-.final-card .fc-role{font-size:.76rem;color:var(--tx2);}
-
-@media(max-width:700px){
-  .susp-grid{grid-template-columns:1fr;}
-  .intro-title{font-size:1.9rem;}
+@media(max-width:680px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{height:auto;max-height:200px;}
+  .pc-body{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 
-<!-- PROFILER interstitial -->
-<div class="profiler-overlay" id="profilerOverlay">
-  <div class="profiler-icon">🧠</div>
-  <div class="profiler-text" id="profilerText"></div>
-  <div class="profiler-line"></div>
-  <div class="profiler-elim" id="profilerElim">
-    <div class="profiler-elim-card">
-      <div class="profiler-elim-av" id="profilerElimAv"></div>
-      <div>
-        <div class="profiler-elim-name" id="profilerElimName"></div>
-        <div class="profiler-elim-sub">용의선상에서 제외됨</div>
-      </div>
+<!-- Profiler overlay -->
+<div id="profilerOverlay">
+  <div class="po-icon">🧠</div>
+  <div class="po-title" id="poTitle"></div>
+  <div class="po-body" id="poBody"></div>
+  <div class="po-bar"></div>
+</div>
+
+<!-- Clue reveal overlay -->
+<div class="overlay" id="clueOverlay">
+  <div class="clue-reveal">
+    <div class="cr-icon" id="crIcon"></div>
+    <div class="cr-title" id="crTitle"></div>
+    <div class="cr-reveal" id="crReveal"></div>
+    <div class="cr-analysis">
+      <div class="cr-albl">🔍 수사관 분석</div>
+      <div class="cr-atxt" id="crAnalysis"></div>
+    </div>
+    <button class="btn-secondary" style="margin-top:14px;width:100%;" onclick="g('clueOverlay').classList.remove('on')">확인했습니다</button>
+  </div>
+</div>
+
+<!-- Evidence board modal -->
+<div class="overlay" id="ebOverlay">
+  <div class="modal">
+    <h3>🗂️ 확보한 단서</h3>
+    <div id="ebList"></div>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="g('ebOverlay').classList.remove('on')">닫기</button>
+  </div>
+</div>
+
+<!-- Suspect list modal -->
+<div class="overlay" id="suspOverlay">
+  <div class="modal">
+    <h3>👥 용의자 현황</h3>
+    <div id="suspList"></div>
+    <button class="btn-secondary" style="margin-top:10px;" onclick="g('suspOverlay').classList.remove('on')">닫기</button>
+  </div>
+</div>
+
+<!-- MINIGAME overlay -->
+<div class="overlay" id="mgOverlay" style="z-index:950;">
+  <div class="modal" id="mgModal" style="max-width:480px;text-align:center;"></div>
+</div>
+
+<!-- INTRO -->
+<div class="scr on" id="sIntro">
+  <div class="tape top"></div>
+  <div class="case-badge">CASE 2026-KBS-001 · CONFIDENTIAL</div>
+  <div class="intro-title fu">리원준 실종 사건</div>
+  <div class="intro-sub fu" style="animation-delay:.1s">당신은 경기북과학고 소속 프로파일러다.
+팀원 리원준(17세)이 실종된 지 24시간.
+팀장 황진우의 요청으로 수사를 맡았다.</div>
+  <div class="case-file fu" style="animation-delay:.2s">
+    <div class="cf"><span class="cfl">사건</span><span class="cfv">경기북과학고 1학년 멘토링 팀원 실종</span></div>
+    <div class="cf"><span class="cfl">실종자</span><span class="cfv">리원준 (17세 · 1학년)</span></div>
+    <div class="cf"><span class="cfl">최종목격</span><span class="cfv">2026.01.14 밤 9시, 438호 기숙사</span></div>
+    <div class="cf"><span class="cfl">수사팀</span><span class="cfv" style="color:var(--p2)">황진우(팀장) 요청 · 프로파일러 파견</span></div>
+    <div class="cf"><span class="cfl">용의자</span><span class="cfv" style="color:var(--r)">팀원 전원 — 아직 누구도 제외 못 함</span></div>
+    <div class="cf"><span class="cfl">주의</span><span class="cfv" style="color:var(--y)">단서 수 비공개 · 선택에 따라 결말이 달라짐</span></div>
+  </div>
+  <button class="btn-primary fu" style="animation-delay:.3s" onclick="goProfiles()">📋 인물 파일 열람</button>
+  <div class="tape bot"></div>
+</div>
+
+<!-- PROFILES -->
+<div class="scr" id="sProfiles">
+  <div class="profile-head fu">
+    <h2>📁 인물 파일</h2>
+    <p>수사 전 이 내용을 숙지하세요.<br>심문과 단서 해석에 직접 연결됩니다.</p>
+  </div>
+  <!-- 탭 -->
+  <div style="display:flex;gap:8px;margin-bottom:16px;max-width:780px;width:100%;">
+    <button id="tabVictim" onclick="switchTab('victim')"
+      style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--blood);background:#c23a4e22;color:#ff8096;font-size:.85rem;font-weight:700;transition:all .2s;">
+      🔴 피해자 — 리원준
+    </button>
+    <button id="tabSusp" onclick="switchTab('susp')"
+      style="flex:1;padding:8px 0;border-radius:8px;border:1.5px solid var(--p);background:#7c6dfa22;color:var(--p2);font-size:.85rem;font-weight:700;transition:all .2s;">
+      👥 용의자 5명
+    </button>
+  </div>
+  <!-- 피해자 탭 -->
+  <div id="panelVictim" style="max-width:780px;width:100%;display:none;">
+    <div class="profile-card" id="victimCard"></div>
+    <div style="text-align:center;margin-top:18px;">
+      <button class="btn-secondary" onclick="switchTab('susp')">용의자 파일 보기 →</button>
+    </div>
+  </div>
+  <!-- 용의자 탭 -->
+  <div id="panelSusp" style="max-width:780px;width:100%;display:none;">
+    <div class="profile-nav">
+      <button class="btn-secondary" id="btnPrev" onclick="navProfile(-1)">← 이전</button>
+      <div class="pnav-dots" id="pnavDots"></div>
+      <button class="btn-secondary" id="btnNext" onclick="navProfile(1)">다음 →</button>
+    </div>
+    <div id="profileCard"></div>
+    <div class="read-notice" id="profileNotice" style="margin-top:14px;"></div>
+    <div style="display:flex;gap:10px;margin-top:18px;justify-content:center;">
+      <button class="btn-secondary" onclick="navProfile(-99)">처음부터</button>
+      <button class="btn-primary" id="btnStartInvestigate" onclick="startGame()" style="display:none;">🔍 수사 시작</button>
     </div>
   </div>
 </div>
 
-<!-- clue modal -->
-<div class="modal-bg" id="clueModal">
-  <div class="modal-card">
-    <h3>🗂️ 확보한 단서</h3>
-    <div id="clueListContainer"></div>
-    <button class="btn-close-modal" onclick="closeClueModal()">닫기</button>
-  </div>
-</div>
-
-<!-- suspect modal -->
-<div class="modal-bg" id="suspModal">
-  <div class="modal-card">
-    <h3>👥 용의자 현황</h3>
-    <div id="suspListContainer"></div>
-    <button class="btn-close-modal" onclick="closeSuspModal()">닫기</button>
-  </div>
-</div>
-
-<!-- ═══ INTRO ═══ -->
-<div class="scr on" id="sIntro">
-  <div class="case-tape"></div>
-  <div class="intro-badge">CONFIDENTIAL · CASE NO. 2026-0438</div>
-  <div class="intro-title fadeUp">438호의 마지막 밤</div>
-  <div class="intro-sub fadeUp" style="animation-delay:.1s">경기북과학고등학교 기숙사 실종 사건 — 형사이자 과학수사관으로서<br>당신은 현장의 모든 증거를 직접 분석하고, 용의자 6인을 심문하며<br>20분 안에 진실을 밝혀내야 합니다.</div>
-  <div class="case-file fadeUp" style="animation-delay:.2s">
-    <div class="cf-row"><span class="cf-label">피해자</span><span class="cf-val">이서연 (17세, 경기북과학고 2학년)</span></div>
-    <div class="cf-row"><span class="cf-label">발생장소</span><span class="cf-val">경기북과학고등학교 기숙사 438호</span></div>
-    <div class="cf-row"><span class="cf-label">신고시각</span><span class="cf-val">오전 6시 40분</span></div>
-    <div class="cf-row"><span class="cf-label">상태</span><span class="cf-val" style="color:var(--red)">실종 — 48시간 경과, 생사 불명</span></div>
-    <div class="cf-row"><span class="cf-label">용의자</span><span class="cf-val">6명 (다음 화면에서 확인)</span></div>
-  </div>
-  <button class="btn-start fadeUp" style="animation-delay:.3s" onclick="goToSuspects()">📁 사건 파일 열기</button>
-  <div class="case-tape bottom"></div>
-</div>
-
-<!-- ═══ SUSPECTS ═══ -->
-<div class="scr" id="sSuspects">
-  <div class="susp-head fadeUp">
-    <h2>용의선상의 6인</h2>
-    <p>이서연 실종 당일, 그녀와 접점이 있었던 인물 6명입니다.<br>각자의 성격, 일화, 알리바이를 기억해두세요 — 수사 중 이 정보가 계속 필요합니다.</p>
-  </div>
-  <div class="susp-grid" id="suspGrid"></div>
-  <button class="btn-start fadeUp" onclick="startGame()">🔍 수사 시작하기</button>
-</div>
-
-<!-- ═══ GAME ═══ -->
+<!-- MAIN GAME -->
 <div class="scr" id="sGame">
   <div class="hud">
     <div class="hud-l">
-      <div class="hud-title">🔍 438호의 마지막 밤</div>
-      <div class="hud-stage" id="hudStage">1 / 8단계</div>
+      <div class="hud-title">🔍 리원준 실종 수사</div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;">
-      <button class="btn-susplist" onclick="openSuspModal()">👥 용의자</button>
-      <button class="btn-clueboard" onclick="openClueModal()">🗂️ 단서</button>
+    <div class="hud-r">
+      <div class="clue-pill">단서 <span id="clueCount">0</span>개</div>
+      <button class="hud-btn" onclick="openEB()">🗂️ 단서</button>
+      <button class="hud-btn" onclick="openSusp()">👥 용의자</button>
       <div class="timer" id="timerEl">20:00</div>
     </div>
   </div>
-  <div class="game-body" id="gameBody"></div>
-</div>
-
-<!-- ═══ END ═══ -->
-<div class="scr" id="sEnd" style="flex-direction:column;align-items:center;padding:40px 24px;background:var(--bg);">
-  <div style="max-width:680px;width:100%;">
-    <div class="end-icon" id="endIcon" style="text-align:center;"></div>
-    <div class="end-title" id="endTitle" style="text-align:center;"></div>
-    <div class="end-body" id="endBody" style="text-align:center;"></div>
-    <!-- 수사 노트 (성공 시에만 표시) -->
-    <div id="caseNote" style="display:none;margin-top:32px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-        <div style="font-size:1.6rem;">📓</div>
-        <div>
-          <div style="font-family:var(--serif);font-size:1.25rem;font-weight:700;">수사 노트</div>
-          <div style="font-size:.82rem;color:var(--tx2);">이번 수사에서 사용한 과학 원리를 정리해보세요</div>
+  <div class="game-layout">
+    <aside class="sidebar">
+      <div class="sb-section">
+        <h4>📍 수사 현장</h4>
+        <div id="sceneList"></div>
+      </div>
+      <div class="sb-section" style="flex:1;overflow-y:auto;">
+        <h4>🕵️ 용의자 심문</h4>
+        <div id="suspBtns"></div>
+      </div>
+    </aside>
+    <div class="workspace">
+      <div class="tool-bar" id="toolBar">
+        <button class="tool-btn active" id="tNone" onclick="setTool('none')">👁️ 육안</button>
+        <button class="tool-btn" id="tLuminol" onclick="setTool('luminol')">🧪 루미놀</button>
+        <button class="tool-btn" id="tUv" onclick="setTool('uv')">💡 UV</button>
+        <button class="tool-btn" id="tCast" onclick="setTool('cast')">🪣 석고</button>
+      </div>
+      <div class="ws-content" id="wsContent">
+        <div style="text-align:center;color:var(--tx3);padding:48px 20px;">
+          <div style="font-size:2.5rem;margin-bottom:12px;">📍</div>
+          <div>왼쪽에서 수사할 현장을 선택하거나<br>용의자를 심문하세요</div>
         </div>
       </div>
-      <div id="noteList" style="display:flex;flex-direction:column;gap:14px;"></div>
     </div>
-    <div style="text-align:center;margin-top:28px;">
-      <button class="btn-restart" onclick="restartGame()">🔄 다시 수사하기</button>
+  </div>
+</div>
+
+<!-- INTERROGATION -->
+<div class="scr" id="sInterrogate">
+  <div class="ih">
+    <div class="ih-av" id="ihAv"></div>
+    <div><div class="ih-name" id="ihName"></div><div class="ih-role" id="ihRole"></div></div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <div class="q-left" id="qLeft">질문 4회</div>
+      <button class="btn-back" onclick="backGame()">← 돌아가기</button>
+    </div>
+  </div>
+  <div class="chat-wrap" id="chatArea"></div>
+  <div class="input-row">
+    <textarea class="q-input" id="qInput" rows="2" placeholder="용의자에게 무엇을 물어볼까요? (Enter 전송)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendQ();}"></textarea>
+    <button class="btn-send" id="btnSend" onclick="sendQ()">전송 →</button>
+  </div>
+</div>
+
+<!-- BATTLE -->
+<div class="scr" id="sBattle">
+  <div class="battle-card" id="battleCard"></div>
+</div>
+
+<!-- END -->
+<div class="scr" id="sEnd" style="padding:28px 20px;align-items:center;">
+  <div style="max-width:700px;width:100%;">
+    <!-- 엔딩 박스 -->
+    <div class="end-box" id="endBox">
+      <div class="end-ico" id="endIco"></div>
+      <div class="end-title" id="endTitle"></div>
+      <div class="end-body" id="endBody"></div>
+      <button class="btn-primary" onclick="location.reload()" style="margin-top:4px;">🔄 다시 수사하기</button>
+    </div>
+    <!-- 화학 개념 노트 (성공 엔딩만) -->
+    <div id="scienceNote" style="display:none;margin-top:28px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <div style="font-size:1.5rem;">📓</div>
+        <div>
+          <div style="font-family:var(--serif);font-size:1.15rem;font-weight:700;">수사 과학 노트</div>
+          <div style="font-size:.8rem;color:var(--tx2);">이번 수사에서 쓰인 과학 원리를 정리해봐요</div>
+        </div>
+      </div>
+      <div id="scienceList"></div>
     </div>
   </div>
 </div>
 
 <script>
-const TOTAL_TIME = 1200;
 
-const SUSPECTS = [
-  {id:'dain', name:'김다은', role:'룸메이트', age:18, avatar:'👩🏻',
-   personality:'성실하지만 자존심이 강한 모범생. 전교 5등 안에 꾸준히 들었지만 최근 성적이 떨어지며 예민해졌다.',
-   episode:'서연과 입학 때부터 같은 방을 썼다. 처음엔 친했지만, 둘 다 같은 장학금(전국과학영재장학생)을 두고 경쟁하면서 사이가 서먹해졌다. 사건 두 달 전, 다은이 서연의 노트를 몰래 본 게 들통나 크게 다툰 적이 있다.',
-   alibi:'사건 당일 21:00~23:00 학교 자습실 3층에 있었다고 진술. 자습실 CCTV에는 21:00~22:00까지만 명확히 포착됨.',
-   motive:'장학금 경쟁, 노트 도용 사건으로 인한 앙금',
-   status:'suspect'},
-  {id:'hyunwoo', name:'최현우', role:'화학동아리 선배', age:19, avatar:'🧑🏻‍🔬',
-   personality:'카리스마 있고 후배들에게 인기가 많지만, 성과에 대한 집착이 심하다. 전국과학전람회 입상 경력이 있어 동아리 내 영향력이 크다.',
-   episode:'서연이 속한 화학동아리의 부장. 최근 R&E(연구·교육) 보고서를 준비하며 데이터 일부를 임의로 보정한 사실을 서연이 우연히 발견했다. 서연이 지도교사에게 알리겠다고 경고하자, 최현우는 "한 번만 봐달라"며 여러 번 따로 불러내 이야기했다는 목격담이 있다.',
-   alibi:'21:30부터 집에서 혼자 게임했다고 진술. 게임 로그 제출은 거부.',
-   motive:'연구 부정 발각 위기, 신고 경고에 대한 위협 회피',
-   status:'suspect'},
-  {id:'professor', name:'박정민 선생님', role:'담임 선생님', age:49, avatar:'🧑🏻‍🏫',
-   personality:'학생들 사이에서 열정적이라는 평과 자기 실적에 집착한다는 평이 엇갈리는 인물. 과학전람회 지도 경력이 화려하다.',
-   episode:'서연의 과학전람회 출품작이 좋은 평가를 받자, 지도교사 자격으로 공동 수상자에 본인 이름을 올리려 했다. 서연이 "온전히 제가 한 연구"라며 거절하자 불편한 기류가 생겼다. 이후 교무실에서 언성을 높였다는 목격담도 있다.',
-   alibi:'사건 당일 교사 연수 중이었다고 진술 (부산 1박).',
-   motive:'수상 공로 가로채기 시도 무산, 자존심 상함',
-   status:'suspect'},
-  {id:'doyoon', name:'이도윤', role:'전 남자친구', age:18, avatar:'🧑🏻',
-   personality:'다른 학교 재학 중. 다정한 인상이지만 집착이 강하다는 친구들의 평가가 있다.',
-   episode:'6개월 전 서연과 헤어진 뒤에도 SNS를 계속 확인하고 가끔 "잘 지내?"라는 메시지를 보냈다. 최근에는 서연의 학교 축제 때 몰래 찾아온 적도 있어 서연이 친구들에게 "좀 무섭다"고 말한 적이 있다.',
-   alibi:'헤어진 뒤로 연락도 안 했다고 진술.',
-   motive:'이별을 받아들이지 못함, 거절에 대한 분노',
-   status:'suspect'},
-  {id:'dorm', name:'윤미경 사감', role:'기숙사 사감', age:52, avatar:'👩🏻‍🦳',
-   personality:'20년 경력의 베테랑 사감. 학생들의 생활 패턴을 속속들이 알고 있으며 원칙주의자로 유명하다.',
-   episode:'사건 며칠 전, 서연이 사감에게 "요즘 누가 자꾸 따라다니는 것 같다"고 상담했다는 기록이 있다. 사감은 이를 대수롭지 않게 넘겼다고 진술했지만, 정작 그 상담 일지가 사건 이후 일부 누락되어 있는 것이 발견됐다.',
-   alibi:'사건 당일 21:00~23:00 다른 동(1동) 야간 순찰 중이었다고 진술.',
-   motive:'상담 묵살에 대한 책임 회피 가능성 (직접적 동기는 약함)',
-   status:'suspect'},
-  {id:'rival', name:'서지훈', role:'과학전람회 라이벌', age:18, avatar:'🧑🏻‍🎓',
-   personality:'성적 지상주의적 성향이 강하고 승부욕이 매우 세다. 서연과는 입학 때부터 묘한 라이벌 관계였다.',
-   episode:'올해 과학전람회 최종 후보가 서연과 지훈, 단 둘로 좁혀졌다. 1등에게만 주어지는 해외 연수 기회를 두고 두 사람의 신경전이 학교에 파다하게 퍼져 있었다. 사건 일주일 전, 지훈이 서연의 실험 데이터에 대해 "그거 진짜 너 혼자 한 거 맞아?"라며 공개적으로 의혹을 제기해 다툰 적이 있다.',
-   alibi:'사건 당일 21:00~23:00 본인 방에서 룸메이트와 함께 있었다고 진술.',
-   motive:'해외연수 선발 경쟁, 공개적 의혹 제기로 인한 갈등',
-   status:'suspect'},
+const VICTIM_PROFILE = {
+  id:'wonjun', name:'리원준', avatar:'🧑‍💻', age:17,
+  role:'멘토링 팀원 (수학·과학 전반)',
+  appearance:'키 171cm. 마른 체형. 안경을 쓰고 항상 노트북을 들고 다닌다. 말수가 적고 조용하다.',
+  personality:'내성적이지만 한 번 관심 가진 것엔 극도로 몰입한다. 수학·화학 실력이 팀에서 가장 뛰어나다. 감자칩을 싫어한다. 부당한 일에는 참지 못하는 성격.',
+  relationship:'황진우(팀장)와 가장 친하다. 황보성과는 R&E 연구 주제가 겹쳐 갈등이 있었다. 홍지호와는 독서동아리에서 만난 사이.',
+  status:'실종 — 2026.01.14 밤 21:30 이후 행방불명',
+  lastSeen:'438호 기숙사방. 자습 중이었던 것으로 추정.',
+  notes:'R&E 연구 데이터(USB에 보관, 라벨: "R&E DATA 2026")를 분실. 사건 직전 누군가와 갈등이 있었던 것으로 보임.'
+};
+
+const STORY = {
+  title: '리원준 실종 사건',
+  subtitle: '경기북과학고등학교 기숙사, 2026년 1월 15일',
+  teaser: '경기북과학고 1학년 멘토링 팀. 같은 반 동급생 6명이 함께 꾸린 팀이다.\n어젯밤, 팀원 중 한 명인 리원준이 사라졌다.\n짐은 그대로. 도망이 아니다.\n나머지 5명 중 누군가가 알고 있다.'
+};
+
+const SUSPECT_PROFILES = [
+  { id:'kgy', name:'김건유', avatar:'🧑', age:17, role:'멘토링 팀원 (정보 담당)',
+    appearance:'키 180cm. 항상 후드티에 에어팟. 감자를 정말 좋아해서 감자칩, 찐감자, 감자튀김을 달고 산다.',
+    personality:'겉으로는 유쾌하고 시원시원하다. 하지만 2등을 용납 못 하는 집착이 있다. 반장 선거에서 리원준에게 지고 나서 표정 관리가 안 됐다는 목격담이 있다. 당황하면 감자..감자..감자 라고 중얼거리는 버릇이 있다.',
+    
+    relationship:'리원준과는 입학부터 같은 반 같은 팀. 정보 멘토링을 맡아 원준에게 코딩 자료를 준 적이 있다. 성적 격차가 벌어지면서 어색해졌다.',
+    alibi:'사건 당일 21:00까지 자습실 CCTV에 찍힘. 이후 물리 실험실에서 감자칩을 먹으며 코딩했다고 주장. 확인 필요.',
+    secret:'사건 당일 밤 원준과 복도에서 마주쳤다. 원준이 뭔가에 쫓기듯 초조해 보였고 지구과학실 쪽으로 갔다는 걸 봤다. 자기가 의심받을까봐 말 안 하고 있다.',
+    location_knowledge:'알리바이를 물으면 반드시 물리 실험실에서 감자칩 먹으며 코딩했다고 구체적으로 답한다. 노트북 기록이 남아있을 거라고 말한다.',
+    redherring:'438호에서 감자칩 봉지가 발견된다. 원준 방에 자주 드나든 것처럼 보인다. 사실은 예전에 멘토링하러 갔을 때 남긴 것.',
+    tells:['당황하면 감자..감자..감자 중얼거림', '억울할 때 손가락으로 테이블 두드림', '거짓말할 때 코를 만짐'] },
+  { id:'yhc', name:'양호찬', avatar:'🧒', age:17, role:'멘토링 팀원 (수학 담당)',
+    appearance:'키 168cm. 항상 안경. 체육복을 즐겨 입는다. 교복보다 체육복이 편하다고 매일 입고 다닌다.',
+    personality:'말이 엄청나게 많다. 한 번 말을 시작하면 멈추질 않는다. 가끔씩 흥분해서 날뛰기도 한다. IQ가 높고 기억력이 비상해서 주변 사람들의 습관을 다 꿰고 있다. 말버릇은 자.. 애들아.. 로 시작하는 것.',
+    
+    relationship:'리원준의 옆방. 밤마다 원준의 타자 소리를 들었다. 원준의 USB를 빌린 적이 있다.',
+    alibi:'방에서 혼자 수학 문제를 풀었다고 진술. 증인 없음.',
+    secret:'사건 당일 밤 복도에서 원준과 누군가가 다투는 소리를 들었다. 목소리를 알지만 무서워서 말 안 하고 있다. 화학실에서 원준이 마지막으로 실험하던 것도 봤다.',
+    location_knowledge:'원준의 마지막 모습을 물으면 화학 실험실에서 저녁 늦게 실험하던 걸 봤다고 수다스럽게 답한다. 실험 기록부를 보면 알 거라고 덧붙인다.',
+    redherring:'체육복을 즐겨 입는다 — 계단 난간의 체육복 섬유가 호찬 것처럼 보인다. USB를 빌린 적도 있어 데이터 도용 의혹도 받는다.',
+    tells:['불편한 질문엔 안경을 고쳐씀', '거짓말하면 갑자기 말이 빨라지고 많아짐', '숨길 때 시선이 왼쪽 위로 감'] },
+  { id:'osy', name:'오시윤', avatar:'👧', age:17, role:'멘토링 팀원 (생명과학 담당)',
+    appearance:'키 162cm. 중단발에 항상 이어폰을 한쪽만 끼고 다닌다. 표정 변화가 풍부하다.',
+    personality:'밝고 에너지가 넘친다. SNS를 활발히 하고 친구가 많다. 하지만 무시당했다고 느끼면 속에서 분노를 쌓는 타입. 기분이 안 좋으면 으르렁데르렁.. 하고 으르렁거리는 소리를 낸다.',
+    
+    relationship:'리원준이 팀 발표에서 시윤을 빼고 혼자 발표했다. 시윤은 괜찮다고 했지만 SNS에 저격글을 올렸다가 지웠다.',
+    alibi:'생명과학 실험실에서 배양 실험을 확인하고 친구들과 편의점에 갔다고 진술. 귀가 23:30.',
+    secret:'원준 방에서 원본 쪽지를 발견해 읽었다. 너무 놀라서 증거로 남기려고 내용을 자기 손으로 옮겨 적었고, 원본은 무서워서 버렸다. 그래서 서랍의 쪽지는 시윤의 필체다. 원본의 필체는 황보성 같았다. 필적 감정 얘기가 나오면 크게 동요하며 이 사실을 털어놓는다.',
+    location_knowledge:'알리바이를 물으면 생명과학 실험실에서 배양 실험 체크했다고 답한다. 실험 기록에 서명이 남아있다고 말한다.',
+    redherring:'사건 직후 SNS에 의미심장한 글을 올렸다. 동아리실에서 시윤의 저격글 캡처가 발견되면 강하게 의심받는다.',
+    tells:['죄책감 느낄 때 머리를 귀 뒤로 넘김', '거짓말할 때 웃음이 앞서 나옴', '핵심을 찔리면 으르렁데르렁 소리를 냄'] },
+  { id:'hbs', name:'황보성', avatar:'😤', age:17, role:'멘토링 팀원 (지구과학 담당)',
+    appearance:'키 178cm. 체육복을 즐겨 입는다. 목소리가 크고 존재감이 강하다. 하리보 젤리를 항상 주머니에 들고 다닌다.',
+    personality:'자존심이 하늘을 찌른다. 틀렸을 때 절대 인정 안 한다. 여유로울 때 흠냐링가링~ 이라는 이상한 말버릇을 쓴다. 다른 사람의 아이디어를 자기 것처럼 발전시키는 습관이 있다.',
+    catchphrase:'흠냐링가링~ (여유 부릴 때), 그래서요? (방어할 때)',
+    relationship:'지구과학 멘토링 담당. 원준과 R&E 주제가 겹쳤다. 원준의 연구가 늘 한 발 앞서 있어서 열등감이 있었다.',
+    alibi:'룸메이트 황진우가 같이 있었다고 증언. 하지만 황진우는 일찍 잠들었다고 한다.',
+    secret:'진범. 원준의 R&E 노트를 몰래 베꼈고, 원준이 이를 알아채자 비상구로 불러내 USB를 빼앗으려 했다. 몸싸움 중 원준이 계단에서 넘어졌고, 패닉 상태로 도망쳤다.',
+    location_knowledge:'지구과학실 얘기가 나오면 강하게 방어한다. 자기 담당 구역이라 열쇠는 자기만 갖고 있다는 사실을 실수로 흘릴 수 있다.',
+    redherring:'처음엔 너무 침착하고 흠냐링가링거리며 여유로워서 오히려 의심을 덜 받는다.',
+    tells:['질문을 질문으로 되받아침', '핵심을 찔리면 흠냐링가링이 사라짐', '결정적 순간엔 팔짱을 낌'] },
+  { id:'hjw', name:'황진우', avatar:'🧑‍🦱', age:17, role:'멘토링 팀원 (화학 담당)',
+    appearance:'키 172cm. 부드러운 인상. 항상 운동화에 긴바지 차림이다. 혼자 있을 때 노래를 흥얼거린다.',
+    personality:'심성이 착하고 갈등을 극도로 피한다. 말투가 항상 공손하고 배려가 넘친다. 황보성과 룸메이트인데 황보성이 무서워서 못 말린다.',
+    catchphrase:'아 그게.. 죄송해요.. (곤란할 때), 다들 힘내자! (평소)',
+    relationship:'황보성의 룸메이트. 리원준과는 가끔 야식을 같이 먹는 사이였다.',
+    alibi:'잠들어 있었다고 진술.',
+    secret:'21:30에 잠깐 깼다가 황보성이 없는 걸 봤다. 23:10에 황보성이 돌아왔는데 이마에 땀이 났고 손에 USB 케이스 같은 걸 들고 있었다. 무서워서 모른 척했다.',
+    location_knowledge:'황보성의 행적을 깊이 물으면 보성이가 지구과학 실험실 열쇠를 항상 갖고 다닌다는 것과, 그날 밤 늦게 들어왔다는 걸 조심스럽게 언급한다.',
+    redherring:'항상 운동화를 신는다 — 계단의 270mm 운동화 발자국이 진우 것처럼 보인다. 처음에 황보성 알리바이를 자신있게 증언하다가 나중에 진술을 바꾼다.',
+    tells:['황보성 얘기가 나오면 목소리가 작아짐', '아마도로 시작하는 불확실한 표현', '거짓말 못 해서 금방 눈물이 글썽함'] }
 ];
 
-// 8단계
-const STAGES = [
-  {
-    id:1, name:'현장 감식', icon:'🩸', loc:'438호 출입문 · 복도',
-    profilerMsg:'당신은 이제 프로파일러입니다.\n현장에 남은 흔적 하나하나가 진실을 말해줍니다.',
-    intro:`신고 시각: 오전 6시 40분. 옆방 학생이 문이 잠겨있지 않고 안에 인기척이 없다고 신고했습니다.
-문손잡이와 복도 바닥, 두 군데에서 육안으로 보이지 않는 흔적이 있을 가능성이 있습니다. 루미놀 시약으로 두 구역 모두 검사하세요.`,
-    tool:{name:'루미놀 스프레이', icon:'🧪', kind:'luminol-multi',
-      desc:'문 표면과 복도 바닥, 두 영역을 각각 손가락(또는 마우스)으로 문질러서 검사하세요. 두 곳 모두 완료해야 다음으로 넘어갈 수 있습니다.',
-      areas:[
-        {x:26,y:18,w:32,h:30,label:'문손잡이 주변'},
-        {x:58,y:55,w:34,h:28,label:'복도 바닥'}
-      ]},
-    reveal:`① 문손잡이 주변: 소량의 혈흔 반응. 출혈량이 적어 큰 부상은 아닌 것으로 추정.
-② 복도 바닥: 끌린 자국 형태의 흔적 발견 — 누군가 끌려가거나 저항한 흔적으로 보임.`,
-    clue:{id:'c1', label:'문 앞 혈흔 + 복도 저항 흔적', text:'경미한 출혈, 몸싸움 및 저항 정황. 납치보다는 다툼 끝의 충돌 가능성이 높습니다.'},
-    deduction:'이 흔적은 살해 도구를 사용한 강력 범죄라기보다 몸싸움 정황을 보여줍니다. 6명 모두 여전히 용의선상에 있습니다.'
+const HIDDEN_SUSPECT = {
+  id:'hjh', name:'홍지호', avatar:'🕵️', age:17, role:'독서동아리 멤버 (다른 반)',
+  appearance:'키 170cm. 검은 재킷. 말이 없고 눈빛이 날카롭다.',
+  personality:'냉정하고 계산적이다. 한 번 믿으면 끝까지 감싸는 타입.',
+  catchphrase:'...그건 왜요? (경계할 때)',
+  relationship:'리원준과 독서동아리에서 친해졌다. 원준이 황보성과의 갈등을 홍지호에게 먼저 털어놨다.',
+  alibi:'동아리실에 있었다고 진술.',
+  secret:'황보성에게 원준의 동선을 알려줬다. 보호하려던 게 아니라 황보성에게 준비할 시간을 준 셈이 됐다. 죄책감이 크다.',
+  appears_on_clue:'c_blackboard',
+  tells:['원준 얘기가 나오면 말이 많아짐', '황보성 관계를 물으면 주제를 돌림', '그때 제가로 시작하는 자책']
+};
+
+const SCENES = [
+  { id:'dorm438', name:'438호 — 원준의 방', icon:'🚪',
+    desc:'리원준의 방. 책상이 어지럽혀져 있고 서랍이 반쯤 열려있다. 그런데... 다른 사람들의 흔적이 너무 많다.',
+    tools_hint:'루미놀, UV라이트 사용 추천',
+    clues:[
+      { id:'c_chips', name:'감자칩 봉지', icon:'🥔', tool:'none',
+        desc:'침대 옆에 떨어진 감자칩 봉지.',
+        reveal:'허니버터 감자칩 봉지. 반쯤 남아있다.\n중요: 원준은 감자칩을 싫어한다. 이건 원준 것이 아니다.',
+        analysis:'원준이 아닌 누군가가 이 방에 있었다. 감자를 이렇게 좋아하는 사람은... 김건유? 언제, 왜 왔는지 심문으로 확인해야 한다.' },
+      { id:'c_note', name:'서명 없는 쪽지', icon:'📝', tool:'none', minigame:'handwriting',
+        desc:'책상 서랍 틈에 끼어있는 구겨진 종이. 필적 감정이 가능해 보인다.',
+        reveal:'내일 21:30 비상구. 혼자 와.\n\n[필적 감정 결과] ...오시윤의 필체와 92% 일치?!',
+        analysis:'이 쪽지를 쓴 것은 오시윤이다. 하지만 시윤이 원준을 불러냈다고? 뭔가 이상하다. 시윤을 심문해서 이 쪽지에 대해 추궁해야 한다. 그리고 비상구 계단도 조사해야 한다.' },
+      { id:'c_usb_case', name:'빈 USB 케이스', icon:'💾', tool:'none',
+        desc:'책장 위에 케이스만 있다. "R&E DATA 2026" 라벨.',
+        reveal:'USB 본체가 없다. 원준의 연구 데이터가 담겨있었을 것이다.',
+        analysis:'누군가 USB를 가져갔다. R&E 연구와 관련된 사람을 조사해야 한다.' },
+      { id:'c_uv_desk', name:'형광 낙서 (UV)', icon:'💡', tool:'uv',
+        desc:'책상 위. 일반 조명에선 보이지 않는다.',
+        reveal:'형광 잉크로 갈겨 쓴 글씨:\n"돌려줘... 제발..."',
+        analysis:'원준이 누군가에게 무언가를 돌려달라고 애원한 흔적. 무엇을? 누구에게?' },
+      { id:'c_blood_desk', name:'혈흔 흔적 (루미놀)', icon:'🧪', tool:'luminol',
+        desc:'책상 아래 바닥.',
+        reveal:'소량의 혈흔 반응. 끌린 자국 없음.',
+        analysis:'이 방은 주요 충돌 현장이 아니다. 사건은 다른 곳에서 일어났다.' }
+    ]
   },
-  {
-    id:2, name:'1차 심문', icon:'🗣️', loc:'심문실',
-    profilerMsg:'프로파일러의 눈으로 사람을 읽으십시오.\n말이 아니라 망설임 속에 진실이 있습니다.',
-    intro:`6명의 용의자를 차례로 불러 심문합니다. 각자의 진술을 듣고 의심스러운 부분을 표시하세요.
-질문을 선택하면 용의자의 반응이 나타납니다. 모순되거나 회피하는 태도를 잘 살펴보세요.`,
-    interrogation:[
-      {suspectId:'dain', questions:[
-        {q:'그날 저녁 9시부터 11시까지 정확히 어디 있었나요?', a:'자습실 3층에 있었어요. CCTV 확인하시면 돼요.', flag:false},
-        {q:'서연 씨와 최근 사이는 어땠나요?', a:'...좋았어요. 평범한 룸메이트였죠.', flag:true, flagNote:'시선 회피, 말끝 흐림'},
-        {q:'장학금 문제로 다툰 적 있나요?', a:'그런 거로 싸울 사이는 아니었어요.', flag:true, flagNote:'질문과 무관한 방어적 답변'}
-      ]},
-      {suspectId:'hyunwoo', questions:[
-        {q:'그날 저녁 9시 반 이후 어디 있었나요?', a:'집에서 혼자 게임했습니다.', flag:false},
-        {q:'서연 씨가 최근 선배님께 불만이 있었다는 얘기 들으셨나요?', a:'아니요, 전혀요. 잘 지냈습니다.', flag:true, flagNote:'단호한 부정 — 과도한 방어'},
-        {q:'그날 밤 과학실에 다시 가신 적 있나요?', a:'아니요, 9시 이후로는 집에만 있었습니다.', flag:true, flagNote:'추후 기록과 모순 가능성'}
-      ]},
-      {suspectId:'professor', questions:[
-        {q:'그날 어디 계셨나요?', a:'교사 연수 중이었습니다. 부산에서 1박 했어요.', flag:false},
-        {q:'정확히 언제 학교로 돌아오셨나요?', a:'다음날 아침에요. 연수 일정이 늦게 끝났습니다.', flag:true, flagNote:'구체적 시각 회피'},
-        {q:'서연 씨 과학전람회 출품작 관련해서 마찰이 있었다고 들었습니다.', a:'마찰이라기보다는... 의견 차이가 있었죠.', flag:true, flagNote:'완곡한 표현으로 축소'}
-      ]},
-      {suspectId:'doyoon', questions:[
-        {q:'서연 씨와 헤어진 후 연락하셨나요?', a:'아니요, 헤어진 뒤로는 한 번도 연락 안 했어요.', flag:true, flagNote:'단정적 부정'},
-        {q:'그날 기숙사 근처에 가신 적 있나요?', a:'아니요, 그쪽엔 갈 일이 없었습니다.', flag:true, flagNote:'추후 단서와 충돌 여지'},
-        {q:'아직 서연 씨에게 미련이 있으신가요?', a:'...그건 사건이랑 상관없는 거 아닌가요.', flag:true, flagNote:'질문 회피, 감정적 동요'}
-      ]},
-      {suspectId:'dorm', questions:[
-        {q:'그날 21시부터 23시까지 어디 계셨나요?', a:'1동 야간 순찰 중이었어요. 매일 하는 일이라...', flag:false},
-        {q:'서연 학생이 최근 상담을 요청한 적 있나요?', a:'음... 글쎄요, 기억이 잘 안 나네요.', flag:true, flagNote:'기억 안 난다는 답변이 부자연스러움'},
-        {q:'상담 일지에 누락된 부분이 있던데요.', a:'아, 그건... 제가 정리하다가 실수로...', flag:true, flagNote:'당황한 기색, 변명조'}
-      ]},
-      {suspectId:'rival', questions:[
-        {q:'그날 21시부터 23시까지 어디 있었나요?', a:'제 방에서 룸메이트랑 같이 있었어요.', flag:false},
-        {q:'서연 씨와 최근 갈등이 있었다고 들었습니다.', a:'그냥... 경쟁하다 보면 그럴 수도 있는 거 아닌가요.', flag:true, flagNote:'대수롭지 않다는 듯한 태도가 오히려 부자연스러움'},
-        {q:'데이터 조작 의혹을 제기하셨다던데요.', a:'제가 틀린 말 한 것도 아니잖아요.', flag:true, flagNote:'방어적이고 공격적인 어조'}
-      ]}
-    ],
-    clue:{id:'c2', label:'1차 심문 — 의심 정황 6건', text:'6명 모두 크고 작은 거짓이나 회피를 보였습니다. 특히 최현우(과학실 재방문 부인), 이도윤(연락 사실 부인), 윤미경 사감(상담일지 누락)이 추후 물증으로 직접 반박 가능한 형태입니다.'},
-    deduction:'전원이 의심스럽지만, 진짜 거짓말은 물증으로 확인해야 합니다. 다음 단계부터 본격적으로 용의자를 좁혀나가겠습니다.'
+  { id:'staircase', name:'비상구 계단 (3~4층)', icon:'🚨',
+    desc:'기숙사 3~4층 비상구 뒤편. 인적이 드문 곳. 쪽지에 적힌 그 장소다.',
+    tools_hint:'루미놀, 석고 키트 사용 추천',
+    clues:[
+      { id:'c_blood_stair', name:'혈흔 (루미놀)', icon:'🩸', tool:'luminol',
+        desc:'계단 3~4층 사이 벽과 바닥.',
+        reveal:'다량의 혈흔 반응. 벽과 바닥에 두 가지 충돌 패턴.',
+        analysis:'이곳이 실제 사건 현장이다. 심각한 몸싸움이 있었다.' },
+      { id:'c_footprint', name:'발자국 (석고)', icon:'👣', tool:'cast',
+        desc:'계단 먼지 위의 발자국.',
+        reveal:'270mm 운동화. 나이키 밑창 패턴. 두 사람 발자국이 겹쳐 있다.',
+        analysis:'운동화를 항상 신는 사람... 황진우? 키가 큰 김건유? 심문으로 신발 사이즈를 확인해야 한다.' },
+      { id:'c_fiber', name:'섬유 조각 (UV)', icon:'🔦', tool:'uv',
+        desc:'난간에 걸린 미세한 섬유.',
+        reveal:'네이비 계열 섬유. 경기북과학고 체육복 소재와 동일.',
+        analysis:'체육복을 입은 사람이 난간을 잡았다. 체육복을 즐겨 입는 사람은... 양호찬? 황보성? 둘 다다.' },
+      { id:'c_haribbo', name:'하리보 봉지', icon:'🐻', tool:'none', minigame:'fingerprint',
+        desc:'계단 구석 어두운 곳에 구겨진 봉지.',
+        reveal:'하리보 골드베어 봉지. 안쪽에 지문 흔적 있음.',
+        analysis:'하리보를 항상 들고 다니는 사람이 누구였는지... 용의자 프로필을 떠올려라.' }
+    ]
   },
-  {
-    id:3, name:'디지털 포렌식', icon:'💡', loc:'서연의 책상 · 통신사 기록실',
-    profilerMsg:'기술은 거짓말을 하지 않습니다.\n오직 사람만이 거짓말을 합니다.',
-    eliminates:'dorm',
-    intro:`서연의 책상에서 형광펜으로 쓰인 숨겨진 메모를 찾아야 합니다. UV 라이트로 비춰보세요.
-또한 사감의 순찰 기록 시스템(NFC 태그) 로그가 도착했습니다 — 그날 밤 사감의 실제 동선을 확인할 수 있습니다.`,
-    tool:{name:'UV 라이트', icon:'🔦', kind:'uv',
-      desc:'책상 위 영역을 손가락(또는 마우스)으로 드래그해서 비춰보세요. 비춘 부분만 형광 글씨가 서서히 드러납니다.',
-      area:{x:18,y:42,w:58,h:28}},
-    uvWritten:'선배 또 그런다...\n데이터 갖고 협박\n무섭다.',
-    extra:{type:'logmatch', title:'사감 NFC 순찰 로그 대조',
-      desc:'사감의 순찰 태그 기록을 시간순으로 확인하세요. 21:00~23:00 동안 본인 진술(1동 순찰)과 일치하는지 맞춰보세요.',
-      logs:['21:02 1동 1층 태그','21:18 1동 2층 태그','21:35 1동 3층 태그','21:51 1동 옥상 태그','22:10 1동 1층 태그(복귀)','22:30 1동 2층 태그'],
-      verdict:'기록 전부 1동에서만 발생 — 진술과 100% 일치. 438호가 있는 3동에는 접근 기록 자체가 없습니다.'},
-    reveal:`형광 메모 발견: "선배 또 그런다... 데이터 갖고 협박하지 말라고 했는데. 무섭다."
-NFC 순찰 로그 대조 결과: 윤미경 사감은 사건 당일 21:00~23:00 내내 1동에서만 태그가 찍혔으며, 서연이 있던 3동에는 접근 기록이 전혀 없습니다.`,
-    clue:{id:'c3', label:'형광 메모 + 사감 동선 확정', text:'메모는 "선배"를 지목 — 최현우 정황 강화. 사감의 순찰 로그는 물리적으로 3동 근처에 가지 않았음을 증명합니다.'},
-    eliminateExplain:'윤미경 사감은 사건 당일 1동에서만 순찰했다는 것이 NFC 태그 시스템으로 물리적으로 증명되었습니다. 상담 일지 누락은 단순 실수로 추정되며, 용의선상에서 제외합니다.',
-    deduction:'메모의 "선배"는 최현우를 강하게 지목합니다. 윤미경 사감은 확실한 알리바이로 제외되었습니다. 5명이 남았습니다.'
+  { id:'club_room', name:'동아리실', icon:'🔬',
+    desc:'과학 동아리실. 칠판이 지워진 흔적이 있다. 쓰레기통 옆에 뭔가 떨어져 있다.',
+    tools_hint:'UV라이트 사용 추천',
+    clues:[
+      { id:'c_blackboard', name:'지워진 칠판 (UV)', icon:'📋', tool:'uv',
+        desc:'칠판이 지워져 있다.',
+        reveal:'지워진 글씨 복원: "23:00 B동 확인 — HJH"',
+        analysis:'HJH... 팀원 중엔 없는 이니셜이다. 새로운 인물이 이 사건에 개입되어 있다.' },
+      { id:'c_sns_print', name:'SNS 캡처 출력물', icon:'📱', tool:'none',
+        desc:'책상 위에 놓인 인쇄물.',
+        reveal:'오시윤의 SNS 캡처: "팀워크가 뭔지 모르는 사람이랑은 못 하겠다" — 이미 삭제된 글이다.',
+        analysis:'누군가 시윤의 저격글을 일부러 출력해뒀다. 시윤이 원준에게 원한이 있었나? 심문이 필요하다.' },
+      { id:'c_torn_note', name:'찢긴 노트 조각', icon:'📄', tool:'none',
+        desc:'쓰레기통 옆에 떨어진 노트 조각.',
+        reveal:'원준의 필체: "...직접 돌려달라고 했는데 거부당했다. 어떻게 해야 하지."',
+        analysis:'원준이 누군가에게 무언가를 돌려달라고 요구했다가 거부당했다. UV 낙서와 연결된다.' }
+    ]
   },
-  {
-    id:4, name:'표적 분석 훈련', icon:'🎯', loc:'경찰 훈련센터 사격장',
-    profilerMsg:'정확한 판단력을 갖추십시오.\n증인의 기억은 때로 허상을 보여줍니다.',
-    eliminates:'rival',
-    intro:`목격자 진술의 신뢰도를 검증하기 위해, 당신도 표적 인식 훈련을 통과해야 합니다.
-또한 서지훈의 알리바이(룸메이트 진술)를 보강할 CCTV 자료가 도착했습니다. 훈련을 완료하면 자동으로 CCTV 분석 결과가 공개됩니다.`,
-    tool:{name:'표적 인식 사격 훈련', icon:'🎯', kind:'shooting',
-      desc:'화면에 무작위로 나타나는 표적 8개를 빠르게 클릭(탭)하세요. 6개 이상 명중해야 훈련을 통과합니다. 제한시간 12초.',
-      targetCount:8, timeLimit:12, passCount:6},
-    reveal:`훈련 통과 — 분석력이 검증되었습니다.
-CCTV 분석 결과: 사건 당일 21:00~23:00, 서지훈과 그의 룸메이트가 기숙사 4층 휴게실에서 함께 라면을 먹는 모습이 CCTV에 선명하게 포착되었습니다. 본인 진술과 정확히 일치합니다.`,
-    clue:{id:'c4', label:'서지훈 CCTV 알리바이 확정', text:'서지훈은 사건 시각 내내 룸메이트와 함께 휴게실 CCTV에 포착되어 물리적으로 범행이 불가능합니다.'},
-    eliminateExplain:'서지훈은 CCTV로 명확한 알리바이가 입증되어 용의선상에서 제외합니다. 데이터 조작 의혹 제기는 사실로 밝혀졌으나(서연과 무관한 사안), 사건과는 직접 관련이 없습니다.',
-    deduction:'서지훈이 제외되며 4명이 남았습니다: 김다은, 최현우, 박정민 선생님, 이도윤.'
+  { id:'phys_lab', name:'물리 실험실', icon:'⚡',
+    desc:'물리 실험실. 김건유가 사건 당일 밤 여기 있었다고 주장한 곳이다.',
+    locked:true, unlock:{type:'mention', keywords:['물리 실험실','물리실'], fallbackTarget:'kgy', fallbackCount:2, label:'김건유 심문으로 개방 (장소 언급 또는 질문 2회)'},
+    tools_hint:'육안 조사 추천',
+    clues:[
+      { id:'c_chip_crumbs', name:'감자칩 부스러기와 노트북', icon:'💻', tool:'none',
+        desc:'실험대 위에 감자칩 부스러기와 노트북 로그인 기록.',
+        reveal:'노트북 사용 기록: 21:05 ~ 23:40 연속 코딩 커밋 기록. 감자칩 부스러기가 키보드에 가득하다.',
+        analysis:'김건유의 알리바이가 사실로 확인됐다. 21:30 사건 시각에 그는 여기서 코딩 중이었다. 김건유는 범인이 아니다.' },
+      { id:'c_kgy_memo', name:'건유의 메모', icon:'🗒️', tool:'none',
+        desc:'실험대 구석의 메모.',
+        reveal:'"원준이 요즘 왜 이렇게 초조해 보이지. 복도에서 지구과학실 쪽으로 뛰어가던데."',
+        analysis:'원준이 사건 전 지구과학실 방향으로 갔다. 지구과학실을 조사해야 한다. 담당자가 누구였더라?' }
+    ]
   },
-  {
-    id:5, name:'족적 감식', icon:'👣', loc:'과학실 앞 복도',
-    profilerMsg:'바닥에 새겨진 한 걸음이\n천 마디 거짓말보다 정직합니다.',
-    eliminates:'dain',
-    intro:`복도 바닥에 희미한 발자국이 남아있습니다. 석고를 부어 본을 뜨면 신발 밑창 패턴과 사이즈가 드러납니다.
-본을 뜬 후, 용의자들의 신발 사이즈 기록과 직접 대조해야 합니다.`,
-    tool:{name:'석고 본뜨기 키트', icon:'🪣', kind:'cast',
-      desc:'발자국이 있을 만한 바닥 영역에 석고 용액을 천천히 드래그(또는 손가락)로 부어보세요. 굳으면서 패턴이 드러납니다.',
-      area:{x:38,y:48,w:30,h:30}},
-    extra:{type:'sizematch', title:'신발 사이즈 대조',
-      desc:'본뜬 발자국의 추정 사이즈는 270mm입니다. 용의자 4명의 신발 사이즈 기록과 비교해 일치하는 사람을 찾아보세요.',
-      options:[
-        {name:'김다은', size:'235mm'},
-        {name:'최현우', size:'270mm'},
-        {name:'박정민 선생님', size:'265mm'},
-        {name:'이도윤', size:'268mm'}
-      ],
-      footSize:'270mm'},
-    reveal:`석고 본 완성: 운동화 밑창 패턴, 추정 사이즈 270mm 확인.
-신발 사이즈 대조 결과: 김다은(235mm)은 발자국과 35mm 차이로 명백히 불일치. 나머지 3명은 사이즈 범위 내에 있어 추가 확인이 필요합니다.`,
-    clue:{id:'c5', label:'발자국 사이즈 270mm — 김다은 배제', text:'235mm인 김다은의 발 사이즈는 현장 발자국과 명백히 일치하지 않습니다. 최현우(270mm)는 정확히 일치합니다.'},
-    eliminateExplain:'김다은의 신발 사이즈(235mm)는 현장 발자국(270mm)과 35mm나 차이가 나 물리적으로 일치할 수 없습니다. 용의선상에서 제외합니다.',
-    deduction:'김다은이 제외되며 3명이 남았습니다: 최현우, 박정민 선생님, 이도윤. 최현우의 발 사이즈는 정확히 일치합니다.'
+  { id:'chem_lab', name:'화학 실험실', icon:'⚗️',
+    desc:'화학 실험실. 양호찬이 원준의 마지막 실험을 목격했다는 곳이다.',
+    locked:true, unlock:{type:'mention', keywords:['화학 실험실','화학실'], fallbackTarget:'hjw', fallbackCount:2, label:'황진우 심문으로 개방 (화학 담당)'},
+    tools_hint:'UV라이트 사용 추천',
+    clues:[
+      { id:'c_lab_log', name:'실험 기록부', icon:'📒', tool:'none',
+        desc:'실험실 사용 기록부.',
+        reveal:'리원준 — 20:30~21:10 사용. 퇴실 서명이 흔들린 글씨체다.',
+        analysis:'원준은 21:10에 화학실을 나갔다. 21:30 비상구 약속 직전이다. 동선이 맞춰지고 있다.' },
+      { id:'c_uv_chem', name:'시약장 형광 지문 (UV)', icon:'🧤', tool:'uv',
+        desc:'시약장 손잡이 부근.',
+        reveal:'형광 시약이 묻은 지문 다수. 원준의 것과 다른 지문이 하나 섞여 있다. 체육복 소매 자국도.',
+        analysis:'원준이 실험하던 중 누군가 찾아왔었다. 체육복... 또 체육복이다.' }
+    ]
   },
-  {
-    id:6, name:'성분 분석', icon:'🧫', loc:'증거 보관실',
-    profilerMsg:'분자 하나도 거짓말을 하지 않습니다.\n화학은 가장 정직한 증인입니다.',
-    eliminates:'professor',
-    intro:`현장에서 발견된 머그컵에서 정체불명의 잔여물이 검출되었습니다. 시약을 순서대로 시험관에 넣어 색 변화를 관찰하면 성분을 알 수 있습니다.
-또한 박정민 선생님의 연수원 출입기록이 도착했습니다.`,
-    tool:{name:'시험관 반응 테스트', icon:'⚗️', kind:'titration',
-      desc:'아래 시약을 순서대로 시험관에 드래그(또는 탭)해서 넣어보세요. 5단계 반응을 모두 진행해야 최종 성분이 확인됩니다.',
-      reagents:[
-        {id:'r1', name:'증류수', color:'#bcd4ff'},
-        {id:'r2', name:'머그컵 잔여물 추출액', color:'#d9c79e'},
-        {id:'r3', name:'페놀프탈레인', color:'#ffb3e6'},
-        {id:'r4', name:'염산 1방울 (중화 테스트)', color:'#ffe08a'},
-        {id:'r5', name:'BTB 용액 (최종 확인)', color:'#9fe6c9'}
-      ],
-      correctOrder:['r1','r2','r3','r4','r5'],
-      stepResults:[
-        '증류수를 부어 잔여물을 희석합니다. 용액이 옅은 갈색을 띱니다.',
-        '머그컵 잔여물 추출액을 넣자 미세한 거품이 발생합니다 — 베이킹소다(NaHCO₃) 반응 패턴.',
-        '페놀프탈레인을 떨어뜨리자 용액이 옅은 분홍색으로 변합니다 — 약염기성 확인.',
-        '염산 한 방울로 중화 테스트 — 분홍색이 서서히 옅어지며 약염기였음을 재확인.',
-        'BTB 용액으로 최종 확인 — 최초 상태에서 초록~파랑 계열 반응, 성분 매칭 완료: 아스피린(C₉H₈O₄) + 베이킹소다(NaHCO₃).'
-      ]},
-    extra:{type:'recordcheck', title:'연수원 출입기록 대조',
-      desc:'박정민 선생님의 연수원 카드 출입 기록을 확인하세요.',
-      logs:['14:00 연수원 도착 체크인','16:20 연수원 카드 미사용 (외출 추정)','19:40 학교 인근 주유소 CCTV 포착','23:50 연수원 카드 재사용 (복귀)'],
-      verdict:'16:20부터 19:40까지 약 3시간 행적이 묘연하며, 19:40에는 학교 인근에서 목격되었습니다. "다음날 아침 복귀"라는 진술은 거짓이지만, 본인 차량 블랙박스에서 21:00~23:00 동안 학교에서 멀리 떨어진 편의점 영수증이 발견되어 그 시각 알리바이는 따로 확인됩니다.'},
-    reveal:`최종 분석: 아스피린(C₉H₈O₄) + 베이킹소다(NaHCO₃) 성분 검출. 시약장 재고와 대조 결과, 최현우의 실험 노트에 같은 조합 기록 존재 — "위약 효과 테스트"라는 메모와 함께.
-연수원 출입기록: 박정민 선생님은 행적이 묘연했던 것은 사실이나, 21:00~23:00 결정적 시각에는 학교에서 멀리 떨어진 편의점 영수증으로 알리바이가 확인됩니다.`,
-    clue:{id:'c6', label:'시약 성분 일치(최현우) + 박정민 선생님 알리바이 확정', text:'머그컵 성분이 최현우 실험 노트와 정확히 일치합니다. 박정민 선생님은 일부 거짓말을 했지만 결정적 시각의 알리바이는 편의점 영수증으로 입증되었습니다.'},
-    eliminateExplain:'박정민 선생님은 오후 행적을 속였지만, 사건의 결정적 시각(21:00~23:00)에는 학교에서 멀리 떨어진 곳에 있었다는 물증(영수증)이 확인되어 용의선상에서 제외합니다.',
-    deduction:'박정민 선생님이 제외되며 2명이 남았습니다: 최현우, 이도윤. 시약 성분은 최현우를 강하게 지목합니다.'
+  { id:'bio_lab', name:'생명과학 실험실', icon:'🧬',
+    desc:'생명과학 실험실. 오시윤의 담당 구역이다.',
+    locked:true, unlock:{type:'mention', keywords:['생명과학 실험실','생명 실험실','생명실'], fallbackTarget:'osy', fallbackCount:2, label:'오시윤 심문으로 개방 (장소 언급 또는 질문 2회)'},
+    tools_hint:'육안 조사 추천',
+    clues:[
+      { id:'c_bio_log', name:'배양 실험 기록', icon:'🧫', tool:'none',
+        desc:'시윤의 배양 실험 기록지.',
+        reveal:'21:15 배양기 온도 체크 서명 — 오시윤. 편의점 영수증 21:40. 시간이 일치한다.',
+        analysis:'시윤의 알리바이가 확인됐다. 21:30 사건 시각에 그녀는 실험실과 편의점 사이에 있었다. 하지만 왜 쪽지를 숨겼을까?' },
+      { id:'c_wonjun_apology', name:'원준이 남긴 쪽지', icon:'💌', tool:'none',
+        desc:'시윤의 실험 노트에 끼워진 쪽지.',
+        reveal:'"시윤아 미안. 발표는 내가 잘못했어. 요즘 정신이 없어서... 나중에 다 설명할게. — 원준"',
+        analysis:'원준은 시윤에게 사과하려 했다. 그리고 "정신이 없다"고 했다. 무언가에 쫓기고 있었다.' }
+    ]
   },
-  {
-    id:7, name:'타임라인 재구성', icon:'🧩', loc:'사건 종합 분석실',
-    profilerMsg:'시간은 거짓말을 허락하지 않습니다.\n조각난 순간들을 다시 맞춰보십시오.',
-    eliminates:'doyoon',
-    intro:`이도윤의 통화기록 발신 위치(기지국 정보)와 사건 당일 전체 타임라인을 직접 재구성해야 합니다.
-타임라인 조각들을 올바른 시간 순서대로 배치하세요.`,
-    tool:{name:'타임라인 재구성', icon:'🧩', kind:'timeline',
-      desc:'아래 사건 조각들을 드래그(또는 탭으로 선택 후 위치 클릭)해서 시간 순서대로 배치하세요.',
-      pieces:[
-        {id:'p1', text:'19:02 이도윤, 본인 동네 PC방 출입 기록', time:1},
-        {id:'p2', text:'19:45 이도윤, 서연에게 발신(부재중)', time:2},
-        {id:'p3', text:'21:00 이서연, 과학실 첫 출입', time:3},
-        {id:'p4', text:'21:20 이도윤, 같은 PC방에서 친구와 게임 (목격자 3명)', time:4},
-        {id:'p5', text:'21:43 누군가 과학실 재입장', time:5},
-        {id:'p6', text:'22:50 이도윤, PC방 결제 기록(친구 3명과 동석)', time:6},
-        {id:'p7', text:'23:10 과학실 퇴실', time:7}
-      ]},
-    reveal:`타임라인 재구성 완료: 이도윤은 19:02부터 22:50까지 자신의 동네 PC방에서 친구 3명과 함께 있었던 것이 결제 기록과 목격자 진술로 확인됩니다.
-사건 발생 시각(21:43)에 이도윤은 학교 근처에 있을 수 없었던 물리적 위치(편도 1시간 거리)에 있었습니다.`,
-    clue:{id:'c7', label:'이도윤 PC방 알리바이 확정', text:'이도윤은 사건 시각 내내 본인 동네 PC방에서 친구 3명과 함께 있었던 것이 결제 기록과 목격자 진술로 입증되었습니다. 학교까지 거리상 범행이 불가능합니다.'},
-    eliminateExplain:'이도윤의 "연락 안 했다"는 진술은 거짓이었지만(부재중 발신 다수), 정작 결정적 시각에는 학교와 먼 거리의 PC방에 있었다는 것이 결제기록과 목격자 3명으로 명백히 증명되어 용의선상에서 제외합니다.',
-    deduction:'이도윤이 제외되며, 최종적으로 단 한 명이 남았습니다: 최현우.'
+  { id:'earth_lab', name:'지구과학 실험실', icon:'🌍',
+    desc:'지구과학 실험실. 황보성의 담당 구역. 원준이 사건 직전 이곳으로 향했다는 증언이 있다.',
+    locked:true, unlock:{type:'mention_and_clues', keywords:['지구과학 실험실','지구과학실'], count:8, fallbackTarget:'yhc', fallbackCount:2, label:'단서 8개 + 양호찬 심문 (지구과학 담당)'},
+    tools_hint:'루미놀, UV라이트 사용 추천',
+    clues:[
+      { id:'c_report_draft', name:'황보성의 보고서 초안', icon:'📑', tool:'none',
+        desc:'책상 서랍의 보고서 초안.',
+        reveal:'황보성의 R&E 보고서 초안. 원준의 연구 데이터와 그래프가 완전히 동일하다. 날짜는 원준 것보다 늦다.',
+        analysis:'황보성이 원준의 연구를 표절했다. "돌려줘"라는 낙서, 거부당했다는 노트 — 전부 연결된다.' },
+      { id:'c_wonjun_diary', name:'원준의 노트', icon:'📓', tool:'none',
+        desc:'실험대 아래 떨어진 원준의 노트.',
+        reveal:'"황보성한테 노트 돌려달라고 몇 번을 말했다. 계속 거부. 이제 방법이 없다. 내일 선생님께 말씀드릴 거다. 두렵지만 이게 맞다."',
+        analysis:'원준은 황보성을 신고하기로 결심했다. 황보성에게 강력한 동기가 생긴 것이다.' },
+      { id:'c_sink_blood', name:'세면대 혈흔 (루미놀)', icon:'🚰', tool:'luminol',
+        desc:'실험실 구석 세면대.',
+        reveal:'세면대 배수구 주변 혈흔 반응. 누군가 급하게 손을 씻은 흔적.',
+        analysis:'사건 후 범인이 이곳에서 손을 씻었다. 이 실험실 열쇠를 가진 사람은... 담당자 황보성뿐이다.' }
+    ]
   },
-  {
-    id:8, name:'최종 확정', icon:'⚖️', loc:'사건 종합 보고실',
-    profilerMsg:'모든 추리의 끝에서,\n당신은 진실과 마주합니다.',
-    intro:`5명이 모두 명확한 물증으로 용의선상에서 제외되었습니다. 남은 사람은 단 한 명, 최현우입니다.
-지금까지 모은 모든 단서를 마지막으로 검토하고, 최종적으로 범인을 지목하세요.`,
-    finalChoice:true,
-    correctAnswer:'hyunwoo',
-    explainCorrect:`최현우가 범인입니다.
-동기: 서연이 그의 R&E 데이터 조작을 목격하고 신고를 경고함.
-물증: ①거짓 알리바이(혼자 게임했다는 거짓) ②과학실 재입장 21:43 기록 ③발자국 사이즈 270mm 일치 ④커피잔 시약 성분이 그의 실험 노트와 일치 ⑤형광 메모 "선배가 또 그런다"가 직접 지목.
-그날 밤 다툼 끝에 몸싸움이 있었고, 서연은 크게 다치지 않은 채 인근 병원에서 발견되었습니다. 최현우는 결국 자백했습니다.`,
-    explainWrong:`이미 모든 다른 용의자가 명확한 물증으로 제외되었습니다. 남은 사람은 최현우뿐입니다.`
+  { id:'hbs_room', name:'황보성·황진우의 방', icon:'🔐',
+    desc:'황보성과 황진우의 방. 수색영장 발부. 황보성 구역이 지나치게 깔끔하다.',
+    locked:true, unlock:{type:'scene_clue', scene:'earth_lab', label:'지구과학실 단서 발견 필요'},
+    tools_hint:'루미놀 사용 추천',
+    clues:[
+      { id:'c_wonjun_usb', name:'원준의 USB', icon:'💿', tool:'none', minigame:'lock',
+        desc:'황보성 책상 서랍 깊숙이 숨겨진 USB.',
+        reveal:'리원준의 이름이 적힌 USB. "R&E DATA 2026". 원준 연구 원본과 황보성이 베낀 보고서가 함께 있다.',
+        analysis:'결정적 물증. 황보성이 사건 당일 원준의 USB를 빼앗았다.' },
+      { id:'c_blood_shoe', name:'운동화 혈흔 (루미놀)', icon:'👟', tool:'luminol',
+        desc:'침대 아래 밀어넣은 운동화.',
+        reveal:'루미놀 반응: 밑창에 혈흔. 270mm. 계단 발자국과 동일한 패턴. 황보성의 신발이다.',
+        analysis:'계단 발자국의 주인이 확정됐다. 황진우가 아니라 황보성이었다.' }
+    ]
   }
 ];
 
+const STORY_CHAPTERS = [
+  { trigger:'c_note', title:'필적의 반전', text:'쪽지의 필체는 오시윤. 하지만 시윤이 원준을 불러냈다고? 앞뒤가 맞지 않는다. 시윤을 추궁하라. 그리고 비상구 계단을 조사하라.' },
+  { trigger:'c_blood_stair', title:'진짜 현장', text:'다량의 혈흔. 여기서 무슨 일이 있었다. 원준은 이 계단에서 누군가와 만났고... 다치고... 사라졌다.' },
+  { trigger:'c_blackboard', title:'HJH', text:'칠판에서 나온 이니셜 HJH. 팀원 5명 중엔 없는 이니셜이다. 제3의 인물이 이 사건에 개입되어 있다.' },
+  { trigger:'c_chip_crumbs', title:'첫 번째 무죄', text:'김건유의 알리바이가 물증으로 확인됐다. 21:30 그는 물리실에서 코딩 중이었다. 남은 용의자에게 집중하라.' },
+  { trigger:'c_bio_log', title:'두 번째 무죄', text:'오시윤의 알리바이도 확인됐다. 그런데 그녀는 왜 쪽지를 봤다는 사실을 숨겼을까. 죄책감... 그녀도 피해자다.' },
+  { trigger:'c_report_draft', title:'표절', text:'황보성의 보고서. 원준의 데이터가 그대로 들어있다. "돌려줘"라는 낙서, 거부당했다는 노트 — 전부 이것이었다.' },
+  { trigger:'c_wonjun_diary', title:'동기', text:'원준은 신고를 결심했다. 황보성은 모든 것을 잃을 위기였다. 21:30 비상구 — 이제 누가 쪽지를 썼는지 명확하다.' },
+  { trigger:'c_blood_shoe', title:'확정', text:'혈흔이 묻은 270mm 운동화. 계단의 발자국과 일치. 황진우의 것이 아니다. 황보성의 신발이다.' }
+];
+
+const BATTLE_PHASES = [
+  { id:'chase', type:'timing', name:'황보성 추격전',
+    desc:'황보성이 증거를 들고 도주합니다. 화면에 나타나는 표적을 빠르게 클릭하세요!',
+    targets:10, timeLimit:12, passCount:6 },
+  { id:'confront', type:'choice', name:'대치 상황',
+    desc:'황보성이 USB를 파기하려 합니다.',
+    options:[
+      { text:'🖐 잠깐! 그 USB 내려놔.', outcome:'great', result:'황보성이 멈칫한다. 결정적인 증거를 확보했다.' },
+      { text:'🏃 황보성을 직접 잡으려 한다', outcome:'bad', result:'황보성이 USB를 던져버린다. 증거 일부가 손상됐다.' },
+      { text:'📱 지원 요청 후 대기', outcome:'good', result:'동료가 도착해 황보성을 둘러쌌다. USB도 온전히 확보했다.' }
+    ]
+  },
+  { id:'confession', type:'ai_confrontation', name:'최후의 대면',
+    desc:'지금까지 모은 증거를 들이밀어 황보성을 자백하게 만드세요.' }
+];
+
 const ENDING = {
-  success:{title:'사건 해결', body:'정확한 추리로 최현우를 진범으로 지목했습니다.\n이서연은 병원에서 안정을 취하고 있으며, 수사팀의 신속하고 체계적인 분석이 사건을 해결했습니다.'},
-  wrong:{title:'오인 지목', body:'다시 한번 증거를 검토해보세요.\n진범은 최현우였습니다.'},
-  fail:{title:'시간 초과', body:'제한 시간 안에 사건을 해결하지 못했습니다.\n다시 도전해서 진실을 밝혀보세요.'}
+  perfect:{ icon:'🏆', title:'완벽한 수사', body:'황보성이 자백했습니다.\n리원준은 인근 병원에서 치료 중이며 생명에는 지장이 없습니다.\n\n김건유, 양호찬, 오시윤, 황진우 — 모두를 의심했지만\n증거와 심문으로 진실을 가려냈습니다.\n\n모든 반전을 꿰뚫었습니다.' },
+  good:{ icon:'✅', title:'사건 해결', body:'황보성이 결국 자백했습니다.\n리원준은 발견되었고 치료 중입니다.' },
+  wrong:{ icon:'❌', title:'오인 지목', body:'잘못된 사람을 지목했습니다.\n황보성은 증거를 파기하고 달아났습니다.\n\n감자칩, 체육복, 운동화... 겉으로 보이는 흔적에 속았습니다.' },
+  timeout:{ icon:'⏰', title:'시간 초과', body:'수사 시간이 종료되었습니다.\n황보성은 이미 학교를 빠져나갔습니다.' }
 };
-// ════════ STATE ════════
-let gs={stage:0,timeLeft:1200,clues:[],interroDone:{},scanned:false,extraChecked:false,picked:null};
-let timerInt=null;
 
-function g(id){return document.getElementById(id);}
-function showScreen(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));g(id).classList.add('on');}
-function toast(msg,col){
-  const t=g('toast');t.textContent=msg;t.style.borderColor=col||'#9b6bff';t.style.color=col||'#9b6bff';
-  t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400);
-}
+
+// ═══════════ STATE ═══════════
+let gs={
+  foundClues:[], eliminated:[], tool:'none',
+  currentScene:null, timeLeft:20*60,
+  hiddenRevealed:false, battleScore:0, shownChapters:[],
+  interrogations:{}, chatHistory:{}, interrogatedCount:{}, battlePhase:0, battleHits:0,
+  unlockedScenes:[], mentionedKeywords:[], qteDone:false
+};
+let timerInt=null, currentSuspect=null;
+let canvasPainted=new Set(), canvasDone=new Set();
+const g=id=>document.getElementById(id);
+function showScr(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));g(id).classList.add('on');}
 function pad(n){return String(n).padStart(2,'0');}
+function toast(msg,col){const t=g('toast');t.textContent=msg;t.style.borderColor=col||'#7c6dfa';t.style.color=col||'#a99fff';t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2500);}
 
-// ════════ INTRO → SUSPECTS ════════
-function goToSuspects(){ showScreen('sSuspects'); renderSuspects(); }
-function renderSuspects(){
-  g('suspGrid').innerHTML=SUSPECTS.map((s,i)=>`
-    <div class="susp-card fadeUp" style="animation-delay:${i*.07}s" id="suspCard_${s.id}">
-      <div class="susp-top">
-        <div class="susp-av">${s.avatar}</div>
-        <div><div class="susp-name">${s.name}</div><div class="susp-role">${s.role} · ${s.age}세</div></div>
+// ═══════════ PROFILE SCREEN ═══════════
+let profileIdx=0;
+function goProfiles(){
+  profileIdx=0; showScr('sProfiles');
+  switchTab('victim');
+}
+function switchTab(tab){
+  const vBtn=g('tabVictim'), sBtn=g('tabSusp');
+  const vPanel=g('panelVictim'), sPanel=g('panelSusp');
+  if(tab==='victim'){
+    vPanel.style.display=''; sPanel.style.display='none';
+    vBtn.style.borderColor='var(--blood)'; vBtn.style.background='#c23a4e44';
+    sBtn.style.borderColor='var(--brd)'; sBtn.style.background='none'; sBtn.style.color='var(--tx2)';
+    renderVictim();
+  } else {
+    vPanel.style.display='none'; sPanel.style.display='';
+    sBtn.style.borderColor='var(--p)'; sBtn.style.background='#7c6dfa22'; sBtn.style.color='var(--p2)';
+    vBtn.style.borderColor='var(--brd)'; vBtn.style.background='none'; vBtn.style.color='var(--tx2)';
+    renderDots(); renderProfile();
+  }
+}
+function renderVictim(){
+  const v=VICTIM_PROFILE;
+  g('victimCard').innerHTML=`
+    <div class="pc-top">
+      <div class="pc-avatar" style="border-color:var(--blood);font-size:28px;">${v.avatar}</div>
+      <div>
+        <div class="pc-name">${v.name}</div>
+        <div class="pc-role" style="color:var(--blood);">🔴 피해자 · ${v.role}</div>
+        <div class="pc-age">${v.age}세 · 경기북과학고 1학년</div>
       </div>
-      <div class="susp-detail-lbl">🎭 성격</div>
-      <div class="susp-detail-txt">${s.personality}</div>
-      <div class="susp-detail-lbl">📖 비하인드 일화</div>
-      <div class="susp-detail-txt">${s.episode}</div>
-      <div class="susp-detail-lbl">📋 진술 (알리바이)</div>
-      <div class="susp-detail-txt">${s.alibi}</div>
-      <div class="susp-detail-lbl">⚠️ 추정 동기</div>
-      <div class="susp-detail-txt">${s.motive}</div>
-    </div>`).join('');
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-lbl">🎭 외모</div>
+        <div class="pc-text">${v.appearance}</div>
+      </div>
+      <div class="pc-section">
+        <div class="pc-lbl">🧠 성격 · 특이사항</div>
+        <div class="pc-text">${v.personality}</div>
+      </div>
+      <div class="pc-section">
+        <div class="pc-lbl">🔗 팀 내 관계</div>
+        <div class="pc-text">${v.relationship}</div>
+      </div>
+      <div class="pc-section">
+        <div class="pc-lbl">📋 마지막 목격</div>
+        <div class="pc-text">${v.lastSeen}</div>
+        <div class="pc-lbl" style="margin-top:10px;">📂 수사 참고</div>
+        <div class="pc-text">${v.notes}</div>
+      </div>
+      <div class="pc-warning" style="background:#c23a4e11;border-color:#c23a4e33;color:#ff8096;">
+        ⚠️ 현재 실종 상태 — ${v.status}
+      </div>
+    </div>
+  `;
+}
+function renderDots(){
+  g('pnavDots').innerHTML=SUSPECT_PROFILES.map((_,i)=>
+    `<div class="pnav-dot${i===profileIdx?' active':''}"></div>`).join('');
+}
+function renderProfile(){
+  const s=SUSPECT_PROFILES[profileIdx];
+  const card=g('profileCard');
+  card.innerHTML=`
+    <div class="profile-card">
+      <div class="pc-top">
+        <div class="pc-avatar">${s.avatar}</div>
+        <div>
+          <div class="pc-name">${s.name}</div>
+          <div class="pc-role">${s.role}</div>
+          <div class="pc-age">17세 · 경기북과학고 1학년</div>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-section">
+          <div class="pc-lbl">🎭 외모</div>
+          <div class="pc-text">${s.appearance}</div>
+        </div>
+        <div class="pc-section">
+          <div class="pc-lbl">🧠 성격</div>
+          <div class="pc-text">${s.personality}</div>
+        </div>
+        <div class="pc-section">
+          <div class="pc-lbl">🔗 리원준과의 관계</div>
+          <div class="pc-text">${s.relationship}</div>
+        </div>
+        <div class="pc-section">
+          <div class="pc-lbl">📋 알리바이</div>
+          <div class="pc-text">${s.alibi}</div>
+          ${s.tells?`<div class="pc-lbl" style="margin-top:10px;">👁️ 거짓말 징후</div>
+          <div class="pc-tells">${s.tells.map(t=>`<div class="pc-tell">${t}</div>`).join('')}</div>`:''}
+        </div>
+        <div class="pc-warning">⚠️ 첫인상에 속지 마세요 — 모든 팀원에게 숨겨진 이야기가 있습니다.</div>
+      </div>
+    </div>
+  `;
+  renderDots();
+  const isLast=profileIdx===SUSPECT_PROFILES.length-1;
+  g('profileNotice').textContent=isLast?'모두 확인했습니다. 수사를 시작할 수 있습니다.':`${profileIdx+1} / ${SUSPECT_PROFILES.length} — 다음 인물을 확인하세요`;
+  g('btnStartInvestigate').style.display=isLast?'':'none';
+  g('btnPrev').style.display=profileIdx>0?'':'none';
+  g('btnNext').style.display=isLast?'none':'';
+}
+function navProfile(dir){
+  if(dir===-99){ profileIdx=0; }
+  else { profileIdx=Math.max(0,Math.min(SUSPECT_PROFILES.length-1,profileIdx+dir)); }
+  renderDots(); renderProfile();
 }
 
-// ════════ GAME START ════════
+// ═══════════ GAME START ═══════════
 function startGame(){
-  gs={stage:0,timeLeft:1200,clues:[],interroDone:{},scanned:false,extraChecked:false,picked:null};
-  showScreen('sGame');
-  showProfilerThen(0,true);
+  SUSPECT_PROFILES.forEach(s=>{gs.interrogations[s.id]=4; gs.chatHistory[s.id]=[];});
+  gs.interrogations[HIDDEN_SUSPECT.id]=4; gs.chatHistory[HIDDEN_SUSPECT.id]=[];
+  showScr('sGame');
+  renderSceneList(); renderSuspBtns();
   timerInt=setInterval(()=>{
     gs.timeLeft--;
     const m=Math.floor(gs.timeLeft/60),s=gs.timeLeft%60;
     const el=g('timerEl');
     el.textContent=`${pad(m)}:${pad(s)}`;
     el.className='timer'+(gs.timeLeft<=120?' danger':gs.timeLeft<=300?' warn':'');
-    if(gs.timeLeft<=0){clearInterval(timerInt);endGame('fail');}
+    if(gs.timeLeft<=0){clearInterval(timerInt);endGame('timeout');}
   },1000);
+  checkChapter();
 }
 
-// ════════ PROFILER INTERSTITIAL ════════
-function showProfilerThen(idx,isFirst){
-  const s=STAGES[idx];
-  const ov=g('profilerOverlay');
-  g('profilerText').textContent=s.profilerMsg||'당신은 이제 프로파일러입니다.';
-  g('profilerElim').classList.remove('show');
-  ov.classList.add('show');
-  setTimeout(()=>{
-    ov.classList.remove('show');
-    loadStage(idx);
-  }, 2200);
-}
-
-function showEliminationThen(prevIdx,nextIdx){
-  const prevStage=STAGES[prevIdx];
-  const elimId=prevStage.eliminates;
-  const ov=g('profilerOverlay');
-  if(elimId){
-    const sus=SUSPECTS.find(x=>x.id===elimId);
-    sus.status='cleared';
-    const card=g('suspCard_'+elimId);
-    if(card) card.classList.add('eliminated');
-    g('profilerText').textContent=STAGES[nextIdx].profilerMsg||'다음 단계로 이동합니다.';
-    g('profilerElimAv').textContent=sus.avatar;
-    g('profilerElimName').textContent=sus.name+' — 용의선상에서 제외';
-    ov.classList.add('show');
-    g('profilerElim').classList.remove('show');
-    setTimeout(()=>g('profilerElim').classList.add('show'),400);
-    setTimeout(()=>{ ov.classList.remove('show'); loadStage(nextIdx); }, 3200);
-  } else {
-    g('profilerText').textContent=STAGES[nextIdx].profilerMsg||'다음 단계로 이동합니다.';
-    g('profilerElim').classList.remove('show');
-    ov.classList.add('show');
-    setTimeout(()=>{ ov.classList.remove('show'); loadStage(nextIdx); }, 2200);
+// ═══════════ SCENE LIST ═══════════
+function isSceneUnlocked(sc){
+  if(!sc.locked) return true;
+  if(gs.unlockedScenes.includes(sc.id)) return true;
+  const u=sc.unlock;
+  if(!u) return true;
+  const mentioned=u.keywords&&u.keywords.some(k=>gs.mentionedKeywords.some(m=>m.includes(k)||k.includes(m)));
+  const fallback=u.fallbackTarget&&(gs.interrogatedCount[u.fallbackTarget]||0)>=(u.fallbackCount||2);
+  if(u.type==='mention') return !!mentioned||!!fallback;
+  if(u.type==='mention_and_clues') return (!!mentioned||!!fallback) && gs.foundClues.length>=u.count;
+  if(u.type==='scene_clue'){
+    const targetScene=SCENES.find(s=>s.id===u.scene);
+    return targetScene && targetScene.clues.some(c=>gs.foundClues.includes(c.id));
   }
+  return false;
 }
 
-// ════════ STAGE LOADER ════════
-function loadStage(idx){
-  if(idx>=STAGES.length){return;}
-  gs.stage=idx; gs.scanned=false; gs.extraChecked=false;
-  const s=STAGES[idx];
-  g('hudStage').textContent=`${idx+1} / ${STAGES.length}단계 — ${s.name}`;
-
-  if(s.interrogation) renderInterrogationStage(s);
-  else if(s.finalChoice) renderFinalStage(s);
-  else if(s.tool && s.tool.kind==='luminol-multi') renderMultiSceneStage(s);
-  else if(s.tool && s.tool.kind==='shooting') renderShootingStage(s);
-  else if(s.tool && s.tool.kind==='cast') renderCastStage(s);
-  else if(s.tool && s.tool.kind==='titration') renderTitrationStage(s);
-  else if(s.tool && s.tool.kind==='timeline') renderTimelineStage(s);
-  else renderToolStage(s);
-}
-
-function nextStage(){
-  const cur=gs.stage;
-  if(cur+1>=STAGES.length){ return; }
-  showEliminationThen(cur,cur+1);
-}
-
-// ════════ HELPER: standard footer (clue+deduction+continue) ════════
-function stdFooter(s){
-  return `
-    <div class="reveal-text" id="revealBox">
-      <div class="reveal-label">🔬 분석 결과</div>
-      <div id="revealContent"></div>
-    </div>
-    <div class="clue-pop" id="cluePop">
-      <div class="clue-pop-lbl">📎 단서 확보</div>
-      <div class="clue-pop-title">${s.clue.label}</div>
-      <div class="clue-pop-txt">${s.clue.text}</div>
-    </div>
-    <div class="deduction-box" id="deductBox">
-      <div class="deduction-lbl">🧠 추리 노트</div>
-      <div>${s.deduction}</div>
-    </div>
-    <button class="btn-continue" id="btnContinue" disabled onclick="nextStage()">다음 단계로 →</button>
-  `;
-}
-function finishClue(s){
-  setTimeout(()=>{
-    g('cluePop').classList.add('show');
-    gs.clues.push(s.clue);
-    setTimeout(()=>{
-      g('deductBox').classList.add('show');
-      g('btnContinue').disabled=false;
-    },700);
-  },600);
-}
-
-// ════════ SINGLE-AREA TOOL STAGE (uv only now) ════════
-function renderToolStage(s){
-  // UV라이트 전용 — 스위치 ON/OFF로 글자 전체 fade-in
-  const body=g('gameBody');
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
-        <div class="tool-desc">UV 라이트를 켜서 책상을 비춰보세요. 형광 메모가 드러납니다.</div>
-        <div id="uvScene" style="position:relative;width:100%;aspect-ratio:16/9;background:#06060a;border-radius:9px;overflow:hidden;border:1px solid var(--brd);">
-          <!-- 기본 어두운 배경 -->
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-            <span style="color:#2a2a40;font-size:.9rem;">UV 라이트를 켜면 숨겨진 내용이 드러납니다</span>
-          </div>
-          <!-- 형광 메모 레이어 (처음엔 완전 투명) -->
-          <div id="uvReveal" style="position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease-in;display:flex;flex-direction:column;justify-content:center;padding:8% 10%;gap:10px;">
-            ${(s.uvWritten||'형광 메모').split('\n').map(line=>`
-              <div style="font-family:var(--mono);font-size:clamp(13px,2.5vw,22px);color:#3ecfb8;text-shadow:0 0 12px #3ecfb8,0 0 28px #3ecfb855;letter-spacing:.04em;">${line}</div>
-            `).join('')}
-          </div>
-          <!-- UV 빛 오버레이 (스위치 켤 때 보라 틴트) -->
-          <div id="uvLight" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#6b48ff22,transparent 70%);opacity:0;transition:opacity .6s;pointer-events:none;"></div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:center;margin-top:16px;gap:14px;">
-          <span style="font-size:.85rem;color:var(--tx2);">UV 라이트</span>
-          <button id="uvSwitch" onclick="toggleUV()" style="width:58px;height:30px;border-radius:30px;background:#2a2a40;border:1.5px solid var(--brd2);position:relative;transition:background .3s;cursor:pointer;">
-            <span id="uvSwitchKnob" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#4a4a68;transition:all .3s;display:block;"></span>
-          </button>
-          <span id="uvSwitchLabel" style="font-size:.82rem;color:var(--tx3);">OFF</span>
-        </div>
-      </div>
-      ${extraBlock(s)}
-      ${stdFooter(s)}
-    </div>
-  `;
-  window._uvOn=false;
-  setupExtra(s);
-}
-function toggleUV(){
-  window._uvOn=!window._uvOn;
-  const sw=g('uvSwitch'), knob=g('uvSwitchKnob'), lbl=g('uvSwitchLabel');
-  const reveal=g('uvReveal'), light=g('uvLight');
-  if(window._uvOn){
-    sw.style.background='#3c1d99'; knob.style.left='31px'; knob.style.background='#c4a3ff'; lbl.textContent='ON'; lbl.style.color='var(--accent2)';
-    reveal.style.opacity='1'; light.style.opacity='1';
-    if(!gs.scanned){
-      gs.scanned=true;
-      toast('💡 형광 메모 발견!','#3ecfb8');
-      setTimeout(()=>{
-        const s=STAGES[gs.stage];
-        g('revealContent').textContent=s.reveal;
-        g('revealBox').classList.add('show');
-        if(s.extra) g('extraBox').classList.add('show');
-        else finishClue(s);
-      },1600);
+function checkUnlocks(){
+  SCENES.forEach(sc=>{
+    if(sc.locked && !gs.unlockedScenes.includes(sc.id) && isSceneUnlocked(sc)){
+      gs.unlockedScenes.push(sc.id);
+      showProfiler('🔓 새 수사 현장 개방', `${sc.icon} ${sc.name}\n\n${sc.desc}`, 2800);
+      renderSceneList();
     }
-  } else {
-    sw.style.background='#2a2a40'; knob.style.left='3px'; knob.style.background='#4a4a68'; lbl.textContent='OFF'; lbl.style.color='var(--tx3)';
-    reveal.style.opacity='0'; light.style.opacity='0';
-  }
-}
-
-// ════════ EXTRA BLOCK (logmatch / sizematch / recordcheck) ════════
-function extraBlock(s){
-  if(!s.extra) return '';
-  const e=s.extra;
-  if(e.type==='logmatch' || e.type==='recordcheck'){
-    return `<div class="extra-box" id="extraBox">
-      <div class="extra-title">${e.title}</div>
-      <div class="extra-desc">${e.desc}</div>
-      ${e.logs.map(l=>`<div class="extra-log-row">${l}</div>`).join('')}
-      <button class="btn-extra-check" onclick="checkExtra('${e.type}')">🔍 대조 분석 실행</button>
-      <div class="extra-verdict" id="extraVerdict">${e.verdict}</div>
-    </div>`;
-  }
-  if(e.type==='sizematch'){
-    return `<div class="extra-box" id="extraBox">
-      <div class="extra-title">${e.title}</div>
-      <div class="extra-desc">${e.desc}</div>
-      <div id="sizeOpts">${e.options.map(o=>`<div class="size-opt-row" onclick="checkSize('${o.size}','${o.name}',this)"><span>${o.name}</span><span style="font-family:var(--mono)">${o.size}</span></div>`).join('')}</div>
-      <div class="extra-verdict" id="extraVerdict"></div>
-    </div>`;
-  }
-  return '';
-}
-function setupExtra(s){
-  if(!s.extra) return;
-}
-function checkExtra(type){
-  g('extraVerdict').classList.add('show');
-  if(!gs.extraChecked){
-    gs.extraChecked=true;
-    toast('✅ 대조 분석 완료','#3ecf8e');
-    finishClue(STAGES[gs.stage]);
-  }
-}
-function checkSize(size,name,el){
-  document.querySelectorAll('.size-opt-row').forEach(r=>r.classList.remove('match','nomatch'));
-  const s=STAGES[gs.stage];
-  const footSize=s.extra.footSize;
-  document.querySelectorAll('.size-opt-row').forEach((r,i)=>{
-    const opt=s.extra.options[i];
-    r.classList.add(opt.size===footSize?'match':'nomatch');
   });
-  const v=g('extraVerdict');
-  v.classList.add('show');
-  if(!gs.extraChecked){
-    gs.extraChecked=true;
-    toast('🔍 사이즈 대조 완료','#3ecf8e');
-    finishClue(s);
-  }
 }
 
-// ════════ MULTI-AREA STAGE (luminol-multi: 2 areas) ════════
-function renderMultiSceneStage(s){
-  const body=g('gameBody');
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
-        <div class="tool-desc">각 구역에 루미놀을 뿌려보세요. 버튼을 클릭하면 시약이 해당 구역에 분사됩니다.</div>
-        <div id="luminolScene" style="position:relative;width:100%;aspect-ratio:16/9;background:#08080d;border-radius:9px;overflow:hidden;border:1px solid var(--brd);">
-          <canvas id="luminolCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-          <div id="luminolBtns" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:20%;"></div>
-        </div>
-        <div id="luminolStatus" style="font-size:.82rem;color:var(--tx2);margin-top:10px;">두 구역 모두 검사해야 결과가 나타납니다.</div>
-      </div>
-      ${stdFooter(s)}
-    </div>
-  `;
-  setupLuminolClick(s);
-}
-
-function setupLuminolClick(s){
-  const canvas=g('luminolCanvas');
-  const scene=g('luminolScene');
-  const btnWrap=g('luminolBtns');
-  let doneCount=0;
-  const revealed=[];
-
-  function resize(){
-    canvas.width=scene.clientWidth;
-    canvas.height=scene.clientHeight;
-    drawLuminol();
-  }
-
-  function drawLuminol(){
-    const ctx=canvas.getContext('2d');
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle='#08080d';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle='#1e1e2e';
-    for(let i=1;i<6;i++){
-      ctx.beginPath();ctx.moveTo(0,canvas.height*(i/6));ctx.lineTo(canvas.width,canvas.height*(i/6));ctx.stroke();
-    }
-    // 구역 표시
-    s.tool.areas.forEach((area,i)=>{
-      const ax=canvas.width*area.x/100, ay=canvas.height*area.y/100, aw=canvas.width*area.w/100, ah=canvas.height*area.h/100;
-      const done=revealed.includes(i);
-      ctx.strokeStyle=done?'#3ecf8e55':'#3e3e5866';
-      ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
-      if(done){
-        // 동그라미 혈흔 그리기
-        const scale=Math.max(0.5, Math.min(aw,ah)/60);
-        const blobs=buildBloodSplatterPath(ax+aw*0.5, ay+ah*0.55, scale);
-        blobs.forEach(b=>{
-          const grad=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-          grad.addColorStop(0,'#5dffb8ee'); grad.addColorStop(0.5,'#3ecf8eaa'); grad.addColorStop(1,'#3ecf8e00');
-          ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,7); ctx.fill();
-        });
-        ctx.fillStyle='#3ecf8e18'; ctx.fillRect(ax,ay,aw,ah);
-      }
-    });
-  }
-
-  // 버튼 생성
-  s.tool.areas.forEach((area,i)=>{
+function renderSceneList(){
+  const list=g('sceneList');
+  list.innerHTML='';
+  SCENES.forEach(sc=>{
+    const unlocked=isSceneUnlocked(sc);
+    const found=sc.clues.filter(c=>gs.foundClues.includes(c.id)).length;
     const btn=document.createElement('button');
-    btn.id='luminolBtn_'+i;
-    btn.style.cssText='background:linear-gradient(135deg,#196c2e,#1f8a3e);border:1.5px solid #3ecf8e;color:#e8f8f0;border-radius:10px;padding:11px 18px;font-size:.84rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;';
-    btn.innerHTML=`<span style="font-size:1.5rem;">🧪</span>${area.label}에<br>루미놀 분사`;
-    btn.onclick=()=>{
-      if(revealed.includes(i)) return;
-      revealed.push(i);
-      btn.style.opacity='.35'; btn.style.cursor='default'; btn.disabled=true;
-      doneCount++;
-      drawLuminol();
-      toast(`✅ ${area.label} 검사 완료 (${doneCount}/${s.tool.areas.length})`,'#3ecfb8');
-      g('luminolStatus').textContent=`${doneCount}/${s.tool.areas.length} 구역 완료`;
-      if(doneCount===s.tool.areas.length){
-        g('revealContent').textContent=s.reveal;
-        g('revealBox').classList.add('show');
-        finishClue(s);
+    btn.className='sb-btn'+(gs.currentScene===sc.id?' active':'')+(!unlocked?' locked':'');
+    btn.innerHTML=`<span class="sb-icon">${sc.icon}</span>${sc.name}<div class="sb-sub">${!unlocked?`🔒 ${sc.unlock?.label||'잠김'}`:found>0?`단서 ${found}개 발견`:''}</div>`;
+    if(unlocked) btn.onclick=()=>selectScene(sc.id);
+    list.appendChild(btn);
+  });
+}
+function renderSuspBtns(){
+  const wrap=g('suspBtns');
+  wrap.innerHTML='';
+  const all=[...SUSPECT_PROFILES,...(gs.hiddenRevealed?[HIDDEN_SUSPECT]:[])];
+  all.forEach(s=>{
+    const qLeft=gs.interrogations[s.id]||0;
+    const elim=gs.eliminated.includes(s.id);
+    const btn=document.createElement('button');
+    btn.className='sb-btn'+(elim?' locked':'');
+    btn.innerHTML=`${s.avatar} ${s.name}${s.id===HIDDEN_SUSPECT.id?`<span class="new-badge">NEW</span>`:''}<div class="sb-sub">${elim?'용의선상 제외':qLeft>0?`질문 ${qLeft}회`:'심문 종료'}</div>`;
+    if(!elim&&qLeft>0) btn.onclick=()=>startInterrogate(s.id);
+    wrap.appendChild(btn);
+  });
+}
+
+// ═══════════ SCENE WORKSPACE ═══════════
+function selectScene(sceneId){
+  gs.currentScene=sceneId;
+  const sc=SCENES.find(s=>s.id===sceneId);
+  renderSceneList();
+  renderWorkspace(sc);
+}
+
+function renderWorkspace(sc){
+  const ws=g('wsContent');
+  ws.innerHTML=`
+    ${getNarrativeBanner()}
+    <div class="scene-view">
+      <div class="sv-canvas-wrap" id="svWrap">
+        <canvas id="baseC"></canvas>
+        <canvas id="revealC" style="touch-action:none;cursor:crosshair;"></canvas>
+        <div class="sv-hint" id="svHint">도구를 선택하고 드래그해서 조사하세요</div>
+        <div class="sv-prog ${gs.tool}" id="svProg"></div>
+      </div>
+      <div class="sv-info">
+        <div class="sv-name">${sc.icon} ${sc.name}</div>
+        <div class="sv-desc">${sc.desc}</div>
+        <div class="sv-tools-hint">💡 ${sc.tools_hint}</div>
+      </div>
+    </div>
+    <div style="font-size:.74rem;color:var(--tx3);margin-bottom:10px;font-family:var(--mono);">현장에서 발견 가능한 단서 (개수 미공개)</div>
+    <div class="clue-list" id="clueList"></div>
+  `;
+  canvasPainted=new Set();
+  setupCanvas(sc);
+  renderClueList(sc);
+}
+
+function getNarrativeBanner(){
+  if(gs.shownChapters.length===0) return '';
+  const lastTrigger=gs.shownChapters[gs.shownChapters.length-1];
+  const ch=STORY_CHAPTERS.find(c=>c.trigger===lastTrigger);
+  if(!ch) return '';
+  return `<div class="narrative-banner"><div class="nb-label">📖 ${ch.title}</div><div class="nb-text">${ch.text}</div></div>`;
+}
+
+function renderClueList(sc){
+  const list=g('clueList');
+  if(!list) return;
+  list.innerHTML='';
+  sc.clues.forEach(clue=>{
+    const found=gs.foundClues.includes(clue.id);
+    const needsTool=clue.tool!=='none';
+    const toolDone=!needsTool||canvasDone.has(clue.tool+'_'+sc.id);
+    const item=document.createElement('div');
+    item.className=`clue-item${found?' found':needsTool?' needs-tool':''}${needsTool&&!toolDone?' locked-tool':''}`;
+    item.innerHTML=`
+      <div class="ci-icon">${found?clue.icon:'🔍'}</div>
+      <div class="ci-body">
+        <div class="ci-name">${found?clue.name:'???'}</div>
+        <div class="ci-meta">${needsTool?`${clue.tool==='luminol'?'🧪 루미놀':clue.tool==='uv'?'💡 UV':clue.tool==='cast'?'🪣 석고':''} 필요`:'육안 조사 가능'}</div>
+      </div>
+      ${found?'<div class="ci-found-badge">확보</div>':''}
+    `;
+    item.onclick=()=>examineClue(clue,sc);
+    list.appendChild(item);
+  });
+}
+
+function examineClue(clue,sc){
+  const needsTool=clue.tool!=='none';
+  const toolDone=canvasDone.has(clue.tool+'_'+sc.id);
+  if(needsTool&&!toolDone){
+    toast(`먼저 ${clue.tool==='luminol'?'🧪 루미놀':clue.tool==='uv'?'💡 UV 라이트':'🪣 석고 키트'}을 사용해 조사하세요!`,'#f0c64e');
+    return;
+  }
+  // 미니게임이 있고 아직 발견 안 한 단서면 미니게임 먼저
+  if(clue.minigame&&!gs.foundClues.includes(clue.id)){
+    if(clue.minigame==='fingerprint'){ startFingerprintGame(clue,sc); return; }
+    if(clue.minigame==='lock'){ startLockGame(clue,sc); return; }
+    if(clue.minigame==='handwriting'){ startHandwritingGame(clue,sc); return; }
+  }
+  revealClue(clue,sc);
+}
+
+// ═══════════ 미니게임: 필적 감정 ═══════════
+function drawHandwriting(canvas,text,style){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f0ead8';
+  ctx.fillRect(0,0,W,H);
+  // 종이 줄
+  ctx.strokeStyle='#c8bfa0';ctx.lineWidth=0.5;
+  ctx.beginPath();ctx.moveTo(0,H*.72);ctx.lineTo(W,H*.72);ctx.stroke();
+  ctx.save();
+  ctx.translate(W/2,H/2);
+  ctx.rotate(style.slant);
+  ctx.fillStyle=style.color||'#2a2438';
+  ctx.font=`${style.weight?'bold ':''}${Math.floor(H*0.34)}px 'Noto Sans KR',sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  // 글자별 지터
+  let s=style.seed;
+  const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const chars=text.split('');
+  const totalW=ctx.measureText(text).width;
+  let x=-totalW/2;
+  chars.forEach(ch=>{
+    const cw=ctx.measureText(ch).width;
+    const jy=(rnd()-0.5)*H*style.jitter;
+    const jr=(rnd()-0.5)*style.jitter*0.8;
+    ctx.save();
+    ctx.translate(x+cw/2,jy);
+    ctx.rotate(jr);
+    ctx.fillText(ch,0,0);
+    ctx.restore();
+    x+=cw*style.spacing;
+  });
+  ctx.restore();
+}
+
+function startHandwritingGame(clue,sc){
+  // 오시윤 = 정답 스타일
+  const styles={
+    kgy:{slant:-0.06, jitter:0.10, spacing:1.12, weight:true,  seed:11, name:'김건유'},
+    yhc:{slant: 0.00, jitter:0.03, spacing:0.98, weight:false, seed:22, name:'양호찬'},
+    osy:{slant: 0.09, jitter:0.06, spacing:1.05, weight:false, seed:33, name:'오시윤'},
+    hbs:{slant:-0.10, jitter:0.14, spacing:1.2,  weight:true,  seed:44, name:'황보성'},
+    hjw:{slant: 0.03, jitter:0.02, spacing:1.0,  weight:false, seed:55, name:'황진우'}
+  };
+  const answer='osy';
+  let tries=3;
+  const modal=g('mgModal');
+  modal.innerHTML=`
+    <div style="font-size:1.8rem;margin-bottom:8px;">✍️</div>
+    <h3 style="margin-bottom:6px;">필적 감정</h3>
+    <p style="font-size:.82rem;color:var(--tx2);margin-bottom:6px;">쪽지의 글씨(위)와 팀원들의 필체 샘플(아래)을 대조하세요.</p>
+    <p style="font-size:.76rem;color:var(--gold);margin-bottom:12px;">💡 기울기 · 글자 간격 · 흔들림을 비교하라 — 기회 <b id="hwTries">3</b>회</p>
+    <div style="background:#0d0d18;border:2px solid var(--gold);border-radius:10px;padding:8px;margin-bottom:14px;display:inline-block;">
+      <div style="font-size:.66rem;color:var(--gold);font-family:var(--mono);margin-bottom:4px;">증거물 — 쪽지 필체</div>
+      <canvas id="hwTarget" width="280" height="64"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;" id="hwGrid"></div>
+    <button class="btn-secondary" style="margin-top:12px;" onclick="g('mgOverlay').classList.remove('on')">나중에 하기</button>
+  `;
+  g('mgOverlay').classList.add('on');
+  drawHandwriting(g('hwTarget'),'21:30 비상구',styles[answer]);
+  const grid=g('hwGrid');
+  const order=Object.keys(styles).sort(()=>Math.random()-0.5);
+  order.forEach(id=>{
+    const st=styles[id];
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:10px;background:#0d0d18;border:2px solid var(--brd);border-radius:10px;padding:6px 10px;cursor:pointer;transition:all .2s;';
+    const cv=document.createElement('canvas');cv.width=220;cv.height=48;
+    // 샘플은 같은 스타일 + 다른 문구 (같은 사람 필체)
+    const sampleStyle={...st,seed:st.seed+7};
+    row.innerHTML=`<div style="font-size:.78rem;color:var(--tx2);min-width:52px;font-weight:700;">${st.name}</div>`;
+    row.appendChild(cv);
+    drawHandwriting(cv,'멘토링 화이팅',sampleStyle);
+    row.onclick=()=>{
+      if(id===answer){
+        row.style.borderColor='var(--g)';
+        toast('✅ 필체 일치 — 92%','#00e5a0');
+        setTimeout(()=>{
+          g('mgOverlay').classList.remove('on');
+          revealClue(clue,sc);
+        },700);
+      } else {
+        tries--;
+        row.style.borderColor='var(--r)';row.style.opacity='.3';row.style.pointerEvents='none';
+        g('hwTries').textContent=tries;
+        if(tries<=0){
+          toast('감정 실패. 잠시 후 다시 시도하세요.','#ff4d6d');
+          g('mgOverlay').classList.remove('on');
+        } else {
+          toast('❌ 불일치. 기울기를 다시 보세요.','#ff9500');
+        }
       }
     };
-    btnWrap.appendChild(btn);
+    grid.appendChild(row);
   });
-
-  resize();
-  window.addEventListener('resize',resize);
 }
 
-// ════════ CANVAS REVEAL ENGINE (shared, parametrized by element id suffix) ════════
-function buildBloodSplatterPath(cx,cy,scale){
-  const blobs=[{x:cx,y:cy,r:24*scale}];
-  const n=8;
-  for(let i=0;i<n;i++){
-    const ang=(i/n)*Math.PI*2 + (i%2?0.3:0);
-    const dist=(20+(i*7)%28)*scale;
-    blobs.push({x:cx+Math.cos(ang)*dist, y:cy+Math.sin(ang)*dist*0.85, r:(6+(i*3)%10)*scale});
+function revealClue(clue,sc){
+  if(!gs.foundClues.includes(clue.id)){
+    gs.foundClues.push(clue.id);
+    g('clueCount').textContent=gs.foundClues.length;
+    checkHiddenSuspect();
+    checkChapter();
+    checkUnlocks();
+    checkBattleReady();
+    renderClueList(sc);
+    renderSceneList();
+    renderSuspBtns();
   }
-  return blobs;
+  g('crIcon').textContent=clue.icon;
+  g('crTitle').textContent=clue.name;
+  g('crReveal').textContent=clue.reveal;
+  g('crAnalysis').textContent=clue.analysis;
+  g('clueOverlay').classList.add('on');
 }
 
-
-function setupRevealCanvas(area, kind, stageData, onDone){
-  setupRevealCanvasMulti(area, kind, null, onDone, stageData);
+// ═══════════ 미니게임 1: 지문 대조 ═══════════
+function drawFingerprint(canvas,seed){
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#d4af6a';ctx.lineWidth=1.4;
+  const cx=W/2,cy=H/2;
+  // 시드 기반 의사난수
+  let s=seed;
+  const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const rings=7;
+  for(let i=1;i<=rings;i++){
+    const r=(Math.min(W,H)/2-6)*(i/rings);
+    const gapStart=rnd()*Math.PI*2;
+    const gapSize=0.4+rnd()*0.9;
+    ctx.beginPath();
+    ctx.ellipse(cx,cy,r,r*(0.75+rnd()*0.2),rnd()*0.5,gapStart+gapSize,gapStart+Math.PI*2);
+    ctx.stroke();
+  }
+  // 특징점
+  for(let i=0;i<3;i++){
+    ctx.fillStyle='#d4af6a';
+    ctx.beginPath();ctx.arc(cx+(rnd()-0.5)*W*0.5,cy+(rnd()-0.5)*H*0.5,1.6,0,7);ctx.fill();
+  }
 }
 
-function setupRevealCanvasMulti(area, kind, idSuffix, onDone, stageData){
-  const baseId = idSuffix ? 'base_'+idSuffix : 'baseCanvas';
-  const revealId = idSuffix ? 'reveal_'+idSuffix : 'revealCanvas';
-  const wrapId = idSuffix ? 'wrap_'+idSuffix : 'sceneWrap';
-  const wrap=g(wrapId), baseCanvas=g(baseId), revealCanvas=g(revealId);
-  let paintedCells=new Set();
+function startFingerprintGame(clue,sc){
+  const answerSeed=Math.floor(Math.random()*1000)+1;
+  const seeds=[answerSeed];
+  while(seeds.length<6){
+    const x=Math.floor(Math.random()*1000)+1001;
+    if(!seeds.includes(x)) seeds.push(x);
+  }
+  const shuffled=[...seeds].sort(()=>Math.random()-0.5);
+  let tries=3;
+  const modal=g('mgModal');
+  modal.innerHTML=`
+    <div style="font-size:1.8rem;margin-bottom:8px;">🐻</div>
+    <h3 style="margin-bottom:6px;">지문 대조 감식</h3>
+    <p style="font-size:.82rem;color:var(--tx2);margin-bottom:14px;">하리보 봉지에서 채취한 지문(위)과 일치하는 것을 아래에서 찾으세요.<br>기회 <b id="fpTries">3</b>회</p>
+    <div style="display:inline-block;background:#0d0d18;border:2px solid var(--gold);border-radius:10px;padding:8px;margin-bottom:14px;">
+      <div style="font-size:.66rem;color:var(--gold);font-family:var(--mono);margin-bottom:4px;">채취 지문</div>
+      <canvas id="fpTarget" width="90" height="90"></canvas>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;" id="fpGrid"></div>
+    <button class="btn-secondary" style="margin-top:12px;" onclick="g('mgOverlay').classList.remove('on')">나중에 하기</button>
+  `;
+  g('mgOverlay').classList.add('on');
+  drawFingerprint(g('fpTarget'),answerSeed);
+  const grid=g('fpGrid');
+  shuffled.forEach(seed=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='background:#0d0d18;border:2px solid var(--brd);border-radius:10px;padding:6px;cursor:pointer;transition:all .2s;';
+    const cv=document.createElement('canvas');cv.width=90;cv.height=90;
+    wrap.appendChild(cv);
+    drawFingerprint(cv,seed);
+    wrap.onclick=()=>{
+      if(seed===answerSeed){
+        wrap.style.borderColor='var(--g)';
+        toast('✅ 지문 일치! 신원 확인 중...','#00e5a0');
+        setTimeout(()=>{
+          g('mgOverlay').classList.remove('on');
+          revealClue(clue,sc);
+        },700);
+      } else {
+        tries--;
+        wrap.style.borderColor='var(--r)';wrap.style.opacity='.3';wrap.style.pointerEvents='none';
+        g('fpTries').textContent=tries;
+        if(tries<=0){
+          toast('지문이 훼손됐습니다. 잠시 후 다시 시도하세요.','#ff4d6d');
+          g('mgOverlay').classList.remove('on');
+        } else {
+          toast('❌ 불일치. 다시 확인하세요.','#ff9500');
+        }
+      }
+    };
+    grid.appendChild(wrap);
+  });
+}
+
+// ═══════════ 미니게임 2: 자물쇠 해제 ═══════════
+function startLockGame(clue,sc){
+  const answer='2026';
+  let input='';
+  const modal=g('mgModal');
+  function render(){
+    modal.innerHTML=`
+      <div style="font-size:1.8rem;margin-bottom:8px;">🔐</div>
+      <h3 style="margin-bottom:6px;">잠긴 서랍</h3>
+      <p style="font-size:.82rem;color:var(--tx2);margin-bottom:6px;">황보성의 서랍에 4자리 자물쇠가 걸려있다.</p>
+      <p style="font-size:.78rem;color:var(--gold);margin-bottom:14px;">💡 힌트: 원준의 USB 케이스 라벨을 떠올려라... "R&E DATA ____"</p>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
+        ${[0,1,2,3].map(i=>`<div style="width:48px;height:58px;background:#0d0d18;border:2px solid ${input.length>i?'var(--gold)':'var(--brd)'};border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1.5rem;color:var(--gold);">${input[i]||''}</div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:220px;margin:0 auto 12px;">
+        ${[1,2,3,4,5,6,7,8,9,'C',0,'←'].map(k=>`<button style="background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:12px;font-size:1rem;font-family:var(--mono);color:var(--tx);" onclick="lockPress('${k}')">${k}</button>`).join('')}
+      </div>
+      <button class="btn-secondary" onclick="g('mgOverlay').classList.remove('on')">나중에 하기</button>
+    `;
+  }
+  window.lockPress=(k)=>{
+    if(k==='C') input='';
+    else if(k==='←') input=input.slice(0,-1);
+    else if(input.length<4) input+=k;
+    render();
+    if(input.length===4){
+      if(input===answer){
+        toast('🔓 잠금 해제!','#00e5a0');
+        setTimeout(()=>{
+          g('mgOverlay').classList.remove('on');
+          revealClue(clue,sc);
+        },600);
+      } else {
+        toast('❌ 비밀번호가 틀렸습니다','#ff4d6d');
+        setTimeout(()=>{input='';render();},600);
+      }
+    }
+  };
+  render();
+  g('mgOverlay').classList.add('on');
+}
+
+// ═══════════ 미니게임 3: QTE 발소리 추격 (홍지호 등장 이벤트) ═══════════
+function startQTE(){
+  if(gs.qteDone) return;
+  gs.qteDone=true;
+  let clicks=0;
+  const need=14;
+  let timeLeft=3.5;
+  const modal=g('mgModal');
+  modal.innerHTML=`
+    <div style="font-size:1.8rem;margin-bottom:8px;">👣</div>
+    <h3 style="margin-bottom:6px;color:var(--r);">복도에서 발소리!</h3>
+    <p style="font-size:.84rem;color:var(--tx2);margin-bottom:14px;">누군가 동아리실 밖에서 엿듣고 있었다!<br>정신없이 연타해서 따라잡아라!</p>
+    <div style="font-family:var(--mono);font-size:.85rem;margin-bottom:10px;"><span id="qteClicks">0</span>/${need} · <span id="qteTime">3.5</span>초</div>
+    <div style="width:100%;height:14px;background:var(--c2);border-radius:10px;overflow:hidden;margin-bottom:16px;">
+      <div id="qteBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--r),#ff8096);transition:width .08s;"></div>
+    </div>
+    <button id="qteBtn" style="background:linear-gradient(135deg,var(--r),#ff8096);color:#fff;border-radius:50%;width:110px;height:110px;font-size:2rem;font-weight:700;box-shadow:0 0 30px #ff4d6d55;">🏃</button>
+  `;
+  g('mgOverlay').classList.add('on');
+  const btn=g('qteBtn');
+  const timer=setInterval(()=>{
+    timeLeft-=0.1;
+    const te=g('qteTime');if(te)te.textContent=Math.max(0,timeLeft).toFixed(1);
+    if(timeLeft<=0){
+      clearInterval(timer);
+      finishQTE(clicks>=need);
+    }
+  },100);
+  btn.onclick=()=>{
+    clicks++;
+    g('qteClicks').textContent=clicks;
+    g('qteBar').style.width=Math.min(100,clicks/need*100)+'%';
+    btn.style.transform=`scale(${0.92+Math.random()*0.1})`;
+    if(clicks>=need){
+      clearInterval(timer);
+      finishQTE(true);
+    }
+  };
+  function finishQTE(success){
+    if(success){
+      gs.battleScore+=2;
+      modal.innerHTML=`
+        <div style="font-size:2rem;margin-bottom:10px;">🕵️</div>
+        <h3 style="margin-bottom:8px;color:var(--g);">따라잡았다!</h3>
+        <p style="font-size:.86rem;color:var(--tx2);line-height:1.7;margin-bottom:14px;">검은 재킷의 학생. 다른 반이다.<br><b style="color:var(--tx)">"...홍지호라고 합니다. 원준이... 제 친구예요."</b><br><br>칠판의 HJH — 홍지호. 그가 왜 여기 있었을까.<br>새 용의자로 심문 명단에 추가되었습니다.</p>
+        <button class="btn-primary" onclick="g('mgOverlay').classList.remove('on')">심문 명단 확인</button>
+      `;
+    } else {
+      modal.innerHTML=`
+        <div style="font-size:2rem;margin-bottom:10px;">💨</div>
+        <h3 style="margin-bottom:8px;color:var(--r);">놓쳤다...</h3>
+        <p style="font-size:.86rem;color:var(--tx2);line-height:1.7;margin-bottom:14px;">계단 아래로 사라졌다. 하지만 떨어뜨리고 간 학생증—<br><b style="color:var(--tx)">"1학년 7반 홍지호"</b><br><br>칠판의 HJH — 홍지호. 새 용의자로 심문 명단에 추가되었습니다.</p>
+        <button class="btn-primary" onclick="g('mgOverlay').classList.remove('on')">심문 명단 확인</button>
+      `;
+    }
+    renderSuspBtns();
+  }
+}
+
+function checkHiddenSuspect(){
+  if(!gs.hiddenRevealed&&gs.foundClues.includes(HIDDEN_SUSPECT.appears_on_clue)){
+    gs.hiddenRevealed=true;
+    renderSuspBtns();
+    // QTE 이벤트 먼저 → 홍지호 등장
+    setTimeout(()=>startQTE(),800);
+  }
+}
+
+function checkChapter(){
+  STORY_CHAPTERS.forEach(ch=>{
+    if(ch.trigger&&gs.foundClues.includes(ch.trigger)&&!gs.shownChapters.includes(ch.trigger)){
+      gs.shownChapters.push(ch.trigger);
+      setTimeout(()=>showProfiler(ch.title,ch.text,3000),600);
+    }
+  });
+}
+
+function checkBattleReady(){
+  const keyClues=['c_wonjun_usb','c_blood_shoe'];
+  if(keyClues.every(id=>gs.foundClues.includes(id))&&!gs.battleStarted){
+    setTimeout(()=>showFinalAccuse(),1200);
+  }
+}
+
+// ═══════════ CANVAS ═══════════
+function setupCanvas(sc){
+  const wrap=g('svWrap');
+  const base=g('baseC'),rev=g('revealC');
+  if(!wrap||!base||!rev) return;
   const gridN=14;
-  let done=false;
+  canvasPainted=new Set();
 
   function resize(){
-    [baseCanvas,revealCanvas].forEach(c=>{c.width=wrap.clientWidth;c.height=wrap.clientHeight;});
+    [base,rev].forEach(c=>{c.width=wrap.clientWidth;c.height=wrap.clientHeight;});
     drawBase(); drawReveal();
   }
+
   function drawBase(){
-    const ctx=baseCanvas.getContext('2d');
-    ctx.clearRect(0,0,baseCanvas.width,baseCanvas.height);
-    ctx.fillStyle='#08080d'; ctx.fillRect(0,0,baseCanvas.width,baseCanvas.height);
-    ctx.strokeStyle='#22222f'; ctx.lineWidth=1;
-    for(let i=1;i<6;i++){
-      ctx.beginPath();ctx.moveTo(0,baseCanvas.height*(i/6));ctx.lineTo(baseCanvas.width,baseCanvas.height*(i/6));ctx.stroke();
-      ctx.beginPath();ctx.moveTo(baseCanvas.width*(i/6),0);ctx.lineTo(baseCanvas.width*(i/6),baseCanvas.height);ctx.stroke();
+    const ctx=base.getContext('2d');
+    const W=base.width,H=base.height;
+    ctx.fillStyle='#09090e'; ctx.fillRect(0,0,W,H);
+    if(sc.id==='dorm438'){
+      // 방 전경
+      ctx.fillStyle='#0d0b15'; ctx.fillRect(0,0,W,H*.62);
+      ctx.fillStyle='#13111c'; ctx.fillRect(0,H*.62,W,H*.38);
+      // 창문
+      ctx.fillStyle='#080d18'; ctx.fillRect(W*.68,H*.06,W*.24,H*.24);
+      ctx.strokeStyle='#1e2838'; ctx.lineWidth=2; ctx.strokeRect(W*.68,H*.06,W*.24,H*.24);
+      ctx.beginPath();ctx.moveTo(W*.8,H*.06);ctx.lineTo(W*.8,H*.3);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(W*.68,H*.18);ctx.lineTo(W*.92,H*.18);ctx.stroke();
+      // 책상 (어지럽혀짐)
+      ctx.fillStyle='#1e1408'; ctx.fillRect(W*.04,H*.4,W*.52,H*.09);
+      ctx.fillStyle='#170f05'; ctx.fillRect(W*.04,H*.49,W*.04,H*.13);ctx.fillRect(W*.52,H*.49,W*.04,H*.13);
+      // 어지럽혀진 물건들
+      ctx.save();ctx.translate(W*.18,H*.44);ctx.rotate(-.25);ctx.fillStyle='#1a2810';ctx.fillRect(-W*.06,-H*.015,W*.12,H*.03);ctx.restore();
+      ctx.save();ctx.translate(W*.3,H*.41);ctx.rotate(.15);ctx.fillStyle='#2a1808';ctx.fillRect(-W*.05,-H*.02,W*.1,H*.04);ctx.restore();
+      ctx.fillStyle='#1e1408'; ctx.fillRect(W*.08,H*.47,W*.03,H*.01); // 물건 바닥에 떨어짐
+      // 침대
+      ctx.fillStyle='#111028'; ctx.fillRect(W*.6,H*.36,W*.36,H*.26);
+      ctx.fillStyle='#1a1835'; ctx.fillRect(W*.6,H*.36,W*.36,H*.07);
+      // 서랍 열림
+      ctx.fillStyle='#15100a'; ctx.fillRect(W*.06,H*.49,W*.42,H*.06);ctx.strokeStyle='#2a1a08';ctx.lineWidth=1;ctx.strokeRect(W*.06,H*.49,W*.42,H*.06);
+      ctx.fillStyle='#d4af6a44';ctx.font=`${Math.max(9,W*.01)}px monospace`;ctx.fillText('서랍 열림',W*.07,H*.54);
+      // 경고
+      ctx.fillStyle='#ff4d6d55';ctx.font=`bold ${Math.max(10,W*.012)}px monospace`;ctx.fillText('438호 — 현장 통제 중',W*.03,H*.04);
     }
-    const ax=baseCanvas.width*area.x/100, ay=baseCanvas.height*area.y/100, aw=baseCanvas.width*area.w/100, ah=baseCanvas.height*area.h/100;
-    ctx.strokeStyle='#3e3e5855'; ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
-    ctx.fillStyle='#5a5a7866'; ctx.font='11px monospace';
-    ctx.fillText(kind==='cast'?'발자국 추정 위치':'증거 추정 위치', ax+6, ay+16);
-  }
-  function drawReveal(){
-    const ctx=revealCanvas.getContext('2d');
-    ctx.clearRect(0,0,revealCanvas.width,revealCanvas.height);
-    if(paintedCells.size===0) return;
-    ctx.save(); ctx.beginPath();
-    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
-    paintedCells.forEach(key=>{
-      const [cx,cy]=key.split(',').map(Number);
-      ctx.moveTo((cx+0.5)*cw+16,(cy+0.5)*ch);
-      ctx.arc((cx+0.5)*cw,(cy+0.5)*ch,18,0,7);
-    });
-    ctx.clip();
-    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
-    if(kind==='luminol'){
-      ctx.fillStyle='#0a0a10'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
-      const scale = Math.max(0.6, Math.min(aw,ah)/60);
-      const blobs=buildBloodSplatterPath(ax+aw*0.5, ay+ah*0.55, scale);
-      blobs.forEach(b=>{
-        const grad=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
-        grad.addColorStop(0,'#5dffb8ee'); grad.addColorStop(0.5,'#3ecf8eaa'); grad.addColorStop(1,'#3ecf8e00');
-        ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,7); ctx.fill();
+    else if(sc.id==='staircase'){
+      ctx.fillStyle='#060408'; ctx.fillRect(0,0,W,H);
+      // 계단 7개
+      for(let i=0;i<7;i++){
+        const y=H*(.12+i*.11),x=W*(.08+i*.04);
+        const darkness=0.85-i*.04;
+        ctx.fillStyle=`rgba(14,12,20,${darkness})`;ctx.fillRect(x,y,W*(.88-i*.04),H*.08);
+        ctx.strokeStyle='rgba(30,26,44,.9)';ctx.lineWidth=1.5;ctx.strokeRect(x,y,W*(.88-i*.04),H*.08);
+      }
+      // 난간
+      ctx.strokeStyle='#1c1828';ctx.lineWidth=5;
+      ctx.beginPath();ctx.moveTo(W*.9,H*.08);ctx.lineTo(W*.4,H*.9);ctx.stroke();
+      for(let i=0;i<8;i++){
+        const rx=W*(.9-i*.06),ry=H*(.08+i*.1);
+        ctx.strokeStyle='#16142a';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(rx,ry);ctx.lineTo(rx-W*.034,ry+H*.08);ctx.stroke();
+      }
+      // 비상구 표지
+      ctx.fillStyle='#001200';ctx.fillRect(W*.02,H*.03,W*.22,H*.11);
+      ctx.fillStyle='#00e5a033';ctx.font=`${Math.max(9,W*.011)}px monospace`;ctx.fillText('🚨 비상구 EXIT',W*.03,H*.1);
+      // 어둠 비네팅
+      const vig=ctx.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,W*.65);
+      vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(0,0,0,.75)');
+      ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#2a2840';ctx.font=`bold ${Math.max(10,W*.011)}px monospace`;ctx.fillText('비상구 계단 3~4층',W*.03,H*.04);
+    }
+    else if(sc.id==='club_room'){
+      ctx.fillStyle='#080a0c'; ctx.fillRect(0,0,W,H);
+      // 칠판
+      ctx.fillStyle='#08130a';ctx.fillRect(W*.04,H*.04,W*.92,H*.34);ctx.strokeStyle='#112010';ctx.lineWidth=2;ctx.strokeRect(W*.04,H*.04,W*.92,H*.34);
+      // 지워진 글씨 흔적
+      ctx.fillStyle='#122010';ctx.font=`${Math.max(9,W*.011)}px monospace`;
+      ctx.fillText('실험 진행 중 ...',W*.08,H*.14);ctx.fillText('R&E 보고서 초안 작성',W*.08,H*.24);
+      ctx.fillStyle='#0e180c';ctx.font=`${Math.max(8,W*.01)}px monospace`;ctx.fillText('[일부 내용 지워짐]',W*.08,H*.32);
+      // 실험대
+      ctx.fillStyle='#12100c';ctx.fillRect(W*.04,H*.54,W*.9,H*.13);ctx.fillStyle='#1a1810';ctx.fillRect(W*.04,H*.54,W*.9,H*.025);
+      for(let i=0;i<5;i++){ctx.fillStyle='#10202c';ctx.fillRect(W*(.09+i*.16),H*.44,W*.02,H*.1);ctx.fillStyle='#14283a';ctx.beginPath();ctx.arc(W*(.1+i*.16),H*.44,W*.018,0,7);ctx.fill();}
+      // 쓰레기통
+      ctx.strokeStyle='#22201a';ctx.lineWidth=2;ctx.strokeRect(W*.86,H*.62,W*.08,H*.1);
+      ctx.fillStyle='#1a1814';ctx.fillText('📄',W*.87,H*.69);
+      ctx.fillStyle='#2a2840';ctx.font=`bold ${Math.max(10,W*.011)}px monospace`;ctx.fillText('과학 동아리실',W*.03,H*.03);
+    }
+    else if(sc.id==='phys_lab'||sc.id==='chem_lab'||sc.id==='bio_lab'||sc.id==='earth_lab'){
+      // 실험실 공통 레이아웃 + 색상/소품 차별화
+      const theme={
+        phys_lab:{wall:'#0a0c12',accent:'#2a3a55',label:'⚡ 물리 실험실',prop:'회로'},
+        chem_lab:{wall:'#0c0a12',accent:'#3a2a55',label:'⚗️ 화학 실험실',prop:'시약장'},
+        bio_lab:{wall:'#0a120c',accent:'#2a5538',label:'🧬 생명과학 실험실',prop:'배양기'},
+        earth_lab:{wall:'#120e0a',accent:'#55452a',label:'🌍 지구과학 실험실',prop:'암석 표본'}
+      }[sc.id];
+      ctx.fillStyle=theme.wall; ctx.fillRect(0,0,W,H*.6);
+      ctx.fillStyle='#101018'; ctx.fillRect(0,H*.6,W,H*.4);
+      // 실험대 2줄
+      [0.42,0.62].forEach(y=>{
+        ctx.fillStyle='#14120e';ctx.fillRect(W*.06,H*y,W*.88,H*.09);
+        ctx.fillStyle='#1c1a12';ctx.fillRect(W*.06,H*y,W*.88,H*.018);
       });
-
-      // 영역 전체를 옅게 형광 반응으로 채워서, 어디를 칠해도 무언가 보이도록 보강
-      ctx.fillStyle='#3ecf8e15';
-      ctx.fillRect(ax,ay,aw,ah);
-    } else if(kind==='uv'){
-      ctx.fillStyle='#06060a'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
-      ctx.fillStyle='#3ecfb8'; ctx.font=`${Math.max(13,aw*0.045)}px 'IBM Plex Mono',monospace`;
-      ctx.shadowColor='#3ecfb8'; ctx.shadowBlur=8;
-      const lines=(stageData && stageData.uvWritten ? stageData.uvWritten : '형광 메모').split('\n');
-      lines.forEach((ln,i)=>ctx.fillText(ln, ax+10, ay+24+i*22));
+      // 소품들
+      for(let i=0;i<4;i++){
+        ctx.fillStyle=theme.accent+'55';
+        if(sc.id==='phys_lab'){ctx.fillRect(W*(.12+i*.2),H*.36,W*.06,H*.05);} // 장비 박스
+        else if(sc.id==='chem_lab'){ctx.beginPath();ctx.arc(W*(.14+i*.2),H*.38,W*.016,0,7);ctx.fill();ctx.fillRect(W*(.132+i*.2),H*.32,W*.016,H*.06);} // 플라스크
+        else if(sc.id==='bio_lab'){ctx.beginPath();ctx.ellipse(W*(.14+i*.2),H*.38,W*.025,H*.02,0,0,7);ctx.fill();} // 페트리
+        else {ctx.beginPath();ctx.moveTo(W*(.12+i*.2),H*.4);ctx.lineTo(W*(.15+i*.2),H*.33);ctx.lineTo(W*(.18+i*.2),H*.4);ctx.fill();} // 암석
+      }
+      // 시약장/캐비닛
+      ctx.fillStyle='#0e0c14';ctx.fillRect(W*.78,H*.06,W*.16,H*.28);
+      ctx.strokeStyle=theme.accent+'66';ctx.lineWidth=1.5;ctx.strokeRect(W*.78,H*.06,W*.16,H*.28);
+      ctx.beginPath();ctx.moveTo(W*.86,H*.06);ctx.lineTo(W*.86,H*.34);ctx.stroke();
+      // 지구과학실 특별: 세면대
+      if(sc.id==='earth_lab'){
+        ctx.fillStyle='#1a1c22';ctx.fillRect(W*.76,H*.55,W*.18,H*.1);
+        ctx.strokeStyle='#2a2c38';ctx.lineWidth=2;ctx.strokeRect(W*.76,H*.55,W*.18,H*.1);
+        ctx.beginPath();ctx.arc(W*.85,H*.6,W*.02,0,7);ctx.stroke();
+        ctx.fillStyle='#3a3c48';ctx.font=`${Math.max(8,W*.009)}px monospace`;ctx.fillText('세면대',W*.79,H*.53);
+      }
+      ctx.fillStyle='#3a3a55';ctx.font=`bold ${Math.max(10,W*.012)}px monospace`;
+      ctx.fillText(theme.label,W*.03,H*.05);
     }
-    ctx.restore();
+    else if(sc.id==='hbs_room'){
+      ctx.fillStyle='#0c0a14'; ctx.fillRect(0,0,W,H*.62);ctx.fillStyle='#12101c';ctx.fillRect(0,H*.62,W,H*.38);
+      // 깔끔한 책상
+      ctx.fillStyle='#1a1208';ctx.fillRect(W*.04,H*.4,W*.55,H*.09);ctx.fillStyle='#120a04';ctx.fillRect(W*.04,H*.49,W*.04,H*.13);ctx.fillRect(W*.55,H*.49,W*.04,H*.13);
+      // 서랍 (잠김)
+      ctx.fillStyle='#140c06';ctx.fillRect(W*.06,H*.49,W*.5,H*.07);ctx.strokeStyle='#24180a';ctx.lineWidth=1.5;ctx.strokeRect(W*.06,H*.49,W*.5,H*.07);
+      ctx.fillStyle='#d4af6a';ctx.beginPath();ctx.arc(W*.31,H*.525,W*.008,0,7);ctx.fill();
+      // 트로피 (자존심)
+      ctx.fillStyle='#241800';ctx.fillRect(W*.72,H*.18,W*.06,H*.12);ctx.fillStyle='#342200';ctx.beginPath();ctx.arc(W*.75,H*.18,W*.05,Math.PI,2*Math.PI);ctx.fill();
+      ctx.fillStyle='#d4af6a66';ctx.font=`${Math.max(9,W*.01)}px monospace`;ctx.fillText('1등',W*.73,H*.21);
+      // 침대
+      ctx.fillStyle='#0e0c1e';ctx.fillRect(W*.63,H*.35,W*.33,H*.27);ctx.fillStyle='#16142a';ctx.fillRect(W*.63,H*.35,W*.33,H*.065);
+      // 침대 아래 (어두운 공간)
+      ctx.fillStyle='#060410';ctx.fillRect(W*.63,H*.62,W*.33,H*.06);ctx.fillStyle='#1a1428';ctx.font=`${Math.max(8,W*.009)}px monospace`;ctx.fillText('침대 아래...',W*.65,H*.67);
+      ctx.fillStyle='#ff4d6d55';ctx.font=`bold ${Math.max(10,W*.011)}px monospace`;ctx.fillText('황보성 방 — 수색영장 발부',W*.03,H*.04);
+    }
   }
-  resize();
-  window.addEventListener('resize',resize);
 
-  let drawing=false;
-  function getPos(e){
-    const r=revealCanvas.getBoundingClientRect();
-    const t=e.touches&&e.touches[0];
-    return {x:(t?t.clientX:e.clientX)-r.left, y:(t?t.clientY:e.clientY)-r.top};
+  function drawReveal(){
+    const ctx=rev.getContext('2d');
+    ctx.clearRect(0,0,rev.width,rev.height);
+    if(canvasPainted.size===0) return;
+    const tool=gs.tool;
+    if(tool==='none') return;
+    const W=rev.width,H=rev.height;
+    const cw=W/gridN,ch=H/gridN;
+    const done=canvasDone.has(tool+'_'+sc.id);
+
+    if(!done){
+      // 게이지 미완료 — 뿌린 자국만 흐릿하게 표시 (내용은 안 보임)
+      ctx.save();
+      ctx.beginPath();
+      canvasPainted.forEach(k=>{
+        const[cx,cy]=k.split(',').map(Number);
+        ctx.moveTo((cx+.5)*cw+18,(cy+.5)*ch);
+        ctx.arc((cx+.5)*cw,(cy+.5)*ch,20,0,7);
+      });
+      ctx.clip();
+      const sprayColor=tool==='luminol'?'rgba(0,80,40,0.55)':tool==='uv'?'rgba(60,0,120,0.55)':'rgba(90,70,30,0.55)';
+      ctx.fillStyle=sprayColor;
+      ctx.fillRect(0,0,W,H);
+      ctx.restore();
+      return;
+    }
+
+    // 게이지 완료 — 전체 결과 공개 (클리핑 없음)
+    if(tool==='luminol'){
+      ctx.fillStyle='rgba(0,3,1,0.96)'; ctx.fillRect(0,0,W,H);
+      const scBlood={
+        dorm438:[{x:.22,y:.46,r:.04},{x:.24,y:.5,r:.025},{x:.19,y:.43,r:.015}],
+        staircase:[{x:.36,y:.33,r:.075},{x:.33,y:.42,r:.05},{x:.43,y:.46,r:.045},{x:.5,y:.36,r:.055},{x:.3,y:.52,r:.03},{x:.25,y:.58,r:.02}],
+        earth_lab:[{x:.82,y:.6,r:.04},{x:.85,y:.63,r:.025},{x:.8,y:.57,r:.015}],
+        hbs_room:[{x:.68,y:.65,r:.035},{x:.71,y:.68,r:.02},{x:.66,y:.62,r:.015}]
+      };
+      (scBlood[sc.id]||[]).forEach(b=>{
+        const bx=b.x*W,by=b.y*H,br=b.r*Math.min(W,H);
+        const g2=ctx.createRadialGradient(bx,by,0,bx,by,br);
+        g2.addColorStop(0,'rgba(0,255,150,0.97)');g2.addColorStop(.35,'rgba(0,210,110,0.8)');g2.addColorStop(.7,'rgba(0,170,80,0.4)');g2.addColorStop(1,'transparent');
+        ctx.shadowColor='#00ff88';ctx.shadowBlur=20;
+        ctx.fillStyle=g2;ctx.beginPath();ctx.arc(bx,by,br,0,7);ctx.fill();
+        ctx.shadowBlur=0;
+      });
+      if(!(scBlood[sc.id]||[]).length){
+        ctx.fillStyle='rgba(0,200,100,.3)';ctx.font=`${Math.max(12,W*.016)}px monospace`;ctx.fillText('루미놀 반응 없음',W*.35,H*.5);
+      }
+    }
+    else if(tool==='uv'){
+      ctx.fillStyle='rgba(3,0,10,0.97)'; ctx.fillRect(0,0,W,H);
+      const uvGrad=ctx.createRadialGradient(W*.5,H*.35,0,W*.5,H*.35,W*.45);
+      uvGrad.addColorStop(0,'rgba(120,0,255,.14)');uvGrad.addColorStop(1,'transparent');
+      ctx.fillStyle=uvGrad;ctx.fillRect(0,0,W,H);
+      const uvData={
+        dorm438:{lines:['돌려줘... 제발...'],x:.15,y:.42,sz:.03,c:'#3ecfb8'},
+        staircase:{lines:['섬유 반응: 네이비 계열','경기북과학고 체육복 소재'],x:.07,y:.35,sz:.022,c:'#7cffee'},
+        club_room:{lines:['[지워진 글씨 복원]','23:00 B동 확인 완료','— HJH'],x:.07,y:.25,sz:.022,c:'#3ecfb8'},
+        chem_lab:{lines:['형광 시약 지문 다수','원준 외 1인의 지문','체육복 소매 자국'],x:.07,y:.3,sz:.02,c:'#7cffee'},
+        earth_lab:{lines:['UV 반응: 세면대 주변','급히 닦은 흔적'],x:.1,y:.4,sz:.02,c:'#3ecfb8'},
+        hbs_room:{lines:['UV 반응 없음','(깨끗하게 청소됨)'],x:.25,y:.45,sz:.017,c:'rgba(100,200,180,.35)'}
+      };
+      const d=uvData[sc.id]||{lines:['형광 반응 없음'],x:.3,y:.5,sz:.02,c:'rgba(100,200,180,.4)'};
+      ctx.fillStyle=d.c;ctx.shadowColor=d.c;ctx.shadowBlur=14;
+      ctx.font=`${Math.max(13,W*d.sz)}px 'IBM Plex Mono',monospace`;
+      d.lines.forEach((ln,i)=>ctx.fillText(ln,W*d.x,H*(d.y+i*.13)));
+      ctx.shadowBlur=0;
+    }
+    else if(tool==='cast'){
+      ctx.fillStyle='rgba(6,4,10,0.95)'; ctx.fillRect(0,0,W,H);
+      if(sc.id==='staircase'){
+        [-1,1].forEach((sd,pi)=>{
+          const fpx=W*.42+sd*W*.09,fpy=H*(.38+pi*.28),fs=Math.min(W,H)*.14;
+          ctx.strokeStyle='#d4af6a';ctx.fillStyle='rgba(212,175,106,.15)';ctx.lineWidth=1.5;
+          ctx.beginPath();ctx.ellipse(fpx,fpy-fs*.2,fs*.17,fs*.09,0,0,7);ctx.fill();ctx.stroke();
+          ctx.beginPath();ctx.ellipse(fpx,fpy+fs*.05,fs*.21,fs*.17,0,0,7);ctx.fill();ctx.stroke();
+          ctx.beginPath();ctx.ellipse(fpx,fpy+fs*.3,fs*.13,fs*.09,0,0,7);ctx.fill();ctx.stroke();
+          ctx.strokeStyle='rgba(212,175,106,.45)';ctx.lineWidth=1;
+          for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(fpx-fs*.18,fpy-fs*.02+i*fs*.05);ctx.lineTo(fpx+fs*.18,fpy-fs*.02+i*fs*.05);ctx.stroke();}
+        });
+        ctx.fillStyle='#d4af6a';ctx.shadowColor='#d4af6a';ctx.shadowBlur=8;
+        ctx.font=`bold ${Math.max(11,W*.013)}px monospace`;
+        ctx.fillText('두 사람의 발자국 확인',W*.05,H*.88);
+        ctx.fillText('270mm · 나이키 운동화',W*.05,H*.94);
+        ctx.shadowBlur=0;
+      } else {
+        ctx.fillStyle='rgba(212,175,106,.3)';ctx.font=`${Math.max(12,W*.015)}px monospace`;ctx.fillText('발자국 흔적 없음',W*.35,H*.5);
+      }
+    }
+  }
+
+  function getProgress(){
+    const cw=rev.width/gridN,ch=rev.height/gridN;
+    const mn={x:Math.floor(rev.width*.12/cw),y:Math.floor(rev.height*.12/ch)};
+    const mx={x:Math.ceil(rev.width*.88/cw),y:Math.ceil(rev.height*.88/ch)};
+    let tot=0,pnt=0;
+    for(let x=mn.x;x<mx.x;x++)for(let y=mn.y;y<mx.y;y++){tot++;if(canvasPainted.has(x+','+y))pnt++;}
+    return tot?pnt/tot:0;
   }
   function paintAt(x,y){
-    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
-    const cx=Math.floor(x/cw), cy=Math.floor(y/ch);
-    for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){
-      const nx=cx+dx, ny=cy+dy;
-      if(nx>=0&&nx<gridN&&ny>=0&&ny<gridN) paintedCells.add(nx+','+ny);
+    const cw=rev.width/gridN,ch=rev.height/gridN;
+    const cx=Math.floor(x/cw),cy=Math.floor(y/ch);
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){
+      const nx=cx+dx,ny=cy+dy;
+      if(nx>=0&&nx<gridN&&ny>=0&&ny<gridN) canvasPainted.add(nx+','+ny);
     }
   }
-  function areaCellRange(){
-    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
-    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
-    return {minX:Math.floor(ax/cw),maxX:Math.ceil((ax+aw)/cw),minY:Math.floor(ay/ch),maxY:Math.ceil((ay+ah)/ch)};
+  function getPos(e){
+    const r=rev.getBoundingClientRect();
+    const t=e.touches&&e.touches[0];
+    return{x:(t?t.clientX:e.clientX)-r.left,y:(t?t.clientY:e.clientY)-r.top};
   }
-  function computeProgress(){
-    const r=areaCellRange();
-    let total=0, painted=0;
-    for(let x=r.minX;x<r.maxX;x++)for(let y=r.minY;y<r.maxY;y++){ total++; if(paintedCells.has(x+','+y)) painted++; }
-    return total? painted/total : 0;
-  }
-  function pointerDown(e){drawing=true; addPoint(e);}
-  function pointerMove(e){if(drawing) addPoint(e);}
-  function pointerUp(){drawing=false;}
-  function addPoint(e){
-    const p=getPos(e); paintAt(p.x,p.y); drawReveal();
-    const progress=computeProgress();
-    const pb = idSuffix ? g('prog_'+idSuffix) : g('progBar');
-    if(pb) pb.style.width=(Math.min(100,progress*100))+'%';
-    if(progress>=0.4 && !done){ done=true; onDone(); }
-  }
-  revealCanvas.addEventListener('mousedown',pointerDown);
-  revealCanvas.addEventListener('mousemove',pointerMove);
-  window.addEventListener('mouseup',pointerUp);
-  revealCanvas.addEventListener('touchstart',e=>{e.preventDefault();pointerDown(e);},{passive:false});
-  revealCanvas.addEventListener('touchmove',e=>{e.preventDefault();pointerMove(e);},{passive:false});
-  revealCanvas.addEventListener('touchend',e=>{e.preventDefault();pointerUp();},{passive:false});
-  revealCanvas.style.touchAction='none';
-  revealCanvas.style.cursor='crosshair';
-}
-
-// ════════ CAST STAGE (footprint + size match) ════════
-function renderCastStage(s){
-  const body=g('gameBody');
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
-        <div class="tool-desc">${s.tool.desc}</div>
-        <div class="scene-wrap" id="sceneWrap">
-          <canvas class="scene-img" id="baseCanvas"></canvas>
-          <canvas class="scene-img" id="revealCanvas"></canvas>
-          <div class="scan-hint" id="scanHint">🖐️ 천천히 부어서 본뜨기</div>
-          <div id="progBar" style="position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,#d4af6a,#f0d9a8);width:0%;transition:width .15s;z-index:6;"></div>
-        </div>
-      </div>
-      ${extraBlock(s)}
-      ${stdFooter(s)}
-    </div>
-  `;
-  setupCastCanvas(s);
-}
-function setupCastCanvas(s){
-  const wrap=g('sceneWrap'), baseCanvas=g('baseCanvas'), revealCanvas=g('revealCanvas');
-  const area=s.tool.area;
-  let paintedCells=new Set(); const gridN=14; let done=false;
-  function resize(){[baseCanvas,revealCanvas].forEach(c=>{c.width=wrap.clientWidth;c.height=wrap.clientHeight;}); drawBase(); drawReveal();}
-  function drawBase(){
-    const ctx=baseCanvas.getContext('2d');
-    ctx.clearRect(0,0,baseCanvas.width,baseCanvas.height);
-    ctx.fillStyle='#08080d'; ctx.fillRect(0,0,baseCanvas.width,baseCanvas.height);
-    ctx.strokeStyle='#22222f';
-    for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(0,baseCanvas.height*(i/6));ctx.lineTo(baseCanvas.width,baseCanvas.height*(i/6));ctx.stroke();}
-    const ax=baseCanvas.width*area.x/100, ay=baseCanvas.height*area.y/100, aw=baseCanvas.width*area.w/100, ah=baseCanvas.height*area.h/100;
-    ctx.strokeStyle='#3e3e5855'; ctx.setLineDash([5,5]); ctx.strokeRect(ax,ay,aw,ah); ctx.setLineDash([]);
-  }
-  function drawReveal(){
-    const ctx=revealCanvas.getContext('2d');
-    ctx.clearRect(0,0,revealCanvas.width,revealCanvas.height);
-    if(paintedCells.size===0) return;
-    ctx.save(); ctx.beginPath();
-    const cw=revealCanvas.width/gridN, ch=revealCanvas.height/gridN;
-    paintedCells.forEach(key=>{const[cx,cy]=key.split(',').map(Number);ctx.moveTo((cx+0.5)*cw+16,(cy+0.5)*ch);ctx.arc((cx+0.5)*cw,(cy+0.5)*ch,18,0,7);});
-    ctx.clip();
-    const ax=revealCanvas.width*area.x/100, ay=revealCanvas.height*area.y/100, aw=revealCanvas.width*area.w/100, ah=revealCanvas.height*area.h/100;
-    ctx.fillStyle='#0c0c10'; ctx.fillRect(0,0,revealCanvas.width,revealCanvas.height);
-    ctx.strokeStyle='#d4af6a'; ctx.fillStyle='#d4af6a33'; ctx.lineWidth=2;
-    const sx=ax+aw*0.5, sy=ay+ah*0.5, sw=aw*0.55, sh=ah*0.85;
-    ctx.beginPath(); ctx.ellipse(sx,sy-sh*0.28,sw*0.34,sh*0.22,0,0,7); ctx.ellipse(sx,sy+sh*0.15,sw*0.42,sh*0.32,0,0,7); ctx.fill(); ctx.stroke();
-    for(let i=0;i<6;i++){ ctx.beginPath(); ctx.moveTo(sx-sw*0.3, sy-sh*0.1+i*sh*0.09); ctx.lineTo(sx+sw*0.3, sy-sh*0.1+i*sh*0.09); ctx.stroke(); }
-    ctx.restore();
-  }
-  resize(); window.addEventListener('resize',resize);
   let drawing=false;
-  function getPos(e){const r=revealCanvas.getBoundingClientRect();const t=e.touches&&e.touches[0];return {x:(t?t.clientX:e.clientX)-r.left,y:(t?t.clientY:e.clientY)-r.top};}
-  function paintAt(x,y){const cw=revealCanvas.width/gridN,ch=revealCanvas.height/gridN;const cx=Math.floor(x/cw),cy=Math.floor(y/ch);for(let dx=-2;dx<=2;dx++)for(let dy=-2;dy<=2;dy++){const nx=cx+dx,ny=cy+dy;if(nx>=0&&nx<gridN&&ny>=0&&ny<gridN)paintedCells.add(nx+','+ny);}}
-  function progress(){const cw=revealCanvas.width/gridN,ch=revealCanvas.height/gridN;const ax=revealCanvas.width*area.x/100,ay=revealCanvas.height*area.y/100,aw=revealCanvas.width*area.w/100,ah=revealCanvas.height*area.h/100;const minX=Math.floor(ax/cw),maxX=Math.ceil((ax+aw)/cw),minY=Math.floor(ay/ch),maxY=Math.ceil((ay+ah)/ch);let total=0,painted=0;for(let x=minX;x<maxX;x++)for(let y=minY;y<maxY;y++){total++;if(paintedCells.has(x+','+y))painted++;}return total?painted/total:0;}
-  function pointerDown(e){drawing=true;addPoint(e);}
-  function pointerMove(e){if(drawing)addPoint(e);}
-  function pointerUp(){drawing=false;}
-  function addPoint(e){
-    const p=getPos(e); paintAt(p.x,p.y); drawReveal();
-    const pr=progress();
-    const pb=g('progBar'); if(pb) pb.style.width=(Math.min(100,pr*100))+'%';
-    if(pr>=0.4 && !done){
-      done=true;
-      g('scanHint').style.opacity='0';
-      const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
-      toast('🔬 본뜨기 완료!','#3ecfb8');
-      if(s.extra) g('extraBox').classList.add('show');
-      else finishClue(s);
+  function pd(e){if(gs.tool==='none'){toast('도구를 먼저 선택하세요','#f0c64e');return;}drawing=true;addPt(e);}
+  function pm(e){if(drawing)addPt(e);}
+  function pu(){drawing=false;}
+  function addPt(e){
+    if(gs.tool==='none')return;
+    const p=getPos(e);paintAt(p.x,p.y);drawReveal();
+    const prog=getProgress();
+    const pct=Math.min(100,Math.round(prog/0.9*100));
+    const pb=g('svProg');if(pb)pb.style.width=pct+'%';
+    const hint=g('svHint');
+    const key=gs.tool+'_'+sc.id;
+    if(!canvasDone.has(key)&&hint){
+      hint.textContent=pct<100?`${gs.tool==='luminol'?'🧪 루미놀 분사 중':gs.tool==='uv'?'💡 UV 조사 중':'🪣 석고 붓는 중'}... ${pct}%`:'분석 중...';
+    }
+    if(prog>=0.9&&!canvasDone.has(key)){
+      canvasDone.add(key);
+      drawReveal();
+      if(hint) hint.textContent='✅ 조사 완료!';
+      const targets=sc.clues.filter(c=>c.tool===gs.tool&&!gs.foundClues.includes(c.id));
+      if(targets.length>0){
+        toast(`🔬 ${gs.tool==='luminol'?'루미놀':gs.tool==='uv'?'UV':gs.tool==='cast'?'석고':''} 반응 발견! 단서를 클릭해 확인하세요`,'#00e5a0');
+        renderClueList(sc);
+      } else {
+        toast('이 도구로는 반응이 없습니다','#8888bb');
+      }
     }
   }
-  revealCanvas.addEventListener('mousedown',pointerDown);
-  revealCanvas.addEventListener('mousemove',pointerMove);
-  window.addEventListener('mouseup',pointerUp);
-  revealCanvas.addEventListener('touchstart',e=>{e.preventDefault();pointerDown(e);},{passive:false});
-  revealCanvas.addEventListener('touchmove',e=>{e.preventDefault();pointerMove(e);},{passive:false});
-  revealCanvas.addEventListener('touchend',e=>{e.preventDefault();pointerUp();},{passive:false});
-  revealCanvas.style.touchAction='none';
+  rev.addEventListener('mousedown',pd);rev.addEventListener('mousemove',pm);window.addEventListener('mouseup',pu);
+  rev.addEventListener('touchstart',e=>{e.preventDefault();pd(e);},{passive:false});
+  rev.addEventListener('touchmove',e=>{e.preventDefault();pm(e);},{passive:false});
+  rev.addEventListener('touchend',e=>{e.preventDefault();pu();},{passive:false});
+  resize();
+  window.addEventListener('resize',resize);
 }
 
-// ════════ SHOOTING MINIGAME ════════
-function renderShootingStage(s){
-  const body=g('gameBody');
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${s.tool.icon}</span><span class="tool-name">${s.tool.name}</span></div>
-        <div class="tool-desc">${s.tool.desc}</div>
-        <div id="shootContainer"></div>
-      </div>
-      ${stdFooter(s)}
-    </div>
-  `;
-  renderShootIntro(s);
-}
-function renderShootIntro(s){
-  g('shootContainer').innerHTML=`
-    <div class="shoot-result">
-      <div style="font-size:2.2rem;margin-bottom:10px;">🎯</div>
-      <div style="font-size:.9rem;color:var(--tx2);margin-bottom:16px;">표적 ${s.tool.targetCount}개 중 ${s.tool.passCount}개 이상 명중 시 통과<br>제한시간 ${s.tool.timeLimit}초</div>
-      <button class="btn-shoot-start" onclick="runShootGame(STAGES[${gs.stage}])">▶ 훈련 시작</button>
-    </div>`;
-}
-function runShootGame(s){
-  let hits=0, spawned=0, timeLeft=s.tool.timeLimit;
-  const range=document.createElement('div');
-  range.className='shoot-range';
-  range.innerHTML=`<div class="shoot-hud"><span>🎯 명중 <b id="hitCount">0</b>/${s.tool.targetCount}</span><span>⏱ <b id="shootTimer">${s.tool.timeLimit}</b>초</span></div>`;
-  g('shootContainer').innerHTML='';
-  g('shootContainer').appendChild(range);
-
-  function spawnTarget(){
-    if(spawned>=s.tool.targetCount) return;
-    spawned++;
-    const t=document.createElement('div');
-    t.className='shoot-target';
-    const maxX=range.clientWidth-60, maxY=range.clientHeight-90;
-    const x=20+Math.random()*Math.max(40,maxX), y=44+Math.random()*Math.max(40,maxY);
-    t.style.left=x+'px'; t.style.top=y+'px';
-    t.textContent=spawned;
-    let clicked=false;
-    function hit(e){
-      e.preventDefault();
-      if(clicked) return; clicked=true;
-      hits++; t.classList.add('hit');
-      g('hitCount').textContent=hits;
-      toast('🎯 명중!','#3ecf8e');
-      setTimeout(()=>t.remove(),250);
-    }
-    t.addEventListener('click',hit);
-    t.addEventListener('touchstart',hit,{passive:false});
-    range.appendChild(t);
-    setTimeout(()=>{ if(!clicked && t.parentElement) t.remove(); }, 1800);
-  }
-  const spawnInt=setInterval(spawnTarget, Math.floor(s.tool.timeLimit*1000/s.tool.targetCount));
-  spawnTarget();
-
-  const cdInt=setInterval(()=>{
-    timeLeft--;
-    const te=g('shootTimer'); if(te) te.textContent=Math.max(0,timeLeft);
-    if(timeLeft<=0){
-      clearInterval(cdInt); clearInterval(spawnInt);
-      finishShootGame(s,hits);
-    }
-  },1000);
-}
-function finishShootGame(s,hits){
-  const pass=hits>=s.tool.passCount;
-  g('shootContainer').innerHTML=`
-    <div class="shoot-result">
-      <div style="font-size:2.2rem;margin-bottom:8px;">${pass?'✅':'⚠️'}</div>
-      <div style="font-weight:700;font-size:1rem;margin-bottom:6px;">${pass?'훈련 통과!':'훈련 미달성'} (${hits}/${s.tool.targetCount} 명중)</div>
-      ${pass?'':'<button class="btn-shoot-start" onclick="renderShootIntro(STAGES['+gs.stage+'])">↺ 다시 도전</button>'}
-    </div>`;
-  if(pass){
-    toast('✅ 표적 인식 훈련 통과!','#3ecf8e');
-    const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
-    finishClue(s);
-  }
-}
-
-// ════════ TITRATION (5-step, drag or tap) ════════
-function renderTitrationStage(s){
-  const body=g('gameBody');
-  const t=s.tool;
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${t.icon}</span><span class="tool-name">${t.name}</span></div>
-        <div class="tool-desc">${t.desc}</div>
-        <div style="display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap;margin:18px 0;">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-            <div style="font-family:monospace;font-size:.7rem;color:var(--tx3);">시험관</div>
-            <div id="testTube" style="width:46px;height:150px;border:2px solid #3e3e58;border-radius:0 0 20px 20px;border-top:none;position:relative;overflow:hidden;background:#0d0d14;">
-              <div id="tubeColor" style="position:absolute;bottom:0;left:0;right:0;height:0%;background:#1a1a28;transition:all .5s ease-out;"></div>
-            </div>
-          </div>
-          <div style="flex:1;min-width:220px;">
-            <div style="font-family:monospace;font-size:.7rem;color:var(--tx3);margin-bottom:8px;">시약 (드래그 또는 탭해서 시험관에 넣기)</div>
-            <div id="reagentRow" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
-          </div>
-        </div>
-        <div id="titrationLog" style="display:flex;flex-direction:column;gap:7px;margin-bottom:8px;"></div>
-      </div>
-      ${extraBlock(s)}
-      ${stdFooter(s)}
-    </div>
-  `;
-  setupTitration(s);
-}
-function setupTitration(s){
-  const t=s.tool;
-  let addedOrder=[];
-  const row=g('reagentRow');
-  row.innerHTML=t.reagents.map(r=>`
-    <div class="ir-q-btn" draggable="true" id="reag_${r.id}"
-      style="cursor:grab;display:inline-flex;align-items:center;gap:7px;width:auto;"
-      ondragstart="event.dataTransfer.setData('text',this.id)">
-      <span style="width:12px;height:12px;border-radius:50%;background:${r.color};display:inline-block;"></span>${r.name}
-    </div>`).join('');
-
-  const tube=g('testTube');
-  tube.addEventListener('dragover',e=>e.preventDefault());
-  tube.addEventListener('drop',e=>{ e.preventDefault(); handleDrop(e.dataTransfer.getData('text')); });
-
-  t.reagents.forEach(r=>{
-    const el=g('reag_'+r.id);
-    el.addEventListener('touchend',e=>{ e.preventDefault(); handleDrop('reag_'+r.id); },{passive:false});
-    el.style.touchAction='manipulation';
-    el.addEventListener('click',()=>handleDrop('reag_'+r.id));
+function setTool(tool){
+  gs.tool=tool;
+  canvasPainted=new Set();
+  ['none','luminol','uv','cast'].forEach(t=>{
+    const id={'none':'tNone','luminol':'tLuminol','uv':'tUv','cast':'tCast'}[t];
+    const el=g(id);if(el) el.classList.toggle('active',t===tool);
   });
-
-  function handleDrop(domId){
-    const rid=domId.replace('reag_','');
-    const r=t.reagents.find(x=>x.id===rid);
-    const el=g(domId);
-    if(!r||!el||el.style.pointerEvents==='none') return;
-    if(addedOrder.includes(rid)){ toast('이미 넣은 시약이에요','#ff5468'); return; }
-    addedOrder.push(rid);
-    el.style.opacity='.3'; el.style.pointerEvents='none';
-
-    const fillPct=Math.min(92, addedOrder.length*(90/t.reagents.length));
-    g('tubeColor').style.height=fillPct+'%';
-    g('tubeColor').style.background=r.color;
-
-    const log=g('titrationLog');
-    const stepIdx=addedOrder.length-1;
-    const msg=t.stepResults[stepIdx]||`${r.name}을(를) 넣었습니다.`;
-    const entry=document.createElement('div');
-    entry.className='reveal-text show'; entry.style.marginTop='0';
-    entry.innerHTML=`<div class="reveal-label">STEP ${addedOrder.length}/${t.reagents.length}</div><div>${msg}</div>`;
-    log.appendChild(entry);
-
-    if(addedOrder.length===t.reagents.length){
-      setTimeout(()=>{
-        toast('🔬 반응 분석 완료!','#3ecfb8');
-        const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
-        if(s.extra) g('extraBox').classList.add('show');
-        else finishClue(s);
-      },500);
-    }
-  }
+  const hint=g('svHint');
+  if(hint) hint.textContent={
+    none:'👁️ 육안으로 현장을 살펴보세요',
+    luminol:'🧪 루미놀 — 드래그해서 현장에 뿌리세요',
+    uv:'💡 UV 라이트 — 드래그해서 비춰보세요',
+    cast:'🪣 석고 — 발자국 위에 드래그해서 부어보세요'
+  }[tool]||'';
+  const pb=g('svProg');
+  if(pb){pb.style.width='0%';pb.className='sv-prog '+tool;}
+  const rev=g('revealC');
+  if(rev){const ctx=rev.getContext('2d');ctx.clearRect(0,0,rev.width,rev.height);}
 }
 
-// ════════ TIMELINE PUZZLE ════════
-function renderTimelineStage(s){
-  const body=g('gameBody');
-  const t=s.tool;
-  // 섞기
-  const shuffled=[...t.pieces].sort(()=>Math.random()-0.5);
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="tool-box">
-        <div class="tool-head"><span class="tool-icon">${t.icon}</span><span class="tool-name">${t.name}</span></div>
-        <div class="tool-desc">${t.desc}</div>
-        <div style="margin-bottom:10px;font-size:.8rem;color:var(--tx2);">
-          ① 왼쪽 조각을 클릭해 선택 → ② 오른쪽 빈 칸을 클릭해 배치
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;">
-          <div>
-            <div style="font-size:.74rem;color:var(--tx3);font-family:monospace;margin-bottom:8px;">🗂️ 사건 조각</div>
-            <div id="tlPool" style="display:flex;flex-direction:column;gap:7px;"></div>
-          </div>
-          <div>
-            <div style="font-size:.74rem;color:var(--tx3);font-family:monospace;margin-bottom:8px;">⏱️ 시간 순서</div>
-            <div id="tlSlots" style="display:flex;flex-direction:column;gap:7px;"></div>
-          </div>
-        </div>
-        <div id="tlStatus" style="margin-top:12px;font-size:.82rem;color:var(--tx2);">조각을 선택하고 시간 칸에 배치해보세요.</div>
-        <button id="tlReset" onclick="tlResetAll()" style="margin-top:8px;background:var(--c3);border:1px solid var(--brd);border-radius:8px;padding:6px 14px;font-size:.8rem;color:var(--tx2);">↺ 전체 초기화</button>
-      </div>
-      ${stdFooter(s)}
-    </div>
-  `;
-  setupTimeline(s, shuffled);
-}
-
-// 타임라인 전역 상태 (setupTimeline 호출마다 초기화)
-let tlState={selected:null, slots:[], pieces:[], s:null, t:null};
-
-function tlResetAll(){
-  tlState.slots=tlState.slots.map(()=>null);
-  tlState.pieces.forEach(p=>p.placed=false);
-  tlState.selected=null;
-  tlRender();
-  g('tlStatus').textContent='전체 초기화했어요. 다시 배치해보세요.';
-}
-
-function setupTimeline(s, shuffled){
-  const t=s.tool;
-  tlState={
-    selected: null,
-    slots: new Array(t.pieces.length).fill(null),
-    pieces: shuffled.map(p=>({...p, placed:false})),
-    s, t
-  };
-  tlRender();
-}
-
-function tlRender(){
-  const {pieces, slots, selected, t}=tlState;
-  const pool=g('tlPool');
-  const slotsEl=g('tlSlots');
-  if(!pool||!slotsEl) return;
-
-  // 조각 풀 렌더
-  pool.innerHTML='';
-  pieces.forEach(p=>{
-    const el=document.createElement('div');
-    el.className='tl-piece';
-    el.textContent=p.text;
-    if(p.placed){
-      el.classList.add('placed');
-      el.style.opacity='.35';
-      el.style.cursor='default';
-    } else if(selected===p.id){
-      el.classList.add('selected');
-      el.style.borderColor='var(--gold)';
-      el.style.background='#d4af6a15';
-    }
-    if(!p.placed){
-      el.style.cursor='pointer';
-      el.onclick=()=>tlSelectPiece(p.id);
-    }
-    pool.appendChild(el);
-  });
-
-  // 슬롯 렌더
-  slotsEl.innerHTML='';
-  slots.forEach((pid,i)=>{
-    const el=document.createElement('div');
-    el.className='tl-slot';
-    if(pid){
-      const piece=tlState.t.pieces.find(p=>p.id===pid);
-      el.textContent=piece.text;
-      el.classList.add('filled');
-      // 채워진 칸 클릭 = 해당 조각 돌려보내기
-      el.onclick=()=>tlUnplace(i);
-      el.title='클릭하면 조각을 돌려보냅니다';
-    } else {
-      el.textContent=(i+1)+'번째';
-      el.onclick=()=>tlPlacePiece(i);
-    }
-    slotsEl.appendChild(el);
-  });
-}
-
-function tlSelectPiece(pid){
-  tlState.selected = (tlState.selected===pid) ? null : pid;
-  tlRender();
-  const p=tlState.pieces.find(x=>x.id===pid);
-  g('tlStatus').textContent = tlState.selected
-    ? `"${p.text.slice(0,20)}..." 선택됨 → 오른쪽 칸을 클릭해 배치하세요`
-    : '선택이 해제됐어요.';
-}
-
-function tlUnplace(slotIdx){
-  const pid=tlState.slots[slotIdx];
-  if(!pid) return;
-  tlState.slots[slotIdx]=null;
-  const p=tlState.pieces.find(x=>x.id===pid);
-  if(p) p.placed=false;
-  tlState.selected=null;
-  tlRender();
-  g('tlStatus').textContent='조각을 돌려보냈어요. 다시 배치해보세요.';
-}
-
-function tlPlacePiece(slotIdx){
-  if(!tlState.selected){ toast('먼저 왼쪽에서 조각을 선택하세요','#f0c64e'); return; }
-  if(tlState.slots[slotIdx]!==null){ toast('이미 채워진 칸이에요 — 클릭하면 비울 수 있어요','#ff5468'); return; }
-  const pid=tlState.selected;
-  tlState.slots[slotIdx]=pid;
-  const p=tlState.pieces.find(x=>x.id===pid);
-  if(p) p.placed=true;
-  tlState.selected=null;
-  tlRender();
-  // 다 채웠으면 채점
-  if(tlState.slots.every(x=>x!==null)){
-    checkTimeline(tlState.s, tlState.t, tlState.slots);
+// ═══════════ INTERROGATION ═══════════
+function startInterrogate(suspId){
+  const all=[...SUSPECT_PROFILES,...(gs.hiddenRevealed?[HIDDEN_SUSPECT]:[])];
+  const susp=all.find(s=>s.id===suspId);
+  if(!susp) return;
+  currentSuspect=susp;
+  showScr('sInterrogate');
+  g('ihAv').textContent=susp.avatar;
+  g('ihName').textContent=susp.name;
+  g('ihRole').textContent=`경기북과학고 1학년 · ${susp.role}`;
+  updateQLeft();
+  const area=g('chatArea');
+  if(!gs.chatLog) gs.chatLog={};
+  if(gs.chatLog[suspId]&&gs.chatLog[suspId].length>0){
+    // 기존 대화 복원
+    area.innerHTML='';
+    gs.chatLog[suspId].forEach(m=>renderMsg(m.type,m.text,false));
+    area.scrollTop=area.scrollHeight;
   } else {
-    const remaining=tlState.pieces.filter(x=>!x.placed).length;
-    g('tlStatus').textContent=`배치 완료! 남은 조각: ${remaining}개`;
+    gs.chatLog[suspId]=[];
+    area.innerHTML='';
+    const openers=[
+      {type:'sys',text:`— ${susp.name} 심문실 입장 —`},
+      {type:'suspect',text:'"...들어오세요."'},
+      {type:'profiler',text:susp.tells?susp.tells.join(' / '):'관찰 중'}
+    ];
+    openers.forEach(m=>{gs.chatLog[suspId].push(m);renderMsg(m.type,m.text,false);});
   }
 }
+function updateQLeft(){
+  const left=gs.interrogations[currentSuspect?.id]||0;
+  const el=g('qLeft');if(!el)return;
+  el.textContent=`질문 ${left}회`;
+  el.className='q-left'+(left<=1?' low':'');
+  const btn=g('btnSend');if(btn)btn.disabled=left<=0;
+  const inp=g('qInput');if(inp){inp.disabled=left<=0;if(left<=0)inp.placeholder='심문이 종료되었습니다.';}
+}
+async function sendQ(){
+  const inp=g('qInput');
+  const q=inp?.value.trim();
+  if(!q||!currentSuspect) return;
+  const left=gs.interrogations[currentSuspect.id]||0;
+  if(left<=0) return;
+  inp.value='';
+  g('btnSend').disabled=true;
+  addMsg('user',q);
+  gs.chatHistory[currentSuspect.id].push({role:'user',content:q});
 
-function checkTimeline(s,t,slots){
-  let allCorrect=true;
-  slots.forEach((pid,i)=>{
-    const piece=t.pieces.find(p=>p.id===pid);
-    const slotEl=document.getElementById('tlSlots')?.children[i];
-    if(piece && piece.time===i+1){
-      if(slotEl) slotEl.classList.add('correct');
-    } else {
-      allCorrect=false;
-    }
-  });
-  if(allCorrect){
-    toast('🧩 타임라인 재구성 완료!','#3ecf8e');
-    g('tlStatus').textContent='✅ 모두 올바른 순서입니다!';
-    const rb=g('revealBox'); g('revealContent').textContent=s.reveal; rb.classList.add('show');
-    finishClue(s);
-  } else {
-    toast('순서가 맞지 않아요. 틀린 칸을 클릭해서 다시 배치해보세요.','#ff5468');
-    g('tlStatus').textContent='❌ 순서가 맞지 않아요. 틀린 칸을 클릭해서 비우고 다시 배치해보세요.';
-    // 틀린 칸 빨간 테두리
-    slots.forEach((pid,i)=>{
-      const piece=t.pieces.find(p=>p.id===pid);
-      const slotEl=document.getElementById('tlSlots')?.children[i];
-      if(slotEl && piece && piece.time!==i+1){
-        slotEl.style.borderColor='var(--red)';
-        setTimeout(()=>{if(slotEl)slotEl.style.borderColor='';},1400);
+  // typing
+  const tid='t'+Date.now();
+  const area=g('chatArea');
+  area.innerHTML+=`<div class="typing-bubble" id="${tid}"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  area.scrollTop=area.scrollHeight;
+
+  gs.interrogations[currentSuspect.id]=left-1;
+  gs.interrogatedCount[currentSuspect.id]=(gs.interrogatedCount[currentSuspect.id]||0)+1;
+  updateQLeft();
+
+  const allClues=SCENES.flatMap(s=>s.clues);
+  const foundSummary=gs.foundClues.map(id=>allClues.find(c=>c.id===id)?.analysis||'').filter(Boolean).join('; ');
+
+  const contextBg=`[배경 설정]
+- 경기북과학고등학교 1학년 멘토링 팀. 팀장은 황진우, 나머지는 팀원이다.
+- 리원준은 팀원이며 동급생(1학년, 17세)이다. 선배가 아니다.
+- 심문하는 사람은 외부 프로파일러다. 학교 관계자가 아닌 수사관으로 인식할 것.
+- 당신(${currentSuspect.name})도 같은 팀 1학년이며, 리원준과 같은 반 동급생이다.`;
+
+  const sys=`${contextBg}
+
+당신은 경기북과학고 1학년 ${currentSuspect.name}(17세)입니다.
+성격: ${currentSuspect.personality}
+${currentSuspect.catchphrase?`특이 말버릇: ${currentSuspect.catchphrase} (이것만 해당, 매우 가끔만 사용)`:'말버릇 없음.'}
+배경: ${currentSuspect.relationship}
+알리바이: ${currentSuspect.alibi}
+숨기는 진실: ${currentSuspect.secret}
+레드헤링(수사관이 오해할 만한 것): ${currentSuspect.redherring}
+장소 정보: ${currentSuspect.location_knowledge||'특별한 장소 정보 없음'}
+거짓말 징후: ${currentSuspect.tells?.join(', ')||''}
+
+수사관이 현재까지 확보한 단서: ${foundSummary||'없음'}
+
+[행동 지침]
+- 자연스러운 17세 학생 말투. 리원준을 절대 선배라 부르지 말 것 — 동급생이다
+- 황보성만 여유 부릴 때 "흠냐링가링~"을 가끔 씀. 나머지는 말버릇 없음
+- 막연한 질문("너 범인이지?" 등)엔 가볍게 받아넘길 것 — 유용한 정보 주지 말 것
+- 알리바이/행적/원준의 마지막 모습 질문엔 자기 담당 실험실 이름을 자연스럽게 언급할 것
+- 처음엔 방어적, 날카로운 단서 기반 질문엔 동요
+- 거짓말 징후는 행동 묘사로 표현 ([손을 만지작거리며] 등)
+- 숨기는 진실은 직접 말하지 않되, 필적/쪽지를 추궁받은 오시윤은 옮겨 적은 사실을 털어놓음
+- 2~4문장으로 간결하게
+
+JSON만 응답: {"reply":"답변","action":"행동묘사(없으면 빈 문자열)","profiler":"프로파일러 분석 1~2문장","useful":true또는false}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,
+        messages:[...gs.chatHistory[currentSuspect.id].slice(-8)]})});
+    const data=await res.json();
+    const raw=data.content?.[0]?.text||'{}';
+    let parsed={reply:'...',action:'',profiler:'',useful:false};
+    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}catch(e){}
+    document.getElementById(tid)?.remove();
+    addMsg('suspect',`"${parsed.reply}"`);
+    if(parsed.action) addMsg('action',`[${parsed.action}]`);
+    if(parsed.profiler) addMsg('profiler',parsed.profiler);
+    gs.chatHistory[currentSuspect.id].push({role:'assistant',content:parsed.reply});
+    // 응답에서 장소 언급 감지 → 잠금해제
+    const locKeywords=['물리 실험실','물리실','화학 실험실','화학실','생명과학 실험실','생명 실험실','생명실','지구과학 실험실','지구과학실'];
+    const fullText=(parsed.reply||'')+(parsed.action||'');
+    let newMention=false;
+    locKeywords.forEach(k=>{
+      if(fullText.includes(k)&&!gs.mentionedKeywords.includes(k)){
+        gs.mentionedKeywords.push(k);
+        newMention=true;
       }
     });
-  }
-}
-
-// ════════ INTERROGATION STAGE ════════
-function renderInterrogationStage(s){
-  const body=g('gameBody');
-  gs.interroDone[s.id]={};
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div class="interro-tabs" id="interroTabs"></div>
-      <div class="interro-room" id="interroRoom"></div>
-      ${stdFooter(s)}
-    </div>
-  `;
-  renderInterroTabs(s,0);
-  renderInterroRoom(s,0);
-}
-function renderInterroTabs(s,activeIdx){
-  g('interroTabs').innerHTML=s.interrogation.map((grp,i)=>{
-    const sus=SUSPECTS.find(x=>x.id===grp.suspectId);
-    const done=gs.interroDone[s.id][grp.suspectId];
-    return `<button class="interro-tab ${i===activeIdx?'active':''} ${done?'done':''}" onclick="renderInterroRoom(STAGES[${s.id-1}],${i})">
-      <span class="it-av">${sus.avatar}</span>${sus.name}${done?' ✓':''}
-    </button>`;
-  }).join('');
-}
-function renderInterroRoom(s,idx){
-  renderInterroTabs(s,idx);
-  const grp=s.interrogation[idx];
-  const sus=SUSPECTS.find(x=>x.id===grp.suspectId);
-  g('interroRoom').innerHTML=`
-    <div class="ir-suspect">
-      <div class="ir-av">${sus.avatar}</div>
-      <div><div class="ir-name">${sus.name}</div><div class="ir-role">${sus.role}</div></div>
-    </div>
-    <div class="ir-q-list">
-      ${grp.questions.map((qa,qi)=>`
-        <div>
-          <button class="ir-q-btn" id="irq_${s.id}_${idx}_${qi}" onclick="askQuestion(${s.id},${idx},${qi})">❓ ${qa.q}</button>
-          <div class="ir-answer" id="ira_${s.id}_${idx}_${qi}">
-            <div>"${qa.a}"</div>
-            ${qa.flag?`<div class="ir-flag">🚩 ${qa.flagNote}</div>`:''}
-          </div>
-        </div>`).join('')}
-    </div>`;
-}
-function askQuestion(stageId,idx,qi){
-  const s=STAGES[stageId-1];
-  const grp=s.interrogation[idx];
-  g(`irq_${stageId}_${idx}_${qi}`).disabled=true;
-  g(`ira_${stageId}_${idx}_${qi}`).classList.add('show');
-  const allAnswered=grp.questions.every((_,i)=>g(`irq_${stageId}_${idx}_${i}`).disabled);
-  if(allAnswered){
-    gs.interroDone[stageId][grp.suspectId]=true;
-    renderInterroTabs(s,idx);
-    const allDone=s.interrogation.every(gr=>gs.interroDone[stageId][gr.suspectId]);
-    if(allDone){
-      toast('✅ 모든 용의자 심문 완료','#3ecf8e');
-      finishClue(s);
+    if(newMention){
+      const before=gs.unlockedScenes.length;
+      checkUnlocks();
+      if(gs.unlockedScenes.length===before){
+        toast('💡 심문에서 장소 정보를 확보했습니다','#ffd60a');
+      }
+    } else {
+      checkUnlocks();
     }
+    if(!parsed.useful) toast('유효한 정보를 얻지 못했습니다','#ff9500');
+    else toast('단서 확보!','#00e5a0');
+    if(gs.interrogations[currentSuspect.id]<=0) addMsg('sys',`— ${currentSuspect.name} 심문 종료 —`);
+    else{const b=g('btnSend');if(b)b.disabled=false;}
+  }catch(e){
+    document.getElementById(tid)?.remove();
+    addMsg('sys','오류가 발생했습니다. 다시 시도해주세요.');
+    gs.interrogations[currentSuspect.id]=(gs.interrogations[currentSuspect.id]||0)+1;
+    gs.interrogatedCount[currentSuspect.id]=Math.max(0,(gs.interrogatedCount[currentSuspect.id]||1)-1);
+    updateQLeft();
+    const b=g('btnSend');if(b)b.disabled=false;
   }
 }
+function renderMsg(type,text,scroll=true){
+  const area=g('chatArea');
+  const div=document.createElement('div');
+  if(type==='user'){div.className='msg msg-user';div.textContent=text;}
+  else if(type==='suspect'){div.className='msg msg-suspect';div.textContent=text;}
+  else if(type==='action'){div.className='msg msg-action';div.textContent=text;}
+  else if(type==='profiler'){div.className='msg msg-profiler';div.innerHTML=`<div class="pf-lbl">🧠 프로파일러 분석</div>${text}`;}
+  else{div.className='msg msg-sys';div.textContent=text;}
+  area.appendChild(div);
+  if(scroll) area.scrollTop=area.scrollHeight;
+}
+function addMsg(type,text){
+  if(currentSuspect){
+    if(!gs.chatLog) gs.chatLog={};
+    if(!gs.chatLog[currentSuspect.id]) gs.chatLog[currentSuspect.id]=[];
+    gs.chatLog[currentSuspect.id].push({type,text});
+  }
+  renderMsg(type,text,true);
+}
+function backGame(){showScr('sGame');currentSuspect=null;renderSuspBtns();}
 
-// ════════ FINAL STAGE ════════
-function renderFinalStage(s){
-  const body=g('gameBody');
-  const remaining=SUSPECTS.filter(x=>x.status!=='cleared');
-  body.innerHTML=`
-    <div class="stage-meta">단계 ${s.id} / ${STAGES.length}</div>
-    <div class="stage-loc fadeUp">📍 ${s.loc}</div>
-    <div class="stage-card fadeUp">
-      <div class="stage-icon">${s.icon}</div>
-      <div class="stage-title">${s.name}</div>
-      <div class="stage-intro">${s.intro}</div>
-      <div style="margin-bottom:12px;"><button class="btn-clueboard" onclick="openClueModal()">🗂️ 단서 다시 보기</button></div>
-      <div class="final-grid" id="finalGrid"></div>
+// ═══════════ MODALS ═══════════
+function openEB(){
+  const allClues=SCENES.flatMap(s=>s.clues);
+  const list=g('ebList');
+  list.innerHTML=gs.foundClues.length===0
+    ?'<div style="color:var(--tx3);font-size:.84rem;padding:10px;">아직 발견한 단서가 없습니다.</div>'
+    :gs.foundClues.map(id=>{const c=allClues.find(x=>x.id===id);
+      return c?`<div style="background:var(--c2);border:1px solid var(--brd);border-radius:9px;padding:11px 13px;margin-bottom:8px;"><div style="font-weight:700;font-size:.85rem;margin-bottom:4px;">${c.icon} ${c.name}</div><div style="font-size:.8rem;color:var(--tx2);">${c.analysis}</div></div>`:''}).join('');
+  g('ebOverlay').classList.add('on');
+}
+function openSusp(){
+  const all=[...SUSPECT_PROFILES,...(gs.hiddenRevealed?[HIDDEN_SUSPECT]:[])];
+  g('suspList').innerHTML=all.map(s=>`
+    <div style="display:flex;align-items:center;gap:11px;padding:10px;background:var(--c2);border-radius:9px;margin-bottom:8px;${gs.eliminated.includes(s.id)?'opacity:.35':''}">
+      <div style="font-size:1.5rem;">${s.avatar}</div>
+      <div><div style="font-weight:700;font-size:.88rem;">${s.name}</div>
+      <div style="font-size:.75rem;color:${gs.eliminated.includes(s.id)?'var(--g)':'var(--tx2)'};">${gs.eliminated.includes(s.id)?'✅ 용의선상 제외':'🔍 수사 중 — 질문 '+((gs.interrogations[s.id]||0))+'회 남음'}</div></div>
+    </div>`).join('');
+  g('suspOverlay').classList.add('on');
+}
+
+// ═══════════ PROFILER FLASH ═══════════
+function showProfiler(title,body,dur=2800){
+  const ov=g('profilerOverlay');
+  g('poTitle').textContent=title;
+  g('poBody').textContent=body;
+  ov.classList.add('on');
+  setTimeout(()=>ov.classList.remove('on'),dur);
+}
+
+// ═══════════ BATTLE ═══════════
+function showFinalAccuse(){
+  gs.battleStarted=true;
+  clearInterval(timerInt);
+  const card=g('battleCard');
+  card.innerHTML=`
+    <div class="battle-phase-lbl">⚖️ 최종 지목</div>
+    <div class="battle-title">범인을 지목하라</div>
+    <div class="battle-desc">지금까지의 단서를 토대로 범인을 지목하세요.<br><span style="color:var(--r);font-size:.82rem;">⚠️ 잘못된 지목은 해고로 이어집니다.</span></div>
+    <div class="choice-opts">
+      ${SUSPECT_PROFILES.map(s=>`<button class="choice-opt" onclick="accuseSusp('${s.id}')">${s.avatar} ${s.name} <span style="color:var(--tx3);font-size:.78rem;">— ${s.role}</span></button>`).join('')}
     </div>
   `;
-  g('finalGrid').innerHTML=remaining.map(sus=>`
-    <button class="final-card" onclick="pickFinal('${sus.id}')">
-      <div class="fc-top"><span class="fc-av">${sus.avatar}</span><div><div class="fc-name">${sus.name}</div><div class="fc-role">${sus.role}</div></div></div>
-    </button>`).join('');
+  showScr('sBattle');
 }
-function pickFinal(suspectId){
-  const s=STAGES[STAGES.length-1];
-  gs.picked=suspectId;
-  if(suspectId===s.correctAnswer) endGame('success',s.explainCorrect);
-  else endGame('wrong',s.explainWrong);
-}
-
-// ════════ MODALS ════════
-function openClueModal(){
-  g('clueListContainer').innerHTML = gs.clues.length
-    ? gs.clues.map(c=>`<div class="clue-list-item"><div class="cl-lbl">${c.label}</div><div class="cl-txt">${c.text}</div></div>`).join('')
-    : '<div style="color:var(--tx3);font-size:.85rem;">아직 확보한 단서가 없습니다.</div>';
-  g('clueModal').classList.add('show');
-}
-function closeClueModal(){g('clueModal').classList.remove('show');}
-function openSuspModal(){
-  g('suspListContainer').innerHTML = SUSPECTS.map(s=>`
-    <div class="clue-list-item" style="display:flex;align-items:center;gap:12px;${s.status==='cleared'?'opacity:.4':''}">
-      <div style="font-size:1.6rem;">${s.avatar}</div>
-      <div style="flex:1;">
-        <div style="font-weight:700;">${s.name} <span style="font-size:.74rem;color:var(--tx2);font-weight:400;">${s.role}</span></div>
-        <div style="font-size:.78rem;color:${s.status==='cleared'?'var(--green)':'var(--tx2)'};">${s.status==='cleared'?'✅ 용의선상 제외':'🔍 수사 중'}</div>
-      </div>
-    </div>`).join('');
-  g('suspModal').classList.add('show');
-}
-function closeSuspModal(){g('suspModal').classList.remove('show');}
-
-// ════════ END ════════
-const CASE_NOTES = [
-  {
-    step:'단계 1', title:'루미놀 반응', icon:'🧪', tag:'화학·법과학',
-    badgeColor:'#196c2e', badgeBg:'#3ecf8e22',
-    given:[
-      {label:'반응식 (참고)', content:'루미놀(C₈H₇N₃O₂) + H₂O₂ → [Fe 촉매] → 3-아미노프탈산 + N₂ + hν(빛)'},
-      {label:'물질 이름', content:'발광 현상: 화학발광(Chemiluminescence) / 검출 대상: 혈액 속 헤모글로빈의 Fe 이온'}
-    ],
-    blanks:[
-      {q:'루미놀이 혈흔과 반응하면 어떤 색의 빛이 나타나나요?', ph:'조사해서 적어보세요...'},
-      {q:'이 반응에서 Fe 이온은 어떤 역할을 하나요? (반응 중 변하나요, 변하지 않나요?)', ph:'조사해서 적어보세요...'},
-      {q:'왜 어두운 곳에서만 루미놀 반응을 관찰할 수 있을까요?', ph:'조사해서 적어보세요...'},
-      {q:'이번 사건에서 루미놀로 발견한 흔적이 수사에 어떻게 도움이 됐나요?', ph:'직접 생각해서 적어보세요...'}
-    ]
-  },
-  {
-    step:'단계 3', title:'UV 형광 반응', icon:'💡', tag:'빛·파장',
-    badgeColor:'#1a6b5a', badgeBg:'#3ecfb822',
-    given:[
-      {label:'UV 파장 범위 (참고)', content:'자외선(UV): 약 10~400nm / 가시광선: 약 380~700nm'},
-      {label:'형광 원리 (참고)', content:'UV 광자 흡수 → 전자 들뜸(Excitation) → 낮은 에너지 상태로 복귀하며 가시광선 방출'}
-    ],
-    blanks:[
-      {q:'형광(Fluorescence)과 인광(Phosphorescence)의 차이점은 무엇인가요?', ph:'조사해서 적어보세요...'},
-      {q:'형광펜 잉크 속 어떤 성분이 UV에 반응하나요?', ph:'조사해서 적어보세요...'},
-      {q:'법과학에서 UV 라이트로 찾을 수 있는 증거를 2가지 이상 써보세요.', ph:'조사해서 적어보세요...'},
-      {q:'이 사건에서 발견한 형광 메모의 내용이 범인 특정에 어떤 역할을 했나요?', ph:'직접 생각해서 적어보세요...'}
-    ]
-  },
-  {
-    step:'단계 5', title:'석고 본뜨기', icon:'👣', tag:'화학·물리적 증거',
-    badgeColor:'#5a3a00', badgeBg:'#d4af6a22',
-    given:[
-      {label:'화학식 (참고)', content:'소석고: CaSO₄·½H₂O\n경화 반응: CaSO₄·½H₂O + 1½H₂O → CaSO₄·2H₂O (이수석고)'},
-      {label:'반응 특성 (참고)', content:'물을 만나면 발열 반응이 일어나며 굳음 (약 20~30분 소요)'}
-    ],
-    blanks:[
-      {q:'석고가 굳는 과정은 화학적 변화인가요, 물리적 변화인가요? 이유도 함께 써보세요.', ph:'조사해서 적어보세요...'},
-      {q:'발자국으로 알 수 있는 정보를 3가지 이상 써보세요. (사이즈 외에도)', ph:'조사해서 적어보세요...'},
-      {q:'이 사건에서 발자국 사이즈가 김다은을 용의선상에서 제외한 이유를 논리적으로 써보세요.', ph:'직접 생각해서 적어보세요...'}
-    ]
-  },
-  {
-    step:'단계 6', title:'시험관 적정 — 산염기 반응', icon:'⚗️', tag:'산염기·지시약',
-    badgeColor:'#0d4a6b', badgeBg:'#00d4ff22',
-    given:[
-      {label:'이번 실험 반응식 (참고)', content:'아스피린(CH₃COOC₆H₄COOH) + NaHCO₃ → 염 + H₂O + CO₂↑'},
-      {label:'지시약 색 변화 (참고)', content:'페놀프탈레인: 산성·중성 → 무색 / 염기성 → 분홍\nBTB: 산성 → 노랑 / 중성 → 초록 / 염기성 → 파랑'}
-    ],
-    blanks:[
-      {q:'페놀프탈레인이 색이 변하는 pH 범위는 어떻게 될까요? 조사해서 써보세요.', ph:'조사해서 적어보세요...'},
-      {q:'이 실험에서 CO₂ 기포가 발생한 이유를 반응식과 연결해서 설명해보세요.', ph:'조사해서 적어보세요...'},
-      {q:'지시약은 스스로 pH를 바꾸지 않습니다. 그렇다면 지시약의 역할을 한 문장으로 정의해보세요.', ph:'조사해서 적어보세요...'},
-      {q:'아스피린과 베이킹소다가 치명적이지 않음에도 범죄 증거가 된 이유를 써보세요.', ph:'직접 생각해서 적어보세요...'}
-    ]
-  },
-  {
-    step:'단계 7', title:'타임라인 재구성', icon:'🧩', tag:'논리적 추론',
-    badgeColor:'#1a3a6b', badgeBg:'#9b6bff22',
-    given:[
-      {label:'이 사건 핵심 시각 (참고)', content:'21:20 이도윤 PC방 목격 (학교에서 약 30km 거리)\n21:43 과학실 재입장 기록\n→ 21:20에서 21:43까지 23분 = 이동 불가능'},
-      {label:'알리바이 판단 기준 (참고)', content:'물리적 불가능: 같은 시각 두 장소에 있을 수 없음\n전자 기록(결제·카드키·기지국)은 조작이 어려움'}
-    ],
-    blanks:[
-      {q:'알리바이(Alibi)란 무엇인지 자신의 말로 정의해보세요.', ph:'조사해서 적어보세요...'},
-      {q:'전자 기록이 목격자 진술보다 신뢰도가 높은 이유를 써보세요.', ph:'조사해서 적어보세요...'},
-      {q:'이도윤은 거짓말을 했지만 범인이 아니었습니다. 의심스러운 행동이 반드시 범죄를 의미하지 않는 이유를 논리적으로 써보세요.', ph:'직접 생각해서 적어보세요...'},
-      {q:'이 사건에서 최현우를 범인으로 확정한 결정적 물증 3가지를 직접 정리해보세요.', ph:'직접 생각해서 적어보세요...'}
-    ]
+function accuseSusp(id){
+  if(id==='hbs'){
+    showScr('sEnd');
+    endGame('perfect');
+  } else {
+    const wrongP=SUSPECT_PROFILES.find(s=>s.id===id);
+    endGame('wrong', wrongP?.name);
   }
+}
+function startBattle(idx){
+  gs.battlePhase=idx;
+  const phase=BATTLE_PHASES[idx];
+  const card=g('battleCard');
+  if(phase.type==='timing'){
+    let hits=0,spawned=0,tLeft=phase.timeLimit;
+    card.innerHTML=`
+      <div class="battle-phase-lbl">🏃 ${phase.name}</div>
+      <div class="battle-title">${phase.name}</div>
+      <div class="battle-desc">${phase.desc}</div>
+      <div class="timing-arena" id="tArena">
+        <div class="timing-hud"><span>명중 <b id="tH">0</b>/${phase.targets}</span><span>⏱ <b id="tT">${phase.timeLimit}</b>초</span></div>
+      </div>
+    `;
+    const arena=g('tArena');
+    function spawnT(){
+      if(spawned>=phase.targets) return;
+      spawned++;
+      const t=document.createElement('div');t.className='t-target';
+      const colors=['#ff4d6d','#ff9500','#ffd60a','#7c6dfa','#00e5a0'];
+      t.style.color=colors[spawned%colors.length];
+      t.style.left=Math.max(10,Math.random()*(arena.clientWidth-70))+'px';
+      t.style.top=Math.max(44,Math.random()*(arena.clientHeight-80))+'px';
+      t.textContent='🎯';
+      let clicked=false;
+      function onHit(e){e.preventDefault();if(clicked)return;clicked=true;hits++;g('tH').textContent=hits;t.classList.add('hit');setTimeout(()=>t.remove(),200);}
+      t.addEventListener('click',onHit);t.addEventListener('touchstart',onHit,{passive:false});
+      arena.appendChild(t);
+      setTimeout(()=>{if(!clicked&&t.parentElement)t.remove();},1700);
+    }
+    const si=setInterval(spawnT,Math.floor(phase.timeLimit*1000/phase.targets));spawnT();
+    const ci=setInterval(()=>{tLeft--;const te=g('tT');if(te)te.textContent=Math.max(0,tLeft);if(tLeft<=0){clearInterval(ci);clearInterval(si);gs.battleHits=hits;setTimeout(()=>startBattle(1),500);}},1000);
+  }
+  else if(phase.type==='choice'){
+    card.innerHTML=`
+      <div class="battle-phase-lbl">⚡ ${phase.name}</div>
+      <div class="battle-title">${phase.name}</div>
+      <div class="battle-desc">${phase.desc}</div>
+      <div class="choice-opts">
+        ${phase.options.map((o,i)=>`<button class="choice-opt" onclick="chooseB(${i})">${o.text}</button>`).join('')}
+      </div>
+    `;
+  }
+  else if(phase.type==='ai_confrontation'){
+    card.innerHTML=`
+      <div class="battle-phase-lbl">🎤 ${phase.name}</div>
+      <div class="battle-title">황보성과의 최후 대면</div>
+      <div class="battle-desc">${phase.desc}<br><br>
+        <span style="color:var(--gold);font-size:.8rem;">💡 지금까지 모은 증거 — 루미놀 혈흔, 발자국(270mm), 운동화, USB — 를 활용해 황보성이 스스로 자백하게 만드세요.</span>
+      </div>
+      <textarea class="final-q" id="finalQ" placeholder="황보성에게 할 말을 입력하세요. 증거를 들이밀어 자백을 받아내세요..."></textarea>
+      <button class="btn-battle" id="btnFinal" onclick="sendFinal()">🎤 발언하기</button>
+    `;
+  }
+}
+function chooseB(idx){
+  const phase=BATTLE_PHASES[1];
+  const opt=phase.options[idx];
+  const btn=g('battleCard').querySelectorAll('.choice-opt')[idx];
+  if(btn) btn.className=`choice-opt result-${opt.outcome}`;
+  g('battleCard').innerHTML+=`<div style="margin-top:14px;background:var(--c2);border-radius:9px;padding:13px;font-size:.86rem;color:var(--tx2);">${opt.result}</div>`;
+  gs.battleScore+=(opt.outcome==='great'?3:opt.outcome==='good'?2:0);
+  setTimeout(()=>startBattle(2),2200);
+}
+async function sendFinal(){
+  const q=g('finalQ')?.value.trim();
+  if(!q) return;
+  g('btnFinal').disabled=true;g('btnFinal').textContent='분석 중...';
+  const sys=`당신은 경기북과학고 1학년 황보성(17세)입니다. 범인입니다. 수사관이 결정적 증거(루미놀 혈흔, 270mm 발자국, 침대 아래 운동화, 리원준의 USB)를 들이밀고 있습니다. 더 이상 버티기 어렵습니다. 감정이 폭발하며 자백으로 이어지도록 반응하세요. JSON: {"reply":"자백 또는 감정폭발 반응","emotion":"분노/죄책감/눈물 중 하나"}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:400,system:sys,messages:[{role:'user',content:q}]})});
+    const data=await res.json();
+    const raw=data.content?.[0]?.text||'{}';
+    let parsed={reply:'...',emotion:'동요'};
+    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}catch(e){}
+    g('battleCard').innerHTML+=`
+      <div style="margin-top:16px;background:var(--c2);border:1px solid var(--brd);border-radius:10px;padding:14px;">
+        <div style="font-size:.74rem;color:var(--r);font-family:var(--mono);margin-bottom:7px;">황보성 [${parsed.emotion}]</div>
+        <div style="font-size:.88rem;line-height:1.75;">"${parsed.reply}"</div>
+      </div>
+    `;
+    gs.battleScore+=3;
+    setTimeout(()=>endGame(gs.battleScore>=5?'perfect':'good'),3200);
+  }catch(e){
+    g('btnFinal').disabled=false;g('btnFinal').textContent='🎤 발언하기';
+    toast('오류 발생. 다시 시도해주세요.','#ff4d6d');
+  }
+}
+
+// ═══════════ END ═══════════
+// ═══════════ 화학 개념 노트 데이터 ═══════════
+const SCIENCE_NOTES = [
+  { icon:'🧪', title:'루미놀 반응 (Luminol Reaction)',
+    formula:'루미놀(C₈H₇N₃O₂) + H₂O₂ → [Fe²⁺ 촉매] → 3-아미노프탈산 + N₂↑ + hν (빛)',
+    concept:'혈액 속 헤모글로빈의 철 이온(Fe²⁺)이 촉매 역할을 해 루미놀이 산화되면서 에너지를 빛으로 방출합니다. 이를 화학발광(Chemiluminescence)이라 합니다.',
+    question:'루미놀 반응에서 Fe²⁺는 반응 후 어떻게 될까요? (소모되나요, 재생되나요?)',
+    key:'촉매이므로 반응 전후 변하지 않고 재생됩니다.' },
+  { icon:'💡', title:'자외선 형광 검사 (UV Fluorescence)',
+    formula:'UV(λ=315~400nm) 흡수 → 전자 들뜸(Excitation) → 가시광선(λ=490~510nm) 방출',
+    concept:'형광 물질이 자외선을 흡수해 전자가 높은 에너지 상태(들뜬 상태)가 되고, 안정 상태로 돌아오면서 가시광선을 방출합니다. 법과학에서는 숨겨진 문서, 지문, 체액 등을 찾는 데 활용합니다.',
+    question:'형광(Fluorescence)과 인광(Phosphorescence)의 차이는 무엇인가요?',
+    key:'형광은 빛이 꺼지면 즉시 발광이 멈추지만, 인광은 에너지를 저장했다가 천천히 방출해 빛이 꺼져도 잠시 지속됩니다.' },
+  { icon:'👣', title:'석고 경화 반응 (Gypsum Setting)',
+    formula:'CaSO₄·½H₂O + 1½H₂O → CaSO₄·2H₂O + 열(발열 반응)',
+    concept:'소석고(반수석고)에 물을 더하면 이수석고로 변하는 수화 반응이 일어납니다. 이 과정에서 발열이 발생하고 부피가 약간 팽창해 발자국 세부 패턴까지 정밀하게 복제됩니다.',
+    question:'석고가 굳는 현상은 물리적 변화인가요, 화학적 변화인가요? 그 이유는?',
+    key:'화학적 변화입니다. CaSO₄·½H₂O가 CaSO₄·2H₂O라는 새로운 물질로 변하기 때문입니다.' },
+  { icon:'🔍', title:'필적 감정 (Handwriting Analysis)',
+    formula:'기울기각(θ) · 글자간격(d) · 획 압력(P) · 글자 크기 분산(σ²) 비교',
+    concept:'필적 감정은 법과학에서 문서의 작성자를 특정하는 기법입니다. 같은 사람이 쓴 글씨는 무의식적 습관(필압, 글자 기울기, 연결 방식)이 일정하게 나타납니다. 여러 샘플을 통계적으로 비교해 동일인 여부를 판단합니다.',
+    question:'필적 감정 결과가 "92% 일치"라면 이것이 확실한 증거가 될 수 있을까요?',
+    key:'단독으로는 확정 증거가 되기 어렵습니다. 다른 물증과 결합해야 법적 효력이 강해집니다.' },
+  { icon:'🐾', title:'지문 감정 (Fingerprint Analysis)',
+    formula:'융선 패턴(와상문/제상문/궁상문) + 분기점·끝점 특징점(Minutiae) 비교',
+    concept:'지문은 태어날 때부터 죽을 때까지 변하지 않으며 세계에서 동일한 지문을 가진 사람은 없습니다. 법과학에서는 채취된 지문의 특징점을 데이터베이스와 대조해 신원을 특정합니다.',
+    question:'지문이 완전히 닦인 것처럼 보여도 검출이 가능한 이유는 무엇인가요?',
+    key:'잠재지문(Latent fingerprint)은 땀·기름 성분이 남아 있어 형광 분말이나 화학 시약으로 현출할 수 있습니다.' }
 ];
 
-function endGame(type,explain){
-  clearInterval(timerInt);
-  showScreen('sEnd');
-  const e = type==='success'?ENDING.success : type==='wrong'?ENDING.wrong : ENDING.fail;
-  g('endIcon').textContent = type==='success'?'🎉':type==='wrong'?'❌':'⏰';
-  g('endTitle').textContent=e.title;
-  g('endTitle').className='end-title '+(type==='success'?'win':'lose');
-  g('endBody').textContent=(explain?explain+'\n\n':'')+e.body;
+const SCIENCE_NOTE_CSS = `
+  .sn-card{background:var(--c1);border:1.5px solid var(--brd);border-radius:13px;overflow:hidden;margin-bottom:12px;animation:fadeUp .4s ease-out both;}
+  .sn-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:background .2s;}
+  .sn-header:hover{background:var(--c2);}
+  .sn-header.open{border-bottom:1px solid var(--brd);}
+  .sn-body{display:none;padding:16px;}
+  .sn-header.open + .sn-body{display:block;}
+  .sn-formula{background:#0d0d18;border:1px solid var(--p);border-radius:8px;padding:10px 13px;font-family:var(--mono);font-size:.82rem;color:var(--y);line-height:1.7;margin:10px 0;}
+  .sn-lbl{font-family:var(--mono);font-size:.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;margin-top:12px;}
+  .sn-txt{font-size:.84rem;color:var(--tx2);line-height:1.75;}
+  .sn-q{background:#7c6dfa11;border-left:3px solid var(--p);padding:10px 13px;border-radius:0 8px 8px 0;margin-top:8px;font-size:.83rem;color:var(--p2);line-height:1.65;}
+  .sn-key{font-size:.8rem;color:var(--g);margin-top:6px;padding:8px 12px;background:#00e5a00d;border-radius:7px;}
+  .sn-chevron{margin-left:auto;color:var(--tx3);transition:transform .25s;}
+  .sn-header.open .sn-chevron{transform:rotate(180deg);}
+`;
 
-  if(type==='success'){
-    g('caseNote').style.display='block';
-    renderCaseNote();
-  }
-}
+function renderScienceNote(){
+  // CSS 주입
+  const style=document.createElement('style');
+  style.textContent=SCIENCE_NOTE_CSS;
+  document.head.appendChild(style);
 
-function renderCaseNote(){
-  const list=g('noteList');
+  const list=g('scienceList');
   list.innerHTML='';
-  CASE_NOTES.forEach((note,i)=>{
+  SCIENCE_NOTES.forEach((n,i)=>{
     const card=document.createElement('div');
-    card.className='note-card';
-    const givenHTML=note.given.map(gv=>`
-      <div style="margin-bottom:10px;">
-        <div style="font-size:.7rem;color:var(--gold);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">${gv.label}</div>
-        <div class="note-formula" style="white-space:pre-line;">${gv.content}</div>
-      </div>`).join('');
-    const blanksHTML=note.blanks.map((b,bi)=>`
-      <div style="margin-bottom:14px;">
-        <div style="font-size:.84rem;font-weight:600;color:var(--tx);margin-bottom:6px;">Q${bi+1}. ${b.q}</div>
-        <textarea class="note-input" placeholder="${b.ph}" rows="3"></textarea>
-      </div>`).join('');
+    card.className='sn-card';
+    card.style.animationDelay=i*0.1+'s';
     card.innerHTML=`
-      <div class="note-header" id="nh_${i}" onclick="toggleNote(${i})">
-        <div class="note-badge" style="background:${note.badgeBg};color:${note.badgeColor};width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">${note.icon}</div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-family:var(--mono);font-size:.68rem;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;">${note.step}</div>
-          <div style="font-weight:700;font-size:.93rem;">${note.title}</div>
-        </div>
-        <div style="font-size:.73rem;color:var(--gold);background:#d4af6a18;border:1px solid #d4af6a33;border-radius:20px;padding:2px 9px;margin-left:8px;white-space:nowrap;">${note.tag}</div>
-        <span style="color:var(--tx3);font-size:.9rem;margin-left:8px;transition:transform .25s;" id="chev_${i}">▼</span>
+      <div class="sn-header" id="snh_${i}" onclick="toggleSN(${i})">
+        <div style="font-size:1.3rem;">${n.icon}</div>
+        <div style="font-weight:700;font-size:.92rem;">${n.title}</div>
+        <span class="sn-chevron">▼</span>
       </div>
-      <div class="note-body" id="nb_${i}">
-        <div style="background:#d4af6a0a;border:1px solid #d4af6a22;border-radius:9px;padding:14px 16px;margin-bottom:16px;">
-          <div style="font-size:.76rem;color:var(--gold);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">📌 제공된 정보 (참고용)</div>
-          ${givenHTML}
-        </div>
-        <div style="font-size:.76rem;color:var(--accent2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">✏️ 직접 조사해서 채워보세요</div>
-        ${blanksHTML}
+      <div class="sn-body" id="snb_${i}">
+        <div class="sn-lbl">⚗️ 핵심 반응식 / 원리</div>
+        <div class="sn-formula">${n.formula}</div>
+        <div class="sn-lbl">📖 개념 설명</div>
+        <div class="sn-txt">${n.concept}</div>
+        <div class="sn-lbl" style="margin-top:14px;">💬 생각해볼 질문</div>
+        <div class="sn-q">${n.question}</div>
+        <div class="sn-key">💡 핵심 답변: ${n.key}</div>
       </div>
     `;
     list.appendChild(card);
-    setTimeout(()=>card.classList.add('visible'), 150+i*120);
   });
 }
-
-function toggleNote(i){
-  const h=document.getElementById('nh_'+i);
-  const chev=document.getElementById('chev_'+i);
+function toggleSN(i){
+  const h=document.getElementById('snh_'+i);
   const wasOpen=h.classList.contains('open');
-  CASE_NOTES.forEach((_,j)=>{
-    const hj=document.getElementById('nh_'+j);
-    const cj=document.getElementById('chev_'+j);
-    if(hj)hj.classList.remove('open');
-    if(cj)cj.style.transform='';
-  });
-  if(!wasOpen){
-    h.classList.add('open');
-    if(chev)chev.style.transform='rotate(180deg)';
+  document.querySelectorAll('.sn-header').forEach(el=>el.classList.remove('open'));
+  if(!wasOpen) h.classList.add('open');
+}
+
+// ═══════════ 엔딩 ═══════════
+function endGame(type, wrongName){
+  clearInterval(timerInt);
+  showScr('sEnd');
+  const elapsed=20*60-gs.timeLeft;
+  const mm=Math.floor(elapsed/60),ss=String(elapsed%60).padStart(2,'0');
+
+  if(type==='perfect'||type==='good'){
+    g('endIco').textContent='⚖️';
+    g('endTitle').textContent='범인 검거 성공';
+    g('endTitle').className='end-title win';
+    g('endBody').textContent=
+`황보성은 현행범으로 체포되었습니다.
+
+📋 재판 결과 (2026.03.22 선고)
+  죄명: 상해 및 증거 인멸
+  형량: 징역 26년
+
+리원준은 인근 병원에서 치료를 받았으며
+생명에는 지장이 없습니다.
+
+홍지호는 공모 혐의로 별도 조사 중입니다.
+황진우의 뒤늦은 증언이 결정적이었습니다.
+
+── 수사 기록 ──
+수사 시간: ${mm}분 ${ss}초
+확보 단서: ${gs.foundClues.length}개
+수사 점수: ${gs.battleScore}점`;
+    g('scienceNote').style.display='';
+    renderScienceNote();
+
+  } else if(type==='wrong'){
+    g('endIco').textContent='📁';
+    g('endTitle').textContent='오인 지목 — 해고';
+    g('endTitle').className='end-title lose';
+    g('endBody').textContent=
+`${wrongName||'무고한 팀원'}을(를) 지목했습니다.
+
+증거가 불충분했습니다.
+해당 학생은 즉시 혐의를 벗었고,
+
+프로파일러 해고 통보가 내려졌습니다.
+
+황보성은 그 사이 증거를 인멸하고
+학교를 떠났습니다.
+
+── 확보했던 단서: ${gs.foundClues.length}개 ──
+다시 처음부터 차근차근 조사해보세요.`;
+
+  } else {
+    // timeout
+    g('endIco').textContent='⏰';
+    g('endTitle').textContent='수사 시간 초과';
+    g('endTitle').className='end-title lose';
+    g('endBody').textContent=
+`20분 제한 시간이 종료되었습니다.
+
+황보성은 이미 증거를 파기하고
+기숙사를 빠져나갔습니다.
+
+프로파일러 자격이 정지되었습니다.
+
+── 확보 단서: ${gs.foundClues.length}개 ──
+더 빠르게 움직였어야 했습니다.`;
   }
 }
-function restartGame(){
-  SUSPECTS.forEach(s=>s.status='suspect');
-  showScreen('sIntro');
-}
-
-
 </script>
 </body>
 </html>
