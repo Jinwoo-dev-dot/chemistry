@@ -248,7 +248,14 @@ body::after{content:'';position:fixed;left:0;right:0;height:120px;pointer-events
 .end-title.lose{color:var(--r);}
 .end-body{font-size:.87rem;color:var(--tx2);line-height:1.85;max-width:420px;margin:0 auto 22px;white-space:pre-line;}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--c1);border:1px solid var(--brd);border-radius:11px;padding:9px 16px;font-size:.82rem;z-index:9000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
+/* 질문 선택 버튼 */
+.q-btn{width:100%;text-align:left;background:var(--c2);border:1.5px solid var(--brd);border-radius:9px;padding:10px 13px;font-size:.82rem;color:var(--tx2);transition:all .2s;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.q-btn:hover{border-color:var(--gold);color:var(--tx);transform:translateX(3px);}
+.q-btn.used{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
+.q-btn .q-imp{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.q-imp-small{background:#4a4a6a;}
+.q-imp-medium{background:#f0c64e;}
+.q-imp-big{background:#ff4d6d;box-shadow:0 0 6px #ff4d6d55;}left:50%;transform:translateX(-50%) translateY(14px);background:var(--c1);border:1px solid var(--brd);border-radius:11px;padding:9px 16px;font-size:.82rem;z-index:9000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 
 @media(max-width:680px){
@@ -418,10 +425,10 @@ body::after{content:'';position:fixed;left:0;right:0;height:120px;pointer-events
     </div>
   </div>
   <div class="chat-wrap" id="chatArea"></div>
-  <div class="input-row">
-    <textarea class="q-input" id="qInput" rows="2" placeholder="용의자에게 무엇을 물어볼까요? (Enter 전송)"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendQ();}"></textarea>
-    <button class="btn-send" id="btnSend" onclick="sendQ()">전송 →</button>
+  <!-- 질문 선택 패널 -->
+  <div id="qSelectPanel" style="background:var(--c1);border-top:1px solid var(--brd);padding:12px 16px;">
+    <div style="font-size:.74rem;color:var(--tx3);font-family:var(--mono);margin-bottom:8px;">질문을 선택하세요 (남은 기회: <span id="qLeftSmall">4</span>회)</div>
+    <div id="qList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;"></div>
   </div>
 </div>
 
@@ -718,6 +725,303 @@ const ENDING = {
   good:{ icon:'✅', title:'사건 해결', body:'황보성이 결국 자백했습니다.\n리원준은 발견되었고 치료 중입니다.' },
   wrong:{ icon:'❌', title:'오인 지목', body:'잘못된 사람을 지목했습니다.\n황보성은 증거를 파기하고 달아났습니다.\n\n감자칩, 체육복, 운동화... 겉으로 보이는 흔적에 속았습니다.' },
   timeout:{ icon:'⏰', title:'시간 초과', body:'수사 시간이 종료되었습니다.\n황보성은 이미 학교를 빠져나갔습니다.' }
+};
+
+const INTERROGATION_DATA = {
+  kgy: {
+    questions: [
+      { id:'q1', text:'사건 당일 밤 어디 있었어요?', importance:'small',
+        answer:'자습실에서 공부하다가... 물리 실험실 갔어요. 코딩 과제가 있어서요.',
+        clue:'물리 실험실 언급', unlocks:'phys_lab' },
+      { id:'q2', text:'리원준이랑 사이가 어땠어요?', importance:'small',
+        answer:'그냥 팀원이죠. 뭐... 좀 어색하긴 했는데. 별거 없어요.',
+        clue:null },
+      { id:'q3', text:'반장 선거 얘기 좀 해줄 수 있어요?', importance:'medium',
+        answer:'그게 왜요... 그냥 선거잖아요. 졌고. 끝난 얘기예요.',
+        clue:'경쟁심 확인' },
+      { id:'q4', text:'원준의 USB 본 적 있어요?', importance:'small',
+        answer:'USB요? 모르는데요. 걔가 연구 데이터 항상 들고 다닌다는 건 알지만.',
+        clue:null },
+      { id:'q5', text:'438호에 최근에 들어간 적 있나요?', importance:'big',
+        answer:'[코를 만지며] 어... 예전에 멘토링 때 한 번 갔었어요. 오래됐어요.',
+        clue:'438호 방문 시인' },
+      { id:'q6', text:'438호에 감자칩 봉지가 있던데요.', importance:'big', requires:'c_chips',
+        answer:'네 엄청 좋아해요. 허니버터 감자칩이 최고죠. 왜요?',
+        clue:'감자칩 단서와 연결' },
+      { id:'q7', text:'원준이 어디로 향하는 걸 봤나요?', importance:'big', requires:'c_note',
+        answer:'[잠시 망설이다가] ...복도에서 잠깐. 엄청 초조해 보였어요. 지구과학실 쪽으로 뛰어가던데.',
+        clue:'지구과학실 방향 목격', unlocks:'earth_lab' },
+      { id:'q8', text:'황보성이랑은 사이가 어때요?', importance:'small',
+        answer:'그냥 팀원이에요. 특별히 친하진 않아요.',
+        clue:null },
+      { id:'q9', text:'물리 실험실에 뭔가 남긴 게 있나요?', importance:'medium',
+        answer:'노트북이랑 감자칩 부스러기... 치우긴 했는데. 로그인 기록은 남아있을 거예요.',
+        clue:'알리바이 증거 힌트' },
+      { id:'q10', text:'원준이 요즘 걱정 있어 보이던가요?', importance:'medium',
+        answer:'뭔가 찾는 게 있는 것 같더라고요. 황보성 이름도 몇 번 언급한 것 같고.',
+        clue:'황보성과의 갈등 힌트' },
+      { id:'q11', text:'하리보 좋아해요?', importance:'small',
+        answer:'아뇨 젤리는 별로요. 감자칩이 최고죠.',
+        clue:'하리보 봉지와 무관함 확인' },
+      { id:'q12', text:'비상구 계단 쪽에 가본 적 있나요?', importance:'small',
+        answer:'거기요? 딱히... 갈 이유가 없어서요.',
+        clue:null },
+      { id:'q13', text:'원준이 누군가랑 싸우는 걸 본 적 있나요?', importance:'medium',
+        answer:'직접 본 건 없는데... 황보성이 원준한테 좀 강압적으로 대한다는 얘기는 들었어요.',
+        clue:'황보성 지목 힌트' },
+      { id:'q14', text:'21시 이후 행방을 증명할 수 있나요?', importance:'big', requires:'c_chip_crumbs',
+        answer:'물리 실험실 노트북에 코딩 커밋 기록 남아있어요. 21:05부터 23:40까지요.',
+        clue:'알리바이 확인' },
+      { id:'q15', text:'이 사건에서 제일 의심가는 사람은 누구예요?', importance:'medium',
+        answer:'[코를 만지며] 그건... 제가 말하기 좀 그런데. 황보성이 원준 연구 쪽으로 뭔가 있다는 건 알아요.',
+        clue:'황보성 지목' }
+    ]
+  },
+  yhc: {
+    questions: [
+      { id:'q1', text:'사건 당일 밤 어디 있었어요?', importance:'small',
+        answer:'방에 있었어요. 수학 문제 풀고 있었는데.',
+        clue:null },
+      { id:'q2', text:'원준이 마지막으로 어디서 봤어요?', importance:'big',
+        answer:'화학 실험실이요. 저녁 늦게 실험하고 있던데. 실험 기록부에 서명 남아있을 거예요.',
+        clue:'화학 실험실 언급', unlocks:'chem_lab' },
+      { id:'q3', text:'계단에서 다투는 소리 혹시 들었어요?', importance:'big', requires:'c_blood_stair',
+        answer:'[안경 고쳐씀] ...복도에서 싸우는 소리가 났어요. 근데 누군지는 잘 모르겠어요.',
+        clue:'다툼 소리 목격' },
+      { id:'q4', text:'원준 USB 빌린 적 있죠?', importance:'medium',
+        answer:'[말이 빨라지며] 아 그거는 그냥 잠깐 파일 옮기려고... 데이터는 건드린 적 없어요.',
+        clue:'USB 접촉 확인' },
+      { id:'q5', text:'체육복 왜 매일 입어요?', importance:'small',
+        answer:'편하니까요. 교복보다 훨씬 낫잖아요.',
+        clue:null },
+      { id:'q6', text:'그 목소리가 황보성 목소리 아니었나요?', importance:'big', requires:'c_blood_stair',
+        answer:'[시선이 왼쪽 위로] ...모르겠어요. 확실하지 않아서.',
+        clue:'목소리 알고 있음을 암시' },
+      { id:'q7', text:'황보성이랑 원준 사이가 어땠어요?', importance:'big',
+        answer:'좀 불편했어요. 연구 주제 겹쳐서. 황보성이 원준한테 데이터 관련해서 뭔가 요구했다는 것 같던데.',
+        clue:'황보성 동기 힌트' },
+      { id:'q8', text:'지구과학실에 대해 아는 거 있어요?', importance:'big',
+        answer:'황보성 담당 구역이잖아요. 거기 열쇠는 황보성만 갖고 있는데. 원준이 그쪽으로 갔다는 얘기 들었어요.',
+        clue:'지구과학실 황보성 열쇠 언급', unlocks:'earth_lab' },
+      { id:'q9', text:'원준이 요즘 힘들어 보이던가요?', importance:'medium',
+        answer:'뭔가 고민이 있는 것 같았어요. 밤에 타자 치는 소리가 엄청 크던데.',
+        clue:null },
+      { id:'q10', text:'하리보 봉지 계단에서 봤어요?', importance:'small',
+        answer:'계단에요? 저는 거기 잘 안 가는데.',
+        clue:null },
+      { id:'q11', text:'사건 당일 밤 황보성 봤어요?', importance:'medium',
+        answer:'저녁에 잠깐 복도에서 봤는데. 체육복 입고 어딘가 가던데.',
+        clue:'황보성 동선 힌트' },
+      { id:'q12', text:'원준의 노트에 황보성한테 돌려달라고 했다고 적혀있던데요.', importance:'medium', requires:'c_torn_note',
+        answer:'[안경 고쳐씀] ...그런 얘기 했던 것 같기도 해요. 황보성한테요.',
+        clue:'표절 갈등 힌트' },
+      { id:'q13', text:'혼자 있었다는 거 증명할 수 있어요?', importance:'small',
+        answer:'증인은 없어요. 그냥 방에 있었어요.',
+        clue:'알리바이 약점' },
+      { id:'q14', text:'복도 다툼 소리가 몇 시쯤이었어요?', importance:'big',
+        answer:'[천천히] ...21시... 20분에서 30분 사이 같았어요. 목소리 중 하나는 황보성 같았어요.',
+        clue:'황보성 다툼 목격 확인' },
+      { id:'q15', text:'이 사건에서 제일 의심가는 사람은요?', importance:'medium',
+        answer:'[시선 회피] ...저는 뭐라고 하기가 어려워요.',
+        clue:null }
+    ]
+  },
+  osy: {
+    questions: [
+      { id:'q1', text:'사건 당일 밤 어디 있었어요?', importance:'medium',
+        answer:'생명과학 실험실에서 배양 실험 체크하고, 편의점 갔다가 들어왔어요. 영수증 있어요.',
+        clue:'생명과학 실험실 언급', unlocks:'bio_lab' },
+      { id:'q2', text:'원준이랑 사이가 어땠어요?', importance:'medium',
+        answer:'[웃으며] 뭐 괜찮았죠. 좀 섭섭한 적 있었지만 그게 뭐.',
+        clue:null },
+      { id:'q3', text:'동아리실에서 SNS 캡처 출력물이 나왔어요. 이거 아세요?', importance:'big', requires:'c_sns_print',
+        answer:'[웃음이 먼저 나오며] 그건... 개인적인 감정이었어요. 원준이한테 화난 건 맞는데 관계없어요.',
+        clue:'저격글 확인' },
+      { id:'q4', text:'438호에 가본 적 있어요?', importance:'big',
+        answer:'[머리를 귀 뒤로 넘기며] ...네. 원준이한테 할 말이 있어서 잠깐 들렀어요.',
+        clue:'438호 방문 시인' },
+      { id:'q5', text:'438호 책상에 구겨진 쪽지 본 적 있어요?', importance:'big', requires:'c_note',
+        answer:'없었어요. 그래서 그냥 나오려다가... 책상에 쪽지가 있었어요.',
+        clue:'쪽지 목격 시인' },
+      { id:'q6', text:'쪽지에 뭐라고 적혀 있었어요?', importance:'big',
+        answer:'[동요하며] 비상구... 21:30... 그리고 이니셜 같은 게. 무서워서 신고를 못 했어요. 미안해요.',
+        clue:'쪽지 내용 확인' },
+      { id:'q7', text:'필적 감정 결과 당신 필체와 92% 일치하던데요.', importance:'big', requires:'c_note',
+        answer:'[크게 동요] ...사실 저예요. 제가 옮겨 적은 거예요. 원본이 무서워서. 원본은 황보성 필체 같았어요.',
+        clue:'필적 반전 확인' },
+      { id:'q8', text:'원본 쪽지는 어디 있어요?', importance:'medium',
+        answer:'버렸어요... 무서워서. 정말 미안해요.',
+        clue:'증거 인멸 확인' },
+      { id:'q9', text:'황보성이랑은 사이가 어때요?', importance:'small',
+        answer:'별로 안 친해요. 뭔가 좀 무서운 느낌이에요.',
+        clue:null },
+      { id:'q10', text:'생명과학 실험실에 뭔가 남긴 게 있어요?', importance:'medium',
+        answer:'실험 기록부에 서명 남아있어요. 21시 15분에요.',
+        clue:'알리바이 힌트' },
+      { id:'q11', text:'원준이 보낸 쪽지 받은 적 있어요?', importance:'big',
+        answer:'[놀라며] 어... 네. 실험 노트에 끼워져 있었어요. 미안하다고.',
+        clue:'원준 사과 쪽지 확인' },
+      { id:'q12', text:'비상구 근처 가본 적 있나요?', importance:'small',
+        answer:'아뇨. 거기는 안 갔어요.',
+        clue:null },
+      { id:'q13', text:'원준이 황보성이랑 갈등 있다는 거 알았어요?', importance:'medium',
+        answer:'어렴풋이요. 연구 관련해서 뭔가 있다는 건 알았어요.',
+        clue:'황보성 갈등 인지' },
+      { id:'q14', text:'귀가 시간이 왜 23시 30분이에요?', importance:'medium',
+        answer:'편의점에서 친구들이랑 오래 있었어요. 영수증 21시 40분이고.',
+        clue:'알리바이 확인' },
+      { id:'q15', text:'이 사건에서 제일 의심가는 사람은요?', importance:'medium',
+        answer:'[머리를 넘기며] ...황보성일 것 같아요. 느낌이 그래요.',
+        clue:'황보성 지목' }
+    ]
+  },
+  hbs: {
+    questions: [
+      { id:'q1', text:'사건 당일 밤 어디 있었어요?', importance:'small',
+        answer:'방에 있었죠. 황진우가 증명해줄 거예요.',
+        clue:null },
+      { id:'q2', text:'원준이랑 연구 주제 겹쳤죠?', importance:'medium',
+        answer:'[팔짱을 끼며] 비슷한 주제였을 뿐이에요. 내 연구는 내가 한 거고.',
+        clue:'표절 동기 확인' },
+      { id:'q3', text:'원준 노트 본 적 있어요?', importance:'big',
+        answer:'없어요. 왜 자꾸 그 얘길 해요?',
+        clue:'방어적 반응' },
+      { id:'q4', text:'하리보 좋아해요?', importance:'big',
+        answer:'네. 항상 갖고 다니는데 그게 왜요?',
+        clue:'하리보 봉지 단서와 연결' },
+      { id:'q5', text:'지구과학 실험실 열쇠 갖고 있어요?', importance:'big',
+        answer:'[잠시 멈추며] 제 담당 구역이니까요. 당연히 저만 갖고 있죠.',
+        clue:'열쇠 독점 확인' },
+      { id:'q6', text:'체육복 자주 입죠?', importance:'medium',
+        answer:'편하니까요. 뭐가 문제예요?',
+        clue:'체육복 섬유 단서 연결' },
+      { id:'q7', text:'계단에서 다량의 혈흔이 발견됐어요. 설명해줄 수 있어요?', importance:'big', requires:'c_blood_stair',
+        answer:'[팔짱] 안 갔어요. 방에 있었다고요.',
+        clue:'거짓 알리바이 확인' },
+      { id:'q8', text:'원준이 선생님한테 신고하려 했다는 거 알았어요?', importance:'big',
+        answer:'[흠냐링가링 사라지며] ...그게 무슨 소리예요. 모르는데요.',
+        clue:'신고 사실 인지 암시' },
+      { id:'q9', text:'계단 발자국이 270mm 나이키예요. 당신 운동화 사이즈 맞죠?', importance:'big', requires:'c_footprint',
+        answer:'[굳어지며] ...네. 흔한 사이즈잖아요.',
+        clue:'발자국 사이즈 일치' },
+      { id:'q10', text:'황보성 방 서랍에서 원준의 USB가 나왔어요. 어떻게 된 거예요?', importance:'big', requires:'c_wonjun_usb',
+        answer:'[질문으로 되받아치며] 그게 무슨 말이에요? 무얼 돌려줘요?',
+        clue:'USB 관련 방어' },
+      { id:'q11', text:'홍지호 알아요?', importance:'medium',
+        answer:'[약간 당황] 같은 학년이에요. 독서동아리 애. 왜요?',
+        clue:'홍지호 연결 확인' },
+      { id:'q12', text:'그날 밤 몇 시에 방 들어왔어요?', importance:'big',
+        answer:'일찍요. 10시 전이요.',
+        clue:'거짓 진술 — 황진우 증언과 불일치' },
+      { id:'q13', text:'지구과학실 세면대에서 혈흔이 나왔어요.', importance:'medium', requires:'c_sink_blood',
+        answer:'[멈추며] ...실험실에서 손 씻는 거야 당연한 거죠.',
+        clue:'세면대 혈흔 연결' },
+      { id:'q14', text:'원준 USB 본 적 있어요?', importance:'big',
+        answer:'[팔짱 끼며] 없어요. 걔 USB를 내가 왜 봐요.',
+        clue:'USB 은닉 암시' },
+      { id:'q15', text:'지구과학실에서 당신 보고서 초안이 나왔어요. 원준 데이터랑 완전히 똑같던데요.', importance:'big', requires:'c_report_draft',
+        answer:'[굳어지며] ...당연하죠. 내 연구예요.',
+        clue:'표절 핵심 부정 — 보고서 증거와 대조' }
+    ]
+  },
+  hjw: {
+    questions: [
+      { id:'q1', text:'사건 당일 밤 어디 있었어요?', importance:'small',
+        answer:'방에서 잠들었어요. 일찍 잠들었는데...',
+        clue:null },
+      { id:'q2', text:'황보성이 그날 밤 방에 있었어요?', importance:'big',
+        answer:'[목소리 작아지며] ...네. 있었어요. 같이 있었어요.',
+        clue:'거짓 알리바이 제공' },
+      { id:'q3', text:'화학 실험실에 원준이 자주 갔나요?', importance:'medium',
+        answer:'네, 자주 갔어요. 화학 실험 좋아해서. 제가 화학 담당이라 같이 이야기도 했어요.',
+        clue:'화학 실험실 언급', unlocks:'chem_lab' },
+      { id:'q4', text:'황보성 운동화 밑창에서 혈흔이 나왔어요. 그날 밤 몇 시에 들어왔어요?', importance:'big', requires:'c_blood_shoe',
+        answer:'[눈을 깜빡이며] ...일찍이요. 기억이 잘 안 나서요. 아마도...',
+        clue:'알리바이 흔들림' },
+      { id:'q5', text:'황보성이 원준이랑 사이가 어땠어요?', importance:'medium',
+        answer:'[목소리 더 작아지며] 좀... 불편했던 것 같아요. 연구 때문에.',
+        clue:'갈등 인지' },
+      { id:'q6', text:'그날 밤 잠깐 깬 적 있어요?', importance:'big',
+        answer:'[눈물이 글썽함] ...21시 반쯤 깼는데. 황보성이 없었어요.',
+        clue:'황보성 부재 확인' },
+      { id:'q7', text:'황보성이 몇 시에 돌아왔어요?', importance:'big',
+        answer:'[떨리는 목소리] 23시 10분쯤이요. 이마에 땀이 나 있었어요. 손에 뭔가 들고 있었고.',
+        clue:'황보성 귀환 시각 + USB 소지 확인' },
+      { id:'q8', text:'손에 들고 있던 게 뭐였어요?', importance:'big',
+        answer:'USB 케이스 같은 거였어요. 근데 무서워서 모른 척했어요.',
+        clue:'USB 소지 결정적 확인' },
+      { id:'q9', text:'황보성한테 무서운 게 있어요?', importance:'medium',
+        answer:'[고개 끄덕임] 화를 내면 좀 무섭거든요. 그래서 말을 못 했어요.',
+        clue:'진술 못 한 이유 확인' },
+      { id:'q10', text:'원준이랑 친했어요?', importance:'small',
+        answer:'네. 야식 같이 먹고 그랬어요. 좋은 애예요.',
+        clue:null },
+      { id:'q11', text:'계단 발자국이 270mm예요. 황보성 운동화 사이즈가 맞죠?', importance:'big', requires:'c_footprint',
+        answer:'270mm예요. 같은 방이라 알죠.',
+        clue:'발자국 사이즈 확정' },
+      { id:'q12', text:'원준의 노트에 황보성을 신고하겠다고 적혀있었어요. 알고 있었죠?', importance:'big', requires:'c_wonjun_diary',
+        answer:'[눈물] ...죄송해요. 사실은 그날 밤 보성이가 없었어요. 처음 말한 건 거짓말이에요.',
+        clue:'알리바이 전면 번복' },
+      { id:'q13', text:'황보성이 지구과학 실험실 열쇠 갖고 있죠?', importance:'medium',
+        answer:'네. 담당 구역이라 본인만 갖고 있어요.',
+        clue:'지구과학실 접근 권한 확인', unlocks:'earth_lab' },
+      { id:'q14', text:'이 사건에서 황보성이 관련 있다고 생각해요?', importance:'big',
+        answer:'[눈물이 흘러내리며] ...네. 미안해요. 무서웠어요.',
+        clue:'황보성 지목 확인' },
+      { id:'q15', text:'혹시 도움이 필요한 사람이 있어요?', importance:'small',
+        answer:'원준이가 빨리 발견됐으면 좋겠어요. 다들 힘내자... 라고 하고 싶은데.',
+        clue:null }
+    ]
+  },
+  hjh: {
+    questions: [
+      { id:'q1', text:'당신은 누구예요?', importance:'small',
+        answer:'홍지호예요. 1학년 7반이에요. 원준이 독서동아리 친구예요.',
+        clue:null },
+      { id:'q2', text:'동아리실 칠판에 지워진 글씨가 복원됐어요. HJH — 당신이죠?', importance:'big', requires:'c_blackboard',
+        answer:'[굳어지며] ...네. 제가 썼어요.',
+        clue:'HJH 확인' },
+      { id:'q3', text:'그날 동아리실에서 뭘 확인한 거예요?', importance:'big',
+        answer:'원준이 동선이요. B동 쪽으로 갔는지 확인했어요.',
+        clue:'동선 파악 확인' },
+      { id:'q4', text:'누구한테 알려준 거예요?', importance:'big',
+        answer:'[자책하며] ...황보성이요. 원준이가 신고할 거라고 해서. 막으려고 했던 건데.',
+        clue:'황보성 공모 확인' },
+      { id:'q5', text:'황보성한테 원준의 동선을 알려줬군요?', importance:'big',
+        answer:'[그때 제가 그러지 말았어야 했는데...] 네. 원준이 위험해질 줄 몰랐어요.',
+        clue:'공범 역할 확정' },
+      { id:'q6', text:'원준이가 신고하려 했다는 걸 알았어요?', importance:'medium',
+        answer:'네. 원준이한테 직접 들었어요. 황보성이 연구 훔쳐갔다고.',
+        clue:'표절 사실 인지' },
+      { id:'q7', text:'황보성을 왜 도운 거예요?', importance:'medium',
+        answer:'도운 게 아니라... 그냥 알려준 건데. 결과가 이렇게 될 줄 몰랐어요.',
+        clue:'공범 부정하지만 사실상 방조' },
+      { id:'q8', text:'원준이한테 신고 말라고 설득했어요?', importance:'medium',
+        answer:'네. 싸워봐야 너만 힘들다고요. 그게 틀렸어요.',
+        clue:'신고 방해 확인' },
+      { id:'q9', text:'계단에서 혈흔이 발견됐어요. 황보성이 비상구로 갔다는 거 알고 있었죠?', importance:'big', requires:'c_blood_stair',
+        answer:'비상구 쪽으로 간다고 했어요. 원준이랑 얘기하러 간다고.',
+        clue:'비상구 약속 확인' },
+      { id:'q10', text:'이 사건에 책임이 있다고 생각해요?', importance:'medium',
+        answer:'[자책] 네... 제가 알려주지 않았으면 이런 일 없었을 거예요.',
+        clue:'책임 인정' },
+      { id:'q11', text:'지금 황보성이랑 연락하고 있어요?', importance:'small',
+        answer:'아뇨. 무서워서 연락 못 하고 있어요.',
+        clue:null },
+      { id:'q12', text:'황보성이 원준한테 뭘 빼앗으려 했는지 알아요?', importance:'big',
+        answer:'USB요. 연구 데이터. 원준이 그걸로 신고하려 했으니까.',
+        clue:'USB 동기 확정' },
+      { id:'q13', text:'원준이 지금 어디 있는지 알아요?', importance:'small',
+        answer:'몰라요. 그게 제일 무서워요.',
+        clue:null },
+      { id:'q14', text:'황보성을 고발할 의향이 있어요?', importance:'big',
+        answer:'[단호하게] 네. 이건 제가 바로잡아야 해요. 도와드릴게요.',
+        clue:'증언 협조 확인' },
+      { id:'q15', text:'황보성 말고 다른 공범이 있어요?', importance:'medium',
+        answer:'저 말고는 없어요. 황보성이 혼자 한 거예요. 저는 그냥... 정보를 줬을 뿐이에요.',
+        clue:'단독 범행 확인' }
+    ]
+  }
 };
 
 
@@ -1107,6 +1411,16 @@ function revealClue(clue,sc){
     renderClueList(sc);
     renderSceneList();
     renderSuspBtns();
+    // 심문 중이면 질문 목록 새로고침 (새 질문 잠금해제)
+    if(currentSuspect && document.getElementById('sInterrogate')?.classList.contains('on')){
+      const newQs=INTERROGATION_DATA[currentSuspect.id]?.questions.filter(
+        q=>q.requires===clue.id
+      )||[];
+      if(newQs.length>0){
+        toast(`🔓 새 질문 ${newQs.length}개 추가됨!`,'#ffd60a');
+        renderQList(currentSuspect.id);
+      }
+    }
   }
   g('crIcon').textContent=clue.icon;
   g('crTitle').textContent=clue.name;
@@ -1641,7 +1955,6 @@ function startInterrogate(suspId){
   const area=g('chatArea');
   if(!gs.chatLog) gs.chatLog={};
   if(gs.chatLog[suspId]&&gs.chatLog[suspId].length>0){
-    // 기존 대화 복원
     area.innerHTML='';
     gs.chatLog[suspId].forEach(m=>renderMsg(m.type,m.text,false));
     area.scrollTop=area.scrollHeight;
@@ -1655,115 +1968,95 @@ function startInterrogate(suspId){
     ];
     openers.forEach(m=>{gs.chatLog[suspId].push(m);renderMsg(m.type,m.text,false);});
   }
+  renderQList(suspId);
 }
+
+function renderQList(suspId){
+  const qData=INTERROGATION_DATA[suspId];
+  const left=gs.interrogations[suspId]||0;
+  const usedQs=gs.usedQuestions?.[suspId]||[];
+  const panel=g('qList');
+  const leftSmall=g('qLeftSmall');
+  if(leftSmall) leftSmall.textContent=left;
+  if(!panel) return;
+
+  if(left<=0){
+    panel.innerHTML=`<div style="color:var(--tx3);font-size:.82rem;text-align:center;padding:12px;">질문 기회를 모두 사용했습니다.</div>`;
+    return;
+  }
+  if(!qData){ panel.innerHTML=''; return; }
+
+  panel.innerHTML='';
+  let lockedCount=0;
+  qData.questions.forEach(q=>{
+    const used=usedQs.includes(q.id);
+    // requires 단서가 있는데 아직 발견 못 했으면 숨김
+    if(q.requires && !gs.foundClues.includes(q.requires)){
+      lockedCount++;
+      return; // 완전히 숨김 (존재 자체를 모름)
+    }
+    const btn=document.createElement('button');
+    btn.className='q-btn'+(used?' used':'');
+    const impClass={'small':'q-imp-small','medium':'q-imp-medium','big':'q-imp-big'}[q.importance]||'q-imp-small';
+    btn.innerHTML=`<span class="q-imp ${impClass}"></span><span>${q.text}</span>`;
+    if(!used && left>0){
+      btn.onclick=()=>askQuestion(suspId,q);
+    }
+    panel.appendChild(btn);
+  });
+
+  // 잠긴 질문이 있으면 힌트 표시
+  if(lockedCount>0){
+    const hint=document.createElement('div');
+    hint.style.cssText='font-size:.72rem;color:var(--tx3);text-align:center;padding:8px 4px;border-top:1px solid var(--brd);margin-top:6px;';
+    hint.textContent=`🔒 단서를 더 찾으면 ${lockedCount}개의 질문이 추가됩니다`;
+    panel.appendChild(hint);
+  }
+}
+
+function askQuestion(suspId,q){
+  const left=gs.interrogations[suspId]||0;
+  if(left<=0) return;
+  if(!gs.usedQuestions) gs.usedQuestions={};
+  if(!gs.usedQuestions[suspId]) gs.usedQuestions[suspId]=[];
+  if(gs.usedQuestions[suspId].includes(q.id)) return;
+
+  gs.usedQuestions[suspId].push(q.id);
+  gs.interrogations[suspId]=left-1;
+  gs.interrogatedCount[suspId]=(gs.interrogatedCount[suspId]||0)+1;
+  updateQLeft();
+  g('qLeftSmall').textContent=gs.interrogations[suspId];
+
+  // 대화 출력
+  addMsg('user',q.text);
+  setTimeout(()=>{
+    addMsg('suspect',`"${q.answer}"`);
+    if(q.clue){
+      setTimeout(()=>{
+        addMsg('profiler',`[단서] ${q.clue}`);
+      },300);
+    }
+    // 장소 잠금해제
+    if(q.unlocks&&!gs.mentionedKeywords.includes(q.unlocks)){
+      gs.mentionedKeywords.push(q.unlocks);
+      setTimeout(()=>checkUnlocks(),400);
+    }
+    // 심문 횟수 기반 fallback 잠금해제
+    checkUnlocks();
+  },400);
+
+  renderQList(suspId);
+
+  if(gs.interrogations[suspId]<=0){
+    setTimeout(()=>addMsg('sys',`— ${currentSuspect.name} 심문 종료 —`),900);
+  }
+}
+
 function updateQLeft(){
   const left=gs.interrogations[currentSuspect?.id]||0;
   const el=g('qLeft');if(!el)return;
   el.textContent=`질문 ${left}회`;
   el.className='q-left'+(left<=1?' low':'');
-  const btn=g('btnSend');if(btn)btn.disabled=left<=0;
-  const inp=g('qInput');if(inp){inp.disabled=left<=0;if(left<=0)inp.placeholder='심문이 종료되었습니다.';}
-}
-async function sendQ(){
-  const inp=g('qInput');
-  const q=inp?.value.trim();
-  if(!q||!currentSuspect) return;
-  const left=gs.interrogations[currentSuspect.id]||0;
-  if(left<=0) return;
-  inp.value='';
-  g('btnSend').disabled=true;
-  addMsg('user',q);
-  gs.chatHistory[currentSuspect.id].push({role:'user',content:q});
-
-  // typing
-  const tid='t'+Date.now();
-  const area=g('chatArea');
-  area.innerHTML+=`<div class="typing-bubble" id="${tid}"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-  area.scrollTop=area.scrollHeight;
-
-  gs.interrogations[currentSuspect.id]=left-1;
-  gs.interrogatedCount[currentSuspect.id]=(gs.interrogatedCount[currentSuspect.id]||0)+1;
-  updateQLeft();
-
-  const allClues=SCENES.flatMap(s=>s.clues);
-  const foundSummary=gs.foundClues.map(id=>allClues.find(c=>c.id===id)?.analysis||'').filter(Boolean).join('; ');
-
-  const contextBg=`[배경 설정]
-- 경기북과학고등학교 1학년 멘토링 팀. 팀장은 황진우, 나머지는 팀원이다.
-- 리원준은 팀원이며 동급생(1학년, 17세)이다. 선배가 아니다.
-- 심문하는 사람은 외부 프로파일러다. 학교 관계자가 아닌 수사관으로 인식할 것.
-- 당신(${currentSuspect.name})도 같은 팀 1학년이며, 리원준과 같은 반 동급생이다.`;
-
-  const sys=`${contextBg}
-
-당신은 경기북과학고 1학년 ${currentSuspect.name}(17세)입니다.
-성격: ${currentSuspect.personality}
-${currentSuspect.catchphrase?`특이 말버릇: ${currentSuspect.catchphrase} (이것만 해당, 매우 가끔만 사용)`:'말버릇 없음.'}
-배경: ${currentSuspect.relationship}
-알리바이: ${currentSuspect.alibi}
-숨기는 진실: ${currentSuspect.secret}
-레드헤링(수사관이 오해할 만한 것): ${currentSuspect.redherring}
-장소 정보: ${currentSuspect.location_knowledge||'특별한 장소 정보 없음'}
-거짓말 징후: ${currentSuspect.tells?.join(', ')||''}
-
-수사관이 현재까지 확보한 단서: ${foundSummary||'없음'}
-
-[행동 지침]
-- 자연스러운 17세 학생 말투. 리원준을 절대 선배라 부르지 말 것 — 동급생이다
-- 황보성만 여유 부릴 때 "흠냐링가링~"을 가끔 씀. 나머지는 말버릇 없음
-- 막연한 질문("너 범인이지?" 등)엔 가볍게 받아넘길 것 — 유용한 정보 주지 말 것
-- 알리바이/행적/원준의 마지막 모습 질문엔 자기 담당 실험실 이름을 자연스럽게 언급할 것
-- 처음엔 방어적, 날카로운 단서 기반 질문엔 동요
-- 거짓말 징후는 행동 묘사로 표현 ([손을 만지작거리며] 등)
-- 숨기는 진실은 직접 말하지 않되, 필적/쪽지를 추궁받은 오시윤은 옮겨 적은 사실을 털어놓음
-- 2~4문장으로 간결하게
-
-JSON만 응답: {"reply":"답변","action":"행동묘사(없으면 빈 문자열)","profiler":"프로파일러 분석 1~2문장","useful":true또는false}`;
-
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,
-        messages:[...gs.chatHistory[currentSuspect.id].slice(-8)]})});
-    const data=await res.json();
-    const raw=data.content?.[0]?.text||'{}';
-    let parsed={reply:'...',action:'',profiler:'',useful:false};
-    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}catch(e){}
-    document.getElementById(tid)?.remove();
-    addMsg('suspect',`"${parsed.reply}"`);
-    if(parsed.action) addMsg('action',`[${parsed.action}]`);
-    if(parsed.profiler) addMsg('profiler',parsed.profiler);
-    gs.chatHistory[currentSuspect.id].push({role:'assistant',content:parsed.reply});
-    // 응답에서 장소 언급 감지 → 잠금해제
-    const locKeywords=['물리 실험실','물리실','화학 실험실','화학실','생명과학 실험실','생명 실험실','생명실','지구과학 실험실','지구과학실'];
-    const fullText=(parsed.reply||'')+(parsed.action||'');
-    let newMention=false;
-    locKeywords.forEach(k=>{
-      if(fullText.includes(k)&&!gs.mentionedKeywords.includes(k)){
-        gs.mentionedKeywords.push(k);
-        newMention=true;
-      }
-    });
-    if(newMention){
-      const before=gs.unlockedScenes.length;
-      checkUnlocks();
-      if(gs.unlockedScenes.length===before){
-        toast('💡 심문에서 장소 정보를 확보했습니다','#ffd60a');
-      }
-    } else {
-      checkUnlocks();
-    }
-    if(!parsed.useful) toast('유효한 정보를 얻지 못했습니다','#ff9500');
-    else toast('단서 확보!','#00e5a0');
-    if(gs.interrogations[currentSuspect.id]<=0) addMsg('sys',`— ${currentSuspect.name} 심문 종료 —`);
-    else{const b=g('btnSend');if(b)b.disabled=false;}
-  }catch(e){
-    document.getElementById(tid)?.remove();
-    addMsg('sys','오류가 발생했습니다. 다시 시도해주세요.');
-    gs.interrogations[currentSuspect.id]=(gs.interrogations[currentSuspect.id]||0)+1;
-    gs.interrogatedCount[currentSuspect.id]=Math.max(0,(gs.interrogatedCount[currentSuspect.id]||1)-1);
-    updateQLeft();
-    const b=g('btnSend');if(b)b.disabled=false;
-  }
 }
 function renderMsg(type,text,scroll=true){
   const area=g('chatArea');
