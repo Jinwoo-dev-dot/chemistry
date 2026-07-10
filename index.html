@@ -1747,6 +1747,9 @@ function renderSuspBtns(){
 
 // ═══════════ SCENE WORKSPACE ═══════════
 function selectScene(sceneId){
+  // 이전 캔버스 리사이즈 리스너 제거
+  const prevRev = document.getElementById('revealC');
+  if(prevRev && prevRev._cleanup) prevRev._cleanup();
   gs.currentScene=sceneId;
   const sc=getScenes().find(s=>s.id===sceneId);
   renderSceneList();
@@ -1781,7 +1784,7 @@ function renderWorkspace(sc){
 function getNarrativeBanner(){
   if(gs.shownChapters.length===0) return '';
   const lastTrigger=gs.shownChapters[gs.shownChapters.length-1];
-  const ch=STORY_CHAPTERS.find(c=>c.trigger===lastTrigger);
+  const ch=getChapters().find(c=>c.trigger===lastTrigger);
   if(!ch) return '';
   return `<div class="narrative-banner"><div class="nb-label">📖 ${ch.title}</div><div class="nb-text">${ch.text}</div></div>`;
 }
@@ -2438,7 +2441,10 @@ function setupCanvas(sc){
   rev.addEventListener('touchmove',e=>{e.preventDefault();pm(e);},{passive:false});
   rev.addEventListener('touchend',e=>{e.preventDefault();pu();},{passive:false});
   resize();
-  window.addEventListener('resize',resize);
+  const _resizeAC = new AbortController();
+  window.addEventListener('resize', resize, {signal: _resizeAC.signal});
+  // 방 바꿀 때 이전 리스너 제거
+  g('revealC')._cleanup = ()=>_resizeAC.abort();
 }
 
 function setTool(tool){
